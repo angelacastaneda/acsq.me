@@ -1,0 +1,55 @@
+{{define "base"}}
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Angel Castaneda">
+    {{block "meta" .}}
+    <meta charset="utf-8">
+    <meta name="description" content="{{block "description" .}}Ángel Castañeda's Personal Website{{end}}">
+    <meta name="keywords" content="milwaukee wisconsin personal site blog articles photos {{block "keywords" .}}{{end}}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://angel-castaneda.com{{block "path" .}}{{end}}">
+    <link rel="alternate" hreflang="en-US" href="https://en.angel-castaneda.com{{block "path" .}}{{end}}">
+    <link rel="alternate" hreflang="es-US" href="https://es.angel-castaneda.com{{block "path" .}}{{end}}">
+    <link rel="alternate" hreflang="de-DE" href="https://de.angel-castaneda.com{{block "path" .}}{{end}}">
+    {{end}}
+    <title>{{template "title" .}} - Angel's Site</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="icon" href="/static/favicon.ico">
+  </head>
+  <body>
+    <header>
+      {{block "header" .}}
+      <h1 class="center">ángel castañeda</h1>
+      <nav class="center">
+        <a href="/">home</a> ~
+        <a href="/posts">posts</a> ~
+        <a href="/about">about</a>
+      </nav>
+      {{end}}
+    <hr>
+    </header>
+    <main>
+      {{template "main" .}}
+    </main>
+    <footer>
+      <hr>
+      {{block "footer" .}}
+      <nav class="center">
+        <span>
+          lang:
+        </span>
+        [<a href="en.angel-castaneda.com{{block "path" .}}{{end}}">en</a>/<a href="es.angel-castaneda.com{{template "path" .}}">es</a>/<a href="de.angel-castaneda.com{{template "path" .}}">de</a>]
+        ·
+        <br class="mobile">
+        <span>
+          contact:
+        </span>
+        [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">gpg</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
+      </nav>
+      {{end}}
+    </footer>
+  </body>
+</html>
+{{end}}

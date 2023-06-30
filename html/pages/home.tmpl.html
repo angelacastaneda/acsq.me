@@ -1,0 +1,100 @@
+{{define "title"}}Homepage{{end}}
+{{define "path"}}/{{end}}
+{{define "description"}}Thanks for visiting my site. I have a real need for sharing my time and affection toward a neat project.{{end}}
+
+{{define "main"}}
+<p>
+  Hey, thanks for visiting my site. I'm Ángel, and this is where I share some of what I do with my time. 
+</p>
+<div class="double">
+  <div class="pane">
+    <h4>
+      recent photo:
+    </h4>
+    <figure>
+      <a href="/posts/a_cool_pic">
+        <img src="https://preview.redd.it/hdnwdw6jy2f81.jpg?width=1024&auto=webp&v=enabled&s=49a4b3cd118b59d5a59c92dd4a34740311ffa7ed" alt="a frosty stroll">
+      </a>
+    </figure>
+    <a href="/photos" class="block center">
+      <strong>
+        &gtsee more
+      </strong>
+    </a>
+    <h4>
+      my friends:
+    </h4>
+    <table class="favicon">
+      <tr>
+        <td>
+          <a href="https://alexscerba.com" target="_blank" rel="noopener noreferrer">
+            <img src="/static/img/scerb_favicon.ico" alt="Scerba Logo">
+          </a>
+        </td>
+        <td>
+          <a href="https://angelsaremathematical.neocities.org" target="_blank" rel="noopener noreferrer">
+            <img src="/static/img/sonya_favicon.png" alt="Sonya Logo">
+          </a>
+        </td>
+        <td>
+          <a href="http://johnbilkey.com" target="_blank" rel="noopener noreferrer">
+            <img src="/static/img/bilkey_favicon.ico" alt="Bilkey Logo">
+          </a>
+        </td>
+        <td>
+          <a href="https://harrisonswarren.com" target="_blank" rel="noopener noreferrer">
+            <img src="/static/img/harrison_favicon.png" alt="Harrison Logo">
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="4">
+          <a href="/friends">
+            <strong>
+              &gtcheck them out
+            </strong>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="pane">
+    <h4>
+      recent articles:
+    </h4>
+    <ul>
+      <li>
+        <a href="/posts/the_importance_of_fake_content">the importance of fake content</a>
+      </li>
+      <li>
+        <a href="/posts/placeholder_madness">placeholder madness</a>
+      </li>
+      <li>
+        <a href="/posts/did_lorem_ipsum_go_too_far">did lorem ipsum go too far?</a>
+      </li>
+      <li>
+        <a href="posts/this_is_real">this ain't real</a>
+      </li>
+    </ul>
+    <a href="/articles" class="block center">
+      <strong>
+        &gtread more
+      </strong>
+    </a>
+    <h4>
+      my library:
+    </h4>
+    <figure class="bookcover">
+      <img src="/static/img/catcher_in_the_rye.jpg" alt="The Catcher in the Rye">
+    </figure>
+    <p>
+      A bunch of different authors and genres I like learning and being inspired from.
+    </p>
+    <a href="/library" class="block center">
+      <strong>
+        &gtmy library
+      </strong>
+    </a>
+  </div>
+</div>
+{{end}}

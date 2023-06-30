@@ -1,0 +1,150 @@
+:root {
+  --text-color: #000000;
+  --bg-color: #FFFFFF;
+  --hyperblue: #005F87;
+  --hoverorange: #D75F00;
+  /*--hoverblue: #4C8FAB;*/
+}
+
+@media (prefers-color-scheme:dark) {
+  :root {
+    --bg-color: #000000;
+    --text-color: #FFFFFF;
+    /*--hyperblue: #99BFCF;*/
+    --hyperblue: #7DCEF0;
+    --hoverorange: #FF7100;
+  }
+}
+
+body {
+  font-family: "Fira Mono", monospace;
+  font-size: max(13pt);
+  max-width: 700px;
+  margin: 0em auto;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 0 1em;
+}
+
+img {
+  max-width: 90%;
+  height: auto;
+  display: block;
+  margin: 0em auto;
+}
+
+h1 {
+  font-size: 1.6em;
+}
+
+h2 {
+  font-size: 1.3em;
+}
+
+.bookcover {
+  width: 20%;
+  min-width: 100px;
+  height: auto;
+  float: right;
+  margin: 0em;
+  padding: 0em;
+}
+
+.post-header {
+  margin-top: 0.5em;
+}
+
+.pfp {
+  width: 20%;
+  min-width: 90px;
+  height: auto;
+  float: left;
+  margin: 0em;
+  padding: 0em;
+}
+
+.pfp img {
+  border: 1.5px solid #777;
+}
+
+.pfp figcaption {
+  font-size: 0.9em;
+}
+
+figcaption, .center {
+  text-align: center;
+}
+
+.block {
+  display: block;
+}
+
+.double {
+  display: flex;
+  column-gap: 0em;
+  flex-direction: row;
+}
+
+.pane {
+  flex: 1 1 0;
+}
+
+table.favicon {
+  margin: 0em auto;
+}
+
+table.favicon img {
+  width: 1.6em;
+  height: auto;
+  display: inline;
+}
+
+.right {
+  text-align: right;
+}
+
+::-moz-selection {
+  background: var(--hyperblue);
+  color: var(--bg-color);
+}
+
+/* this will only work separated for some reason... */
+::selection { 
+  background: var(--hyperblue);
+  color: var(--bg-color);
+}
+
+a:link, a:visited  {
+/*  text-decoration: none;*/
+  color: var(--hyperblue);
+}
+
+a:active, a:hover  {
+  text-decoration: underline;
+  color: var(--hoverorange);
+}
+
+.library em, .todo s {
+  color: var(--hoverorange);
+}
+
+.mobile {
+  display: none;
+}
+
+@media only screen and (max-width:650px) {
+  .double {
+    flex-direction: column;
+  }
+  .mobile {
+    display: block;
+  }  
+  .bookcover, .pfp {
+    float: none;
+    margin: 0em auto;
+  }
+  
+  .pfp {
+    width: 50%;
+  }
+}
