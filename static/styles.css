@@ -1,5 +1,5 @@
 :root {
-  --text-color: #000000;
+  --body-color: #000000;
   --bg-color: #FFFFFF;
   --hyperblue: #005F87;
   --hoverorange: #D75F00;
@@ -9,7 +9,7 @@
 @media (prefers-color-scheme:dark) {
   :root {
     --bg-color: #000000;
-    --text-color: #FFFFFF;
+    --body-color: #FFFFFF;
     /*--hyperblue: #99BFCF;*/
     --hyperblue: #7DCEF0;
     --hoverorange: #FF7100;
@@ -20,9 +20,9 @@ body {
   font-family: "Fira Mono", monospace;
   font-size: max(13pt);
   max-width: 700px;
-  margin: 0em auto;
+  margin: 1em auto;
   background-color: var(--bg-color);
-  color: var(--text-color);
+  color: var(--body-color);
   padding: 0 1em;
 }
 
@@ -41,6 +41,11 @@ h2 {
   font-size: 1.3em;
 }
 
+address {
+  font-style: normal;
+  display: inline;
+}
+
 .bookcover {
   width: 20%;
   min-width: 100px;
@@ -48,10 +53,6 @@ h2 {
   float: right;
   margin: 0em;
   padding: 0em;
-}
-
-.post-header {
-  margin-top: 0.5em;
 }
 
 .pfp {
