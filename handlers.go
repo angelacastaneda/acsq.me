@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+  "strings"
 )
 
 func internalServerError(w http.ResponseWriter, r *http.Request) {
@@ -44,187 +45,218 @@ func pageNotFound(w http.ResponseWriter, r *http.Request) {
     "./html/partials/error_header.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/home.tmpl.html",
   }
 
-  // TODO: fancy 404 handling
   if r.URL.Path != "/" {
-    //http.NotFound(w, r)
     pageNotFound(w, r)
     return
   }
 
-  // parses templates in ui/html
+  if !strings.HasPrefix(r.Host,"www.") {
+    http.Redirect(w, r, "http://www."+r.Host+r.RequestURI, 302)
+  }
+
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func about(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/about.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+  }
+}
+
+func pages(page string, w http.ResponseWriter, r *http.Request) {
+
+  files := []string{
+    "./html/base.tmpl.html",
+    "./html/pages/"+page+".tmpl.html",
+  }
+
+  ts, err := template.ParseFiles(files...)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
+    return
+  }
+
+  err = ts.ExecuteTemplate(w,"base",nil)
+  if err != nil {
+    internalServerError(w, r)
     http.Error(w, "Internal Server Error", http.StatusInternalServerError)
   }
 }
 
 func library(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/library.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func posts(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/posts.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
-  err = ts.ExecuteTemplate(w,"base",nil)
+  fileNames := []string{"cool","epic"}
+
+  data := struct {
+    FileNames []string
+  }{
+    FileNames: fileNames,
+  }
+
+  err = ts.ExecuteTemplate(w, "base", data)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func todo(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/todo.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func friends(w http.ResponseWriter, r *http.Request) {
 
-  // template files
   files := []string{
     "./html/base.tmpl.html",
     "./html/pages/friends.tmpl.html",
   }
 
-  // parses templates in ui/html
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
     return
   }
 
-  // tries to serve template 
   err = ts.ExecuteTemplate(w,"base",nil)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
-    //http.Error(w,"Internal Server Error",http.StatusInternalServerError)
   }
 }
 
 func favicon(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/favicon.ico")
+}
+
+func post(w http.ResponseWriter, r *http.Request) {
+
+  if r.URL.Path == "/posts/" {
+    http.Redirect(w, r, "/posts", http.StatusMovedPermanently)
+    return
+  }
+
+  if r.URL.Path == "/posts" {
+    posts(w, r)
+    return
+  }
+
+  url := strings.TrimPrefix(r.URL.Path,"/posts/")
+
+  files := []string{
+    "./html/base.tmpl.html",
+    "./html/partials/post_header.tmpl.html",
+    "./html/posts/"+url+".tmpl.html",
+  }
+
+  ts, err := template.ParseFiles(files...)
+  if err != nil {
+    log.Println(err.Error())
+    pageNotFound(w, r)
+    return
+  }
+
+  err = ts.ExecuteTemplate(w,"base",nil)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
+  }
 }

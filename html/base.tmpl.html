@@ -7,7 +7,7 @@
     {{block "meta" .}}
     <meta charset="utf-8">
     <meta name="description" content="{{block "description" .}}Ángel Castañeda's Personal Website{{end}}">
-    <meta name="keywords" content="milwaukee wisconsin personal site blog articles photos {{block "keywords" .}}{{end}}">
+    <meta name="keywords" content="{{block "keywords" .}}{{end}}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://angel-castaneda.com{{block "path" .}}{{end}}">
     <link rel="alternate" hreflang="en-US" href="https://en.angel-castaneda.com{{block "path" .}}{{end}}">
@@ -43,10 +43,12 @@
         [<a href="en.angel-castaneda.com{{block "path" .}}{{end}}">en</a>/<a href="es.angel-castaneda.com{{template "path" .}}">es</a>/<a href="de.angel-castaneda.com{{template "path" .}}">de</a>]
         ·
         <br class="mobile">
-        <span>
-          contact:
-        </span>
-        [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">gpg</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
+        <address>
+          <span>
+            contact:
+          </span>
+          [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">gpg</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
+        </address>
       </nav>
       {{end}}
     </footer>
