@@ -9,8 +9,6 @@ webserver works.
 
 * templating html
 
-* css only markdown
-
 * beautiful absolute filepaths
 
 * arbitrary handlers so no .html suffix in url
@@ -26,3 +24,5 @@ webserver works.
 * rss feed
 
 * spanish and german support
+
+* https
