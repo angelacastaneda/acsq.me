@@ -13,14 +13,15 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/about", about)
-	mux.HandleFunc("/library", library)
-	mux.HandleFunc("/posts", posts)
-	mux.HandleFunc("/posts/", post)
-	mux.HandleFunc("/todo", todo)
-	mux.HandleFunc("/friends", friends)
-	mux.HandleFunc("/favicon.ico", favicon)
+  // TODO: Make cooler router
+	mux.HandleFunc("/", indexHandler)
+	mux.HandleFunc("/about", pageHandler("about"))
+	mux.HandleFunc("/library", pageHandler("library"))
+	mux.HandleFunc("/posts", postsPageHandler)
+	mux.HandleFunc("/posts/", postHandler)
+	mux.HandleFunc("/todo", pageHandler("todo"))
+	mux.HandleFunc("/friends", pageHandler("friends"))
+	mux.HandleFunc("/favicon.ico", faviconHandler)
 
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))

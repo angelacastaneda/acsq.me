@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"text/template"
+	"html/template"
   "strings"
 )
 
@@ -59,11 +59,12 @@ func pageNotFound(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   files := []string{
     "./html/base.tmpl.html",
-    "./html/pages/home.tmpl.html",
+    "./html/pages/index.tmpl.html",
   }
 
   if r.URL.Path != "/" {
@@ -71,7 +72,7 @@ func home(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  if !strings.HasPrefix(r.Host,"www.") {
+  if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
     http.Redirect(w, r, "http://www."+r.Host+r.RequestURI, 302)
   }
 
@@ -82,77 +83,51 @@ func home(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  err = ts.ExecuteTemplate(w,"base",nil)
+  fileNames := []string{"cool","epic"}
+
+  data := struct {
+    FileNames []string
+  }{
+    FileNames: fileNames,
+  }
+
+
+  err = ts.ExecuteTemplate(w, "base", data)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
   }
 }
 
-func about(w http.ResponseWriter, r *http.Request) {
+func pageHandler(page string) http.HandlerFunc {
+  return func(w http.ResponseWriter, r *http.Request) {
+    if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
+      http.Redirect(w, r, "http://www."+r.Host+r.RequestURI, 302)
+    }
 
-  files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/about.tmpl.html",
-  }
+    w.Header().Set("Content-Type","text/html; charset=utf-8")
+    files := []string{
+      "./html/base.tmpl.html",
+      "./html/pages/"+page+".tmpl.html",
+    }
 
-  ts, err := template.ParseFiles(files...)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-    return
-  }
+    ts, err := template.ParseFiles(files...)
+    if err != nil {
+      log.Println(err.Error())
+      internalServerError(w, r)
+      return
+    }
 
-  err = ts.ExecuteTemplate(w,"base",nil)
-  if err != nil {
-    internalServerError(w, r)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-  }
-}
-
-func pages(page string, w http.ResponseWriter, r *http.Request) {
-
-  files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/"+page+".tmpl.html",
-  }
-
-  ts, err := template.ParseFiles(files...)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-    return
-  }
-
-  err = ts.ExecuteTemplate(w,"base",nil)
-  if err != nil {
-    internalServerError(w, r)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    err = ts.ExecuteTemplate(w,"base",nil)
+    if err != nil {
+      internalServerError(w, r)
+      http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    }
   }
 }
 
-func library(w http.ResponseWriter, r *http.Request) {
-
-  files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/library.tmpl.html",
-  }
-
-  ts, err := template.ParseFiles(files...)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-    return
-  }
-
-  err = ts.ExecuteTemplate(w,"base",nil)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-  }
-}
-
-func posts(w http.ResponseWriter, r *http.Request) {
+func postsPageHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   files := []string{
     "./html/base.tmpl.html",
@@ -174,6 +149,7 @@ func posts(w http.ResponseWriter, r *http.Request) {
     FileNames: fileNames,
   }
 
+
   err = ts.ExecuteTemplate(w, "base", data)
   if err != nil {
     log.Println(err.Error())
@@ -181,53 +157,12 @@ func posts(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func todo(w http.ResponseWriter, r *http.Request) {
-
-  files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/todo.tmpl.html",
-  }
-
-  ts, err := template.ParseFiles(files...)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-    return
-  }
-
-  err = ts.ExecuteTemplate(w,"base",nil)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-  }
-}
-
-func friends(w http.ResponseWriter, r *http.Request) {
-
-  files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/friends.tmpl.html",
-  }
-
-  ts, err := template.ParseFiles(files...)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-    return
-  }
-
-  err = ts.ExecuteTemplate(w,"base",nil)
-  if err != nil {
-    log.Println(err.Error())
-    internalServerError(w, r)
-  }
-}
-
-func favicon(w http.ResponseWriter, r *http.Request) {
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "static/favicon.ico")
 }
 
-func post(w http.ResponseWriter, r *http.Request) {
+func postHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   if r.URL.Path == "/posts/" {
     http.Redirect(w, r, "/posts", http.StatusMovedPermanently)
@@ -235,11 +170,13 @@ func post(w http.ResponseWriter, r *http.Request) {
   }
 
   if r.URL.Path == "/posts" {
-    posts(w, r)
+    postsPageHandler(w, r)
     return
   }
 
   url := strings.TrimPrefix(r.URL.Path,"/posts/")
+
+  // TODO need to check if the file exists in the first place
 
   files := []string{
     "./html/base.tmpl.html",
@@ -250,7 +187,7 @@ func post(w http.ResponseWriter, r *http.Request) {
   ts, err := template.ParseFiles(files...)
   if err != nil {
     log.Println(err.Error())
-    pageNotFound(w, r)
+    pageNotFound(w, r) // this is a very scuffed method
     return
   }
 
