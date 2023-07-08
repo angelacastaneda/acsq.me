@@ -63,8 +63,8 @@
       recent articles:
     </h4>
     <ul>
-      {{ range .FileNames }}
-      <li><a href="/posts/{{ . }}">{{ . }}</a></li>
+      {{ range . }}
+      <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
       {{ end }}
     </ul>
     <a href="/posts" class="block center">

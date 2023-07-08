@@ -7,15 +7,19 @@ import (
   "strings"
 )
 
+const (
+  htmlDir = "./html"
+)
+
 func internalServerError(w http.ResponseWriter, r *http.Request) {
   // fancy 500 page
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
+  // w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusInternalServerError)
   files := []string{
-    "./html/base.tmpl.html",
-    "./html/errors/500.tmpl.html",
-    "./html/partials/error_meta.tmpl.html",
-    "./html/partials/error_header.tmpl.html",
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/errors/500.tmpl.html",
+    htmlDir + "/partials/error_meta.tmpl.html",
+    htmlDir + "/partials/error_header.tmpl.html",
   }
 
   // parses templates in ui/html
@@ -36,13 +40,13 @@ func internalServerError(w http.ResponseWriter, r *http.Request) {
 
 func pageNotFound(w http.ResponseWriter, r *http.Request) {
   // fancy 404 page
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
+  // w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusNotFound)
   files := []string{
-    "./html/base.tmpl.html",
-    "./html/errors/404.tmpl.html",
-    "./html/partials/error_meta.tmpl.html",
-    "./html/partials/error_header.tmpl.html",
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/errors/404.tmpl.html",
+    htmlDir + "/partials/error_meta.tmpl.html",
+    htmlDir + "/partials/error_header.tmpl.html",
   }
 
   ts, err := template.ParseFiles(files...)
@@ -63,8 +67,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/index.tmpl.html",
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/pages/index.tmpl.html",
   }
 
   if r.URL.Path != "/" {
@@ -83,16 +87,14 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  fileNames := []string{"cool","epic"}
-
-  data := struct {
-    FileNames []string
-  }{
-    FileNames: fileNames,
+  posts, err := postSorter(3)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
+    return
   }
 
-
-  err = ts.ExecuteTemplate(w, "base", data)
+  err = ts.ExecuteTemplate(w, "base", posts)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -107,8 +109,8 @@ func pageHandler(page string) http.HandlerFunc {
 
     w.Header().Set("Content-Type","text/html; charset=utf-8")
     files := []string{
-      "./html/base.tmpl.html",
-      "./html/pages/"+page+".tmpl.html",
+      htmlDir + "/base.tmpl.html",
+      htmlDir + "/pages/"+page+".tmpl.html",
     }
 
     ts, err := template.ParseFiles(files...)
@@ -130,8 +132,8 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   files := []string{
-    "./html/base.tmpl.html",
-    "./html/pages/posts.tmpl.html",
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/pages/posts.tmpl.html",
   }
 
   ts, err := template.ParseFiles(files...)
@@ -141,16 +143,13 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  fileNames := []string{"cool","epic"}
-
-  data := struct {
-    FileNames []string
-  }{
-    FileNames: fileNames,
+  posts, err := postSorter()
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
   }
 
-
-  err = ts.ExecuteTemplate(w, "base", data)
+  err = ts.ExecuteTemplate(w, "base", posts)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -179,9 +178,9 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   // TODO need to check if the file exists in the first place
 
   files := []string{
-    "./html/base.tmpl.html",
-    "./html/partials/post_header.tmpl.html",
-    "./html/posts/"+url+".tmpl.html",
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/partials/post_header.tmpl.html",
+    htmlDir + "/posts/"+url+".tmpl.html",
   }
 
   ts, err := template.ParseFiles(files...)

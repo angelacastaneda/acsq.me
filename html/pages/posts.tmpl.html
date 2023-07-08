@@ -11,8 +11,8 @@
 Here's where I post all my photos, articles, and all the rest.
 </p>
 <ul>
-  {{ range .FileNames }}
-  <li><a href="/posts/{{ . }}">{{ . }}</a></li>
+  {{ range . }}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
   {{ end }}
 </ul>
 <!-- <ul> -->
