@@ -20,7 +20,21 @@ type Post struct {
   Tags []string
 }
 
-func postSorter(postQuant ...int) ([]Post, error) {
+func containsTag(filterTag string, tags []string) bool {
+  if filterTag == "" {
+    return true
+  }
+
+  for _, tag := range tags {
+    if filterTag == tag {
+      return true
+    }
+  }
+
+  return false
+}
+
+func postSorter(postQuant int, filterTag string) ([]Post, error) {
   files, err := os.ReadDir(postDir)
   if err != nil {
     return []Post{}, err
@@ -41,17 +55,6 @@ func postSorter(postQuant ...int) ([]Post, error) {
         return []Post{}, err
       }
       
-      // getting date (as if)
-      datePattern := regexp.MustCompile(`<time datetime="(\d{4}-\d{2}-\d{2})">`)   
-      dateMatching := datePattern.FindStringSubmatch(string(content))
-
-      var date string
-      if len(dateMatching) > 1 {
-        date = dateMatching[1]
-      } else {
-        date = ""
-      }
-
       // getting tags
       tagsPattern := regexp.MustCompile(`{{define "keywords"}}([\w\s]+){{end}}`) 
       tagsMatching := tagsPattern.FindStringSubmatch(string(content)) 
@@ -61,6 +64,22 @@ func postSorter(postQuant ...int) ([]Post, error) {
         tags = strings.Fields(tagsMatching[1]) 
       } else {
         tags = []string{}
+      }
+
+      // filtering by tag
+      if !containsTag(filterTag, tags) {
+        continue
+      }
+      
+      // getting date (as if)
+      datePattern := regexp.MustCompile(`<time datetime="(\d{4}-\d{2}-\d{2})">`)   
+      dateMatching := datePattern.FindStringSubmatch(string(content))
+
+      var date string
+      if len(dateMatching) > 1 {
+        date = dateMatching[1]
+      } else {
+        date = ""
       }
 
       // putting everything together
@@ -81,10 +100,10 @@ func postSorter(postQuant ...int) ([]Post, error) {
     return posts, errors.New("Couldn't find " + tmplFileExt + " files in " + postDir + " :(")
   }
   
-  if len(postQuant) == 0 {
+  if postQuant == 0 {
     return posts, nil
-  } else if len(postQuant) > 0 && postQuant[0] < len(posts) {
-    return posts[:postQuant[0]], nil
+  } else if  postQuant < len(posts) {
+    return posts[:postQuant], nil
   } else {
     return posts, nil
   }

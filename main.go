@@ -17,10 +17,10 @@ func main() {
 	mux.HandleFunc("/", indexHandler)
 	mux.HandleFunc("/about", pageHandler("about"))
 	mux.HandleFunc("/library", pageHandler("library"))
-	mux.HandleFunc("/posts", postsPageHandler)
-	mux.HandleFunc("/posts/", postHandler)
 	mux.HandleFunc("/todo", pageHandler("todo"))
 	mux.HandleFunc("/friends", pageHandler("friends"))
+	mux.HandleFunc("/posts", postsPageHandler)
+	mux.HandleFunc("/posts/", postHandler)
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 
 

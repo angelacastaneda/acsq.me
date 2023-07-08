@@ -13,7 +13,7 @@ const (
 
 func internalServerError(w http.ResponseWriter, r *http.Request) {
   // fancy 500 page
-  // w.Header().Set("Content-Type","text/html; charset=utf-8")
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusInternalServerError)
   files := []string{
     htmlDir + "/base.tmpl.html",
@@ -40,7 +40,7 @@ func internalServerError(w http.ResponseWriter, r *http.Request) {
 
 func pageNotFound(w http.ResponseWriter, r *http.Request) {
   // fancy 404 page
-  // w.Header().Set("Content-Type","text/html; charset=utf-8")
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusNotFound)
   files := []string{
     htmlDir + "/base.tmpl.html",
@@ -87,7 +87,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter(3)
+  posts, err := postSorter(3,"article")
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -143,7 +143,7 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter()
+  posts, err := postSorter(0,"")
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -153,6 +153,36 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
+  }
+}
+
+func tagPageHandler(tag string) http.HandlerFunc {
+  return func(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type","text/html; charset=utf-8")
+
+    files := []string{
+      htmlDir + "/base.tmpl.html",
+      htmlDir + "/tags/" + tag + ".tmpl.html",
+    }
+
+    ts, err := template.ParseFiles(files...)
+    if err != nil {
+      log.Println(err.Error())
+      internalServerError(w, r)
+      return
+    }
+
+    posts, err := postSorter(0,tag)
+    if err != nil {
+      log.Println(err.Error())
+      internalServerError(w, r)
+    }
+
+    err = ts.ExecuteTemplate(w, "base", posts)
+    if err != nil {
+      log.Println(err.Error())
+      internalServerError(w, r)
+    }
   }
 }
 
