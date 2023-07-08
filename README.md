@@ -15,14 +15,16 @@ webserver works.
 
 * fancy error pages
 
-## todo
-
 * MD > html for articles
 
-* [css lightboxing](https://vimuser.org/1337box.html)
+## todo
+
+* actually put the site up
+
+* https
 
 * rss feed
 
-* spanish and german support
+* spanish and german
 
-* https
+* blog organizing w/ tagging system

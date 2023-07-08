@@ -18,9 +18,9 @@
 
 body {
   font-family: "Fira Mono", monospace;
-  font-size: max(13pt);
+  font-size: max(13pt, 100%);
   max-width: 700px;
-  margin: 1em auto;
+  margin: 0.7em auto;
   background-color: var(--bg-color);
   color: var(--body-color);
   padding: 0 1em;
@@ -33,17 +33,22 @@ img {
   margin: 0em auto;
 }
 
-h1 {
-  font-size: 1.6em;
-}
+/* h1 { */
+/*   font-size: 1.6em; */
+/* } */
 
-h2 {
-  font-size: 1.3em;
-}
+/* h2 { */
+/*   font-size: 1.3em; */
+/* } */
 
 address {
   font-style: normal;
   display: inline;
+}
+
+article time {
+  text-align: right;
+  display: block;
 }
 
 .bookcover {
@@ -94,7 +99,7 @@ table.favicon {
   margin: 0em auto;
 }
 
-table.favicon img {
+table.favicon img, img.favicon {
   width: 1.6em;
   height: auto;
   display: inline;
@@ -125,8 +130,33 @@ a:active, a:hover  {
   color: var(--hoverorange);
 }
 
-.library em, .todo s {
+.library em, .todo s, .orange {
   color: var(--hoverorange);
+}
+
+.rss h2 {
+  display: inline-block;
+  margin-right: 0.2em;
+}
+
+.rss img, .favicon img {
+  width: 0.8em;
+  height: auto;
+  display: inline;
+}
+
+.friend h4 {
+  display: inline;
+  margin-right: 0.2em;
+  text-decoration: underline;
+}
+
+.friend p {
+  margin-top: 0em;
+}
+
+.friend a {
+  text-decoration: none;
 }
 
 .mobile {
@@ -142,7 +172,7 @@ a:active, a:hover  {
   }  
   .bookcover, .pfp {
     float: none;
-    margin: 0em auto;
+    margin: 1em auto;
   }
   
   .pfp {
