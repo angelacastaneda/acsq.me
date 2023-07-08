@@ -2,7 +2,7 @@
 title: The Importance of Fake Content
 date: 1865-06-19
 description: Just another test thing to figure out how to iron out this tagging system
-tags: photo history 
+tags: photos history 
 ---
 
 paragraph 1 

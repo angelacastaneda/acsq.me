@@ -1,0 +1,18 @@
+{{define "title"}}History{{end}}
+{{define "path"}}/tags/history{{end}}
+{{define "description"}}Anything cool related to the past I wanna talk about.{{end}}
+{{define "keywords"}}history{{end}}
+
+{{define "main"}}
+<div class="rss">
+  <h2>history</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+</div>
+<p>
+  Anything cool related to the past I wanna talk about.
+</p>
+<ul>
+  {{ range . }}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+  {{ end }}
+</ul>
+{{end}}

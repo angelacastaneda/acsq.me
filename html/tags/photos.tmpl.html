@@ -1,0 +1,18 @@
+{{define "title"}}Photos{{end}}
+{{define "path"}}/tags/photos{{end}}
+{{define "description"}}Photos I've taken with a camera or phone or 3ds.{{end}}
+{{define "keywords"}}photos{{end}}
+
+{{define "main"}}
+<div class="rss">
+  <h2>photos</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+</div>
+<p>
+  Photos I've taken with a camera or phone or 3ds.
+</p>
+<ul>
+  {{ range . }}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+  {{ end }}
+</ul>
+{{end}}

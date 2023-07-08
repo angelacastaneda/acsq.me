@@ -87,7 +87,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter(3,"article")
+  posts, err := postSorter(3,"articles")
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -156,33 +156,40 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func tagPageHandler(tag string) http.HandlerFunc {
-  return func(w http.ResponseWriter, r *http.Request) {
-    w.Header().Set("Content-Type","text/html; charset=utf-8")
+func tagHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
 
-    files := []string{
-      htmlDir + "/base.tmpl.html",
-      htmlDir + "/tags/" + tag + ".tmpl.html",
-    }
+  if r.URL.Path == "/tags/" || r.URL.Path =="/tags" {
+    http.Redirect(w, r, "/posts", 302)
+    return
+  }
 
-    ts, err := template.ParseFiles(files...)
-    if err != nil {
-      log.Println(err.Error())
-      internalServerError(w, r)
-      return
-    }
+  url := strings.TrimPrefix(r.URL.Path,"/tags/")
 
-    posts, err := postSorter(0,tag)
-    if err != nil {
-      log.Println(err.Error())
-      internalServerError(w, r)
-    }
+  // TODO need to check if the file exists in the first place
 
-    err = ts.ExecuteTemplate(w, "base", posts)
-    if err != nil {
-      log.Println(err.Error())
-      internalServerError(w, r)
-    }
+  files := []string{
+    htmlDir + "/base.tmpl.html",
+    htmlDir + "/tags/"+url+".tmpl.html",
+  }
+
+  ts, err := template.ParseFiles(files...)
+  if err != nil {
+    log.Println(err.Error())
+    pageNotFound(w, r) // this is a very scuffed method
+    return
+  }
+
+  posts, err := postSorter(0,url)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
+  }
+
+  err = ts.ExecuteTemplate(w, "base", posts)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
   }
 }
 
@@ -194,7 +201,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   if r.URL.Path == "/posts/" {
-    http.Redirect(w, r, "/posts", http.StatusMovedPermanently)
+    http.Redirect(w, r, "/posts", 302)
     return
   }
 

@@ -21,6 +21,8 @@ func main() {
 	mux.HandleFunc("/friends", pageHandler("friends"))
 	mux.HandleFunc("/posts", postsPageHandler)
 	mux.HandleFunc("/posts/", postHandler)
+	mux.HandleFunc("/tags", tagHandler)
+	mux.HandleFunc("/tags/", tagHandler)
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 
 
