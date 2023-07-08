@@ -7,6 +7,14 @@ import (
 )
 
 func main() {
+  // test, _ := postSorter(0, "")
+  // for _, blog := range test {
+  //   log.Printf("%s\t%s\t%s\n",blog.FileName,blog.Title,blog.Date)
+  //   log.Printf("Tags:\n")
+  //   for _, tag := range blog.Tags {
+  //     log.Printf("\t%s\n",tag)
+  //   }
+  // }
   // flag address for function
 	addr := flag.String("addr", ":4000", "HTTP Network Address")
 	flag.Parse()

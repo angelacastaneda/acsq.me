@@ -159,6 +159,16 @@ a:active, a:hover  {
   text-decoration: none;
 }
 
+.tags {
+  margin: 1em auto;
+}
+
+.tags > * {
+  display: block;
+  text-align: center;
+  margin: 0em auto;
+}
+
 .mobile {
   display: none;
 }

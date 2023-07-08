@@ -2,7 +2,7 @@
 title: Placeholder Madness
 date: 2023-07-02
 description: This is a fake article :O
-tags: madness orthodox personal
+tags: milwaukee personal
 ---
 # this is a test {.center}
 

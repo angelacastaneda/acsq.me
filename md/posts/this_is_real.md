@@ -2,7 +2,7 @@
 title: This is Real
 date: 2005-06-04
 description: This is a crazy day that happened with adventures, excitement, and kitten...
-tags: meme epic linux game-dev
+tags: history articles photos
 ---
 
 # in the beginning

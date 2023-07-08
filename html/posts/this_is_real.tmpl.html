@@ -1,11 +1,11 @@
-{{define "title"}}This is Real{{end}}
-{{define "path"}}/posts/this_is_real{{end}}
+{{define "title"}}{{ .Title }}{{end}}
+{{define "path"}}/posts/{{ .FileName }}{{end}}
 {{define "description"}}This is a crazy day that happened with adventures, excitement, and kitten…{{end}}
-{{define "keywords"}}articles math history{{end}}
+{{define "keywords"}}history articles photos{{end}}
 
 {{define "main"}}
 <article>
-  <h2>This is Real</h2>
+  <h2>{{ .Title }}</h2>
   <h1>in the beginning</h1>
   <p>palmer met kitten</p>
   <h2>so we had an adventure together…</h2>
@@ -19,5 +19,13 @@
   <figcaption aria-hidden="true">some alt test</figcaption>
   </figure>
   <time datetime="2005-06-04">Saturday, June 04, 2005</time>
+  <div class="tags">
+    <h4>tags:</h4>
+    <nav>
+      {{ range .Tags }}
+      <a href="/tags/{{ . }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+  </div>
 </article>
 {{end}}

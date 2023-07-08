@@ -1,11 +1,11 @@
-{{define "title"}}The Importance of Fake Content{{end}}
-{{define "path"}}/posts/{{end}}
+{{define "title"}}{{ .Title }}{{end}}
+{{define "path"}}/posts/{{ .FileName }}{{end}}
 {{define "description"}}Just another test thing to figure out how to iron out this tagging system{{end}}
 {{define "keywords"}}photos history{{end}}
 
 {{define "main"}}
 <article>
-  <h2>The Importance of Fake Content</h2>
+  <h2>{{ .Title }}</h2>
   <p>paragraph 1</p>
   <h4 class="cool" id="great">this is cool</h4>
   <p class="cool">
@@ -17,9 +17,13 @@
   <figcaption>caption</figcaption>
   </figure>
   <time datetime="1865-06-19">Monday, June 19, 1865</time>
-  <h4 class="center">tags:</h4>
-  <nav> 
-
-  </nav>
+  <div class="tags">
+    <h4>tags:</h4>
+    <nav>
+      {{ range .Tags }}
+      <a href="/tags/{{ . }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+  </div>
 </article>
 {{end}}

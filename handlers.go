@@ -193,10 +193,6 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   }
 }
 
-func faviconHandler(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/favicon.ico")
-}
-
 func postHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
@@ -227,9 +223,18 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  err = ts.ExecuteTemplate(w,"base",nil)
+  singlePost, err := postFetcher(url)
+  if err != nil {
+    log.Println(err.Error())
+  }
+
+  err = ts.ExecuteTemplate(w,"base",singlePost)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
   }
+}
+
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/favicon.ico")
 }

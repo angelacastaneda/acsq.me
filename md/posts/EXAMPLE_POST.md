@@ -1,5 +1,4 @@
 ---
-title: Example Post
 date: 1865-06-19
 description: This is where you need to write a basic summary of the post you just wrote. Maybe push it off to the end.
 tags: relevant tags that apply
@@ -10,10 +9,8 @@ that. Just start typing out the post as you would.
 
 ### only use h3 on down cause h2 is reserved for that title tag
 
-Here's *em*, **strong**, ***both***, ~~s~~, `code`, and a footnote[^1]. Here's
+Here's *em*, **strong**, ***both***, ~~s~~, and `code`. Here's
 a [hyperlink](https://wiby.me).
-
-[^1]: My footnote
 
 ![figcaption](/route/to/img.jpeg "title"){alt="alt text"}
 

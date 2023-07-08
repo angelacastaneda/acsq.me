@@ -1,11 +1,11 @@
-{{define "title"}}Did Lorem Ipsum{{end}}
-{{define "path"}}/posts/did_lorem_ipsum_go_too_far{{end}}
+{{define "title"}}{{ .Title }}{{end}}
+{{define "path"}}/posts/{{ .FileName }}{{end}}
 {{define "description"}}The coolest day in the entire world{{end}}
-{{define "keywords"}}photos math{{end}}
+{{define "keywords"}}cool epic great{{end}}
 
 {{define "main"}}
 <article>
-  <h2>Did Lorem Ipsum</h2>
+  <h2>{{ .Title }}</h2>
   <p>paragraph 1</p>
   <h1 class="cool" id="great">this is cool</h1>
   <p class="cool">
@@ -17,5 +17,13 @@
   <figcaption>caption</figcaption>
   </figure>
   <time datetime="2001-08-31">Friday, August 31, 2001</time>
+  <div class="tags">
+    <h4>tags:</h4>
+    <nav>
+      {{ range .Tags }}
+      <a href="/tags/{{ . }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+  </div>
 </article>
 {{end}}

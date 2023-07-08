@@ -1,0 +1,20 @@
+{{define "title"}}{{ .Title }}{{end}}
+{{define "path"}}/posts/{{ .FileName }}{{end}}
+{{define "description"}}$description${{end}}
+{{define "keywords"}}$tags${{end}}
+
+{{define "main"}}
+<article>
+  <h2>{{ .Title }}</h2>
+  $body$
+  <time datetime="$date$"></time>
+  <div class="tags">
+    <h4>tags:</h4>
+    <nav>
+      {{ range .Tags }}
+      <a href="/tags/{{ . }}">{{ . }}</a>
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}
