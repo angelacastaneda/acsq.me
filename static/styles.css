@@ -39,6 +39,10 @@ img {
 /*   font-size: 1.3em; */
 /* } */
 
+p {
+  text-align: justify;
+}
+
 address {
   font-style: normal;
   display: inline;

@@ -23,7 +23,7 @@ func main() {
 
   // TODO: Make cooler router
 	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/about", pageHandler("about"))
+	mux.HandleFunc("/about", aboutHandler)
 	mux.HandleFunc("/library", pageHandler("library"))
 	mux.HandleFunc("/todo", pageHandler("todo"))
 	mux.HandleFunc("/friends", pageHandler("friends"))

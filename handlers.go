@@ -16,10 +16,10 @@ func internalServerError(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusInternalServerError)
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/errors/500.tmpl.html",
-    htmlDir + "/partials/error_meta.tmpl.html",
-    htmlDir + "/partials/error_header.tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/errors/500" + tmplFileExt,
+    htmlDir + "/partials/error_meta" + tmplFileExt,
+    htmlDir + "/partials/error_header" + tmplFileExt,
   }
 
   // parses templates in ui/html
@@ -43,10 +43,10 @@ func pageNotFound(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(http.StatusNotFound)
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/errors/404.tmpl.html",
-    htmlDir + "/partials/error_meta.tmpl.html",
-    htmlDir + "/partials/error_header.tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/errors/404" + tmplFileExt,
+    htmlDir + "/partials/error_meta" + tmplFileExt,
+    htmlDir + "/partials/error_header" + tmplFileExt,
   }
 
   ts, err := template.ParseFiles(files...)
@@ -67,8 +67,8 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/pages/index.tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/pages/index" + tmplFileExt,
   }
 
   if r.URL.Path != "/" {
@@ -77,7 +77,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
-    http.Redirect(w, r, "http://www."+r.Host+r.RequestURI, 302)
+    http.Redirect(w, r, "http://www." + r.Host+r.RequestURI, 302)
   }
 
   ts, err := template.ParseFiles(files...)
@@ -87,7 +87,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter(3,"articles")
+  posts, err := postsSorter(3,"articles")
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -104,13 +104,13 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 func pageHandler(page string) http.HandlerFunc {
   return func(w http.ResponseWriter, r *http.Request) {
     if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
-      http.Redirect(w, r, "http://www."+r.Host+r.RequestURI, 302)
+      http.Redirect(w, r, "http://www." + r.Host + r.RequestURI, 302)
     }
 
     w.Header().Set("Content-Type","text/html; charset=utf-8")
     files := []string{
-      htmlDir + "/base.tmpl.html",
-      htmlDir + "/pages/"+page+".tmpl.html",
+      htmlDir + "/base" + tmplFileExt,
+      htmlDir + "/pages/" + page + "" + tmplFileExt,
     }
 
     ts, err := template.ParseFiles(files...)
@@ -128,12 +128,15 @@ func pageHandler(page string) http.HandlerFunc {
   }
 }
 
-func postsPageHandler(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
+func aboutHandler(w http.ResponseWriter, r *http.Request) {
+  if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
+    http.Redirect(w, r, "http://www." + r.Host + r.RequestURI, 302)
+  }
 
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/pages/posts.tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/pages/about" + tmplFileExt,
   }
 
   ts, err := template.ParseFiles(files...)
@@ -143,7 +146,33 @@ func postsPageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter(0,"")
+  jukebox := map[string]interface{}{
+    "Song": rockNRoll(),
+  }
+
+  err = ts.ExecuteTemplate(w, "base", jukebox)
+  if err != nil {
+    internalServerError(w, r)
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+  }
+}
+
+func postsPageHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
+
+  files := []string{
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/pages/posts" + tmplFileExt,
+  }
+
+  ts, err := template.ParseFiles(files...)
+  if err != nil {
+    log.Println(err.Error())
+    internalServerError(w, r)
+    return
+  }
+
+  posts, err := postsSorter(0,"")
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -169,8 +198,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   // TODO need to check if the file exists in the first place
 
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/tags/"+url+".tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/tags/" + url + "" + tmplFileExt,
   }
 
   ts, err := template.ParseFiles(files...)
@@ -180,7 +209,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  posts, err := postSorter(0,url)
+  posts, err := postsSorter(0,url)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)
@@ -206,9 +235,9 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   // TODO need to check if the file exists in the first place
 
   files := []string{
-    htmlDir + "/base.tmpl.html",
-    htmlDir + "/partials/post_header.tmpl.html",
-    htmlDir + "/posts/"+url+".tmpl.html",
+    htmlDir + "/base" + tmplFileExt,
+    htmlDir + "/partials/post_header" + tmplFileExt,
+    htmlDir + "/posts/" + url + tmplFileExt,
   }
 
   ts, err := template.ParseFiles(files...)

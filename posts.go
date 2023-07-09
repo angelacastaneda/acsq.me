@@ -3,6 +3,7 @@ package main
 import (
 	// "errors"
 	"log"
+	"math/rand"
 	"os"
 	"regexp"
 	"sort"
@@ -82,7 +83,7 @@ func postFetcher(postNameNoExt string) (Post, error) {
   }, nil
 }
 
-func postSorter(postQuant int, filterTag string) ([]Post, error) {
+func postsSorter(postQuant int, filterTag string) ([]Post, error) {
   // read dir
   files, err := os.ReadDir(postDir)
   if err != nil {
@@ -96,7 +97,7 @@ func postSorter(postQuant int, filterTag string) ([]Post, error) {
       fileNameNoExt := strings.TrimSuffix(file.Name(),tmplFileExt)
       newPost, err := postFetcher(fileNameNoExt)
       if err != nil {
-        log.Println(err)
+        log.Println(err.Error())
         continue // todo make better error handling to know something went wrong
       }
 
@@ -124,4 +125,29 @@ func postSorter(postQuant int, filterTag string) ([]Post, error) {
   } else {
     return posts, nil
   }
+}
+
+func rockNRoll() string { // todo put this in a more sensible place
+  awesomeTunes := []string{
+    "https://youtu.be/ZV_UsQPTBy4", // "Sound and Vision" - David Bowie
+    "https://youtu.be/GKdl-GCsNJ0", // "Here Comes the Sun" - The Beatles (duh)
+    "https://youtu.be/ZVgHPSyEIqk", // "Let Down" - Radiohead
+    "https://youtu.be/AZKch8dZ61w", // "St. Elmo's Fire" - Brian Eno
+    "https://youtu.be/OP63BRzKmB0", // "Blade Runner (End Titles)" - Vanegelis
+    "https://youtu.be/eLlmbCkb3As", // "Fallen Angel" - King Crimson
+    "https://youtu.be/Hgx267jVma0", // "A Pillow of Winds" - Pink Floyd
+    "https://youtu.be/vdvnOH060Qg", // "Happiness is a Warm Gun" - The Beatles (again)
+    "https://youtu.be/Eo2ZsAOlvEM", // "America" - Simon and Garfunkel
+    "https://youtu.be/fWB40wYQO-w", // "Dancing in My Head" - The Raincoats
+    "https://youtu.be/GIrcy12Hruo", // "The Plains / Bitter Dancer" - Fleet Foxes
+    "https://youtu.be/DMEOjFm4DJw", // "Cassius, -" - Fleet Foxes again cause I just saw their concert for a second time now
+    "https://youtu.be/t_tIYlzSd2c", // "Bachelorette" - Björk
+    "https://youtu.be/zG-q9Jozp4o", // "A New Kind of Water" - This Heat
+    "https://youtu.be/X1GH9WN92s0", // "Another Green World" - Brian Eno 
+    "https://youtu.be/3GE-sfEbJ7I", // "Sheep" - Pink Floyd
+  }
+  rando := rand.Intn(len(awesomeTunes))
+  shuffle := awesomeTunes[rando]
+
+  return shuffle
 }
