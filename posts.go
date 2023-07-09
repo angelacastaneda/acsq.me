@@ -127,7 +127,7 @@ func postsSorter(postQuant int, filterTag string) ([]Post, error) {
   }
 }
 
-func rockNRoll() string { // todo put this in a more sensible place
+func rockNRoll() (string, int) { // todo put this in a more sensible place
   awesomeTunes := []string{
     "https://youtu.be/ZV_UsQPTBy4", // "Sound and Vision" - David Bowie
     "https://youtu.be/GKdl-GCsNJ0", // "Here Comes the Sun" - The Beatles (duh)
@@ -149,5 +149,5 @@ func rockNRoll() string { // todo put this in a more sensible place
   rando := rand.Intn(len(awesomeTunes))
   shuffle := awesomeTunes[rando]
 
-  return shuffle
+  return shuffle, rando
 }

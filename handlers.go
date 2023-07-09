@@ -146,8 +146,11 @@ func aboutHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
+  track, rando := rockNRoll()
+
   jukebox := map[string]interface{}{
-    "Song": rockNRoll(),
+    "Song": track,
+    "Int": rando,
   }
 
   err = ts.ExecuteTemplate(w, "base", jukebox)
