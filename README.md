@@ -15,7 +15,9 @@ webserver works.
 
 * fancy error pages
 
-* MD > html for articles
+* MD -> html for articles
+
+* blog organizing w/ tagging system
 
 ## todo
 
@@ -26,5 +28,3 @@ webserver works.
 * rss feed
 
 * spanish and german
-
-* blog organizing w/ tagging system

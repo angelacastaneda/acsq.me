@@ -15,16 +15,20 @@ Here's where I post all my photos, articles, and all the rest.
   <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
   {{ end }}
 </ul>
-<h4 class="center">Search by Medium:</h4>
-<nav class="block center">
-  <a href="/tags/articles">articles</a> ·
-  <a href="/tags/photos">photos</a>
-</nav>
-<h4 class="center">Search by Topic:</h4>
-<nav class="block center">
-  <a href="/tags/milwaukee">milwaukee</a> ·
-  <a href="/tags/math">math</a> ·
-  <a href="/tags/history">history</a> ·
-  <a href="/tags/personal">personal</a>
-</nav>
+<div class="tags">
+  <h4>Search by Medium:</h4>
+  <nav class="block center">
+    <a href="/tags/articles">articles</a> ·
+    <a href="/tags/photos">photos</a>
+  </nav>
+</div>
+<div class="tags">
+<h4>Search by Topic:</h4>
+  <nav class="block center">
+    <a href="/tags/milwaukee">milwaukee</a> ·
+    <a href="/tags/math">math</a> ·
+    <a href="/tags/history">history</a> ·
+    <a href="/tags/personal">personal</a>
+  </nav>
+</div>
 {{end}}

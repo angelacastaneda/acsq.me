@@ -196,13 +196,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 func postHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
-  if r.URL.Path == "/posts/" {
+  if r.URL.Path == "/posts/" || r.URL.Path == "/posts"{
     http.Redirect(w, r, "/posts", 302)
-    return
-  }
-
-  if r.URL.Path == "/posts" {
-    postsPageHandler(w, r)
     return
   }
 
@@ -223,12 +218,12 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  singlePost, err := postFetcher(url)
+  servedPost, err := postFetcher(url)
   if err != nil {
     log.Println(err.Error())
   }
 
-  err = ts.ExecuteTemplate(w,"base",singlePost)
+  err = ts.ExecuteTemplate(w,"base",servedPost)
   if err != nil {
     log.Println(err.Error())
     internalServerError(w, r)

@@ -3,14 +3,12 @@
   --bg-color: #FFFFFF;
   --hyperblue: #005F87;
   --hoverorange: #D75F00;
-  /*--hoverblue: #4C8FAB;*/
 }
 
 @media (prefers-color-scheme:dark) {
   :root {
     --bg-color: #000000;
     --body-color: #FFFFFF;
-    /*--hyperblue: #99BFCF;*/
     --hyperblue: #7DCEF0;
     --hoverorange: #FF7100;
   }
@@ -49,6 +47,7 @@ address {
 article time {
   text-align: right;
   display: block;
+  font-style: italic;
 }
 
 .bookcover {
@@ -167,6 +166,10 @@ a:active, a:hover  {
   display: block;
   text-align: center;
   margin: 0em auto;
+}
+
+.tags span:last-child {
+  display: none;
 }
 
 .mobile {
