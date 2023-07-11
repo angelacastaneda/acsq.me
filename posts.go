@@ -145,6 +145,20 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
     "https://youtu.be/zG-q9Jozp4o", // "A New Kind of Water" - This Heat
     "https://youtu.be/X1GH9WN92s0", // "Another Green World" - Brian Eno 
     "https://youtu.be/3GE-sfEbJ7I", // "Sheep" - Pink Floyd
+    "https://youtu.be/dc6huqPzerY", // "Indiscipline" - King Crimson
+    "https://youtu.be/95cufW4h-gA", // "One More Cup of Coffee" - Bob Dylan
+    "https://youtu.be/i6d3yVq1Xtw", // "El Condor Pasa (If I Could)" - Simon and Garfunkel
+    "https://youtu.be/OYmmthTXbSA", // "Stella Maris" - Einstürzende Neubauten
+    "https://youtu.be/Y_V6y1ZCg_8", // "Norwegian Wood (This Bird Has Flow)" - The Beatles
+    "https://youtu.be/LQ3nAhJyE44", // "Sunblind" - Fleet Foxes
+    "https://youtu.be/K63CD2pwjD0", // "Wednesday Morning, 3 A.M." - Simon and Garfunkel
+    "https://youtu.be/AtGEgxaO7nI", // "Alphabet Town" - Elliott Smith
+    "https://youtu.be/NHDOk7lA53w", // "Ful Stop" - Radiohead
+    "https://youtu.be/5ugdrdFrhI0", // "Nosferatu Man" - Slint
+    "https://youtu.be/ojF9qAQ-8n4", // "Tangram Set 2" - Tangerine Dream
+    "https://youtu.be/gl4lvJmvqQU", // "Happiness Is Easy" - Talk Talk
+    "https://youtu.be/Ef9zt8aCRQo", // "Here Today" - The Beach Boys
+    "https://youtu.be/sDcDCZGcZj8", // "Rocky Raccoon" - The Beatles
   }
   rando := rand.Intn(len(awesomeTunes))
   shuffle := awesomeTunes[rando]
