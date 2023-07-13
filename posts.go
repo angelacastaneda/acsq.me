@@ -5,13 +5,14 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"regexp"
 	"sort"
 	"strings"
 )
 
-const (
-  postDir = "./html/posts"
+var (
+  postDir = filepath.Join(".","html","posts")
   tmplFileExt = ".tmpl.html"
 )
 
@@ -39,7 +40,7 @@ func (p Post) containsTag(filterTag string) bool {
 func postFetcher(postNameNoExt string) (Post, error) {
 
   // reading file
-  content, err := os.ReadFile(postDir + "/" + postNameNoExt + tmplFileExt)
+  content, err := os.ReadFile(filepath.Join(postDir, postNameNoExt + tmplFileExt))
   if err != nil {
     return Post{}, err
   }
@@ -84,13 +85,17 @@ func postFetcher(postNameNoExt string) (Post, error) {
 }
 
 func postsSorter(postQuant int, filterTag string) ([]Post, error) {
+  posts := []Post{}
+
+  if postQuant < 0 {
+    return posts, nil
+  }
+
   // read dir
   files, err := os.ReadDir(postDir)
   if err != nil {
     return []Post{}, err
   }
-
-  posts := []Post{}
 
   for _, file := range files {
     if !file.IsDir() && strings.HasSuffix(file.Name(),tmplFileExt) {
@@ -118,9 +123,7 @@ func postsSorter(postQuant int, filterTag string) ([]Post, error) {
   //   return posts, errors.New("Couldn't find " + tmplFileExt + " files in " + postDir + " :(")
   // }
   
-  if postQuant == 0 {
-    return posts, nil
-  } else if  postQuant < len(posts) {
+  if postQuant < len(posts) && postQuant > 0 {
     return posts[:postQuant], nil
   } else {
     return posts, nil
@@ -129,6 +132,7 @@ func postsSorter(postQuant int, filterTag string) ([]Post, error) {
 
 func rockNRoll() (string, int) { // todo put this in a more sensible place
   awesomeTunes := []string{
+    // todo use better front end for youtube
     "https://youtu.be/ZV_UsQPTBy4", // "Sound and Vision" - David Bowie
     "https://youtu.be/GKdl-GCsNJ0", // "Here Comes the Sun" - The Beatles (duh)
     "https://youtu.be/ZVgHPSyEIqk", // "Let Down" - Radiohead
@@ -164,4 +168,31 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
   shuffle := awesomeTunes[rando]
 
   return shuffle, rando
+}
+
+func langFetcher(url string) string {
+  if strings.HasPrefix(url, "es.") {
+    return "es-US"
+  }
+  
+  if strings.HasPrefix(url, "de.") {
+    return "de-DE"
+  }
+
+  return "en-US"
+}
+
+func lastOne(index int, size int) bool{
+  return index == size - 1
+}
+
+func translate(lang, en, es, de string) string {
+  switch lang {
+  case "es-US":
+    return es
+  case "de-DE":
+    return de
+  default:
+    return en
+  }
 }
