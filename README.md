@@ -19,11 +19,9 @@ webserver works.
 
 * blog organizing w/ tagging system
 
-## todo
-
-* actually put the site up
-
 * https
+
+## todo
 
 * rss feed
 

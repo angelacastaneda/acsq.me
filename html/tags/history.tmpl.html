@@ -1,5 +1,4 @@
 {{define "title"}}history{{end}}
-{{define "path"}}/tags/history{{end}}
 {{define "description"}}Anything cool related to the past I wanna talk about.{{end}}
 {{define "keywords"}}history{{end}}
 
@@ -11,8 +10,8 @@
   Anything cool related to the past I wanna talk about.
 </p>
 <ul>
-  {{ range . }}
+  {{ range .Posts -}}
   <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
-  {{ end }}
+  {{ end -}}
 </ul>
 {{end}}

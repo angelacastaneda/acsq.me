@@ -1,6 +1,6 @@
-{{define "title"}}homepage{{end}}
-{{define "path"}}/{{end}}
+{{define "title"}}{{ translate .Lang "homepage" "inicio" "startseite" }}{{end}}
 {{define "description"}}Thanks for visiting my site. I have a real need for sharing my time and affection toward a neat project.{{end}}
+{{define "keywords"}}Home{{end}}
 
 {{define "main"}}
 <p>
@@ -9,7 +9,10 @@
 <div class="double">
   <div class="pane">
     <h4>
-      recent photo:
+      {{ translate .Lang
+      "recent photo"
+      "foto reciente"
+      "neues foto"}}:
     </h4>
     <figure>
       <a href="/posts/a_cool_pic">
@@ -18,11 +21,14 @@
     </figure>
     <a href="/tags/photos" class="block center">
       <strong>
-        &gtsee more
+        &gt;see more
       </strong>
     </a>
     <h4>
-      my friends:
+      {{ translate .Lang
+      "my friends"
+      "mis amigos"
+      "meine freunde"}}:
     </h4>
     <table class="favicon">
       <tr>
@@ -51,7 +57,10 @@
         <td colspan="4">
           <a href="/friends">
             <strong>
-              &gtcheck them out
+              &gt;{{ translate .Lang
+              "check them out"
+              "visitenlos"
+              "besuchst du diem"}}
             </strong>
           </a>
         </td>
@@ -60,20 +69,29 @@
   </div>
   <div class="pane">
     <h4>
-      recent articles:
+      {{ translate .Lang
+      "recent articles"
+      "artículos reciente"
+      "neueste artikel"}}:
     </h4>
     <ul>
-      {{ range . }}
+      {{ range .Posts }}
       <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
       {{ end }}
     </ul>
     <a href="/tags/articles" class="block center">
       <strong>
-        &gtread more
+        &gt;{{ translate .Lang
+        "read more"
+        "leer más"
+        "mehr lesen"}}
       </strong>
     </a>
     <h4>
-      my library:
+      {{ translate .Lang
+      "my library"
+      "mis libros"
+      "meine bücher"}}:
     </h4>
     <figure class="bookcover">
       <img src="/static/img/catcher_in_the_rye.jpg" alt="The Catcher in the Rye">
@@ -83,7 +101,10 @@
     </p>
     <a href="/library" class="block center">
       <strong>
-        &gtmy library
+        &gt;{{ translate .Lang
+        "my library"
+        "mis libros"
+        "meine bücher"}}
       </strong>
     </a>
   </div>

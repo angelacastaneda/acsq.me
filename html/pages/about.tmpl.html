@@ -1,11 +1,10 @@
-{{define "title"}}about{{end}}
-{{define "path"}}/about{{end}}
+{{define "title"}}{{ translate .Lang "about" "conóceme" "ich über mich"}}{{end}}
 {{define "description"}}My name is Ángel Castañeda, and I'm an undergrad student based out of Milwaukee, WI. My main field of study is actuarial science, but I like learning way more than just that.{{end}}
-{{define "keywords"}}about{{end}}
+{{define "keywords"}}{{ translate .Lang "about" "conóceme" "ich über mich"}}{{end}}
 
 {{define "main"}}
 <h2>
-  about
+  {{ translate .Lang "about" "conóceme" "ich über mich"}}
 </h2>
 <figure class="pfp">
   <img src="/static/img/cantorselfie.jpg" alt="selfie with me and dr. georg cantor" title="c = 2^{\aleph_0}">
@@ -28,8 +27,8 @@
   <li>insightful <a href="/library">books</a></li>
   <li>learning German</li>
   <li>
-    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> and random 32bit integers <details> <summary>[{{ .Int }}]</summary>
-      <p>refresh == shuffle</p> 
+    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> and random 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
+      <p><a href="https://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> == shuffle B-) 🎸</p> 
     </details>
   </li>
   <li>taking interesting <a href="/tags/photos">photos</a></li>
@@ -43,7 +42,7 @@
   everything I've been given in life so far.
 </p>
 <h4>
-  résumé:
+  {{ translate .Lang "résumé" "currículum vitae" "lebenslauf" }}:
 </h4>
 <p>
   Everyone's got theirs on their personal site, so here's <a href="/todo">mine</a>.

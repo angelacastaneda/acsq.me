@@ -1,10 +1,18 @@
-{{define "title"}}friends{{end}}
-{{define "path"}}/friends{{end}}
+{{define "title"}}
+  {{ translate .Lang
+  "friends"
+  "amigos"
+  "freunde"}}{{end}}
 {{define "description"}}Here's where I feature all my friends that have cool sites of their own.{{end}}
 {{define "keywords"}}friends{{end}}
 
 {{define "main"}}
-<h2>my friends</h2>
+<h2>
+  {{ translate .Lang
+  "my friends"
+  "mis amigos"
+  "meine freunde"}}
+</h2>
 <p>
   At least the ones cool enough to have their own sites.
 </p>

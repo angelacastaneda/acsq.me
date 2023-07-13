@@ -1,18 +1,17 @@
 {{define "title"}}{{ .Title }}{{end}}
-{{define "path"}}/posts/{{ .FileName }}{{end}}
 {{define "description"}}$description${{end}}
 {{define "keywords"}}$tags${{end}}
 
 {{define "main"}}
 <article>
-  <h2>{{ .Title }}</h2>
+  <h2>{{ .Post.Title }}</h2>
   $body$
   <time datetime="$date$"></time>
   <div class="tags">
     <h4>tags:</h4>
     <nav>
-      {{ range .Tags }}
-      <a href="/tags/{{ . }}">{{ . }}</a> <span>·</span>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag }}">{{ $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
       {{ end }}
     </nav>
   </div>

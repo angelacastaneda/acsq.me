@@ -1,11 +1,10 @@
-{{define "title"}}{{ .Title }}{{end}}
-{{define "path"}}/posts/{{ .FileName }}{{end}}
+{{define "title"}}{{ .Post.Title }}{{end}}
 {{define "description"}}Just another test thing to figure out how to iron out this tagging system{{end}}
 {{define "keywords"}}photos history{{end}}
 
 {{define "main"}}
 <article>
-  <h2>{{ .Title }}</h2>
+  <h2>{{ .Post.Title }}</h2>
   <p>paragraph 1</p>
   <h4 class="cool" id="great">this is cool</h4>
   <p class="cool">
@@ -20,7 +19,7 @@
   <div class="tags">
     <h4>tags:</h4>
     <nav>
-      {{ range .Tags }}
+      {{ range .Post.Tags }}
       <a href="/tags/{{ . }}">{{ . }}</a>
       {{ end }}
     </nav>

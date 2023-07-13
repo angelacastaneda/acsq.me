@@ -1,11 +1,10 @@
-{{define "title"}}{{ .Title }}{{end}}
-{{define "path"}}/posts/{{ .FileName }}{{end}}
+{{define "title"}}{{ .Post.Title }}{{end}}
 {{define "description"}}This is a crazy day that happened with adventures, excitement, and kitten…{{end}}
 {{define "keywords"}}history articles photos{{end}}
 
 {{define "main"}}
 <article>
-  <h2>{{ .Title }}</h2>
+  <h2>{{ .Post.Title }}</h2>
   <h1>in the beginning</h1>
   <p>palmer met kitten</p>
   <h2>so we had an adventure together…</h2>
@@ -22,7 +21,7 @@
   <div class="tags">
     <h4>tags:</h4>
     <nav>
-      {{ range .Tags }}
+      {{ range .Post.Tags }}
       <a href="/tags/{{ . }}">{{ . }}</a>
       {{ end }}
     </nav>

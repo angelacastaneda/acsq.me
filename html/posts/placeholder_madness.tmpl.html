@@ -1,11 +1,10 @@
-{{define "title"}}{{ .Title }}{{end}}
-{{define "path"}}/posts/{{ .FileName }}{{end}}
+{{define "title"}}{{ .Post.Title }}{{end}}
 {{define "description"}}This is a fake article :O{{end}}
 {{define "keywords"}}milwaukee personal{{end}}
 
 {{define "main"}}
 <article>
-  <h2>{{ .Title }}</h2>
+  <h2>{{ .Post.Title }}</h2>
   <h1 class="center">this is a test</h1>
   <p>I worked really hard to get my links working the way they’re supposed to.</p>
   <p><a href="https://j3s.sh" target="_blank" rel="noopener noreferrer">like this</a> or <a href="mailto:angel@acsq.me">this one for my email</a> or <a href="http://johnbilkey.com" target="_blank" rel="noopener noreferrer">or this one</a></p>
@@ -15,7 +14,7 @@
   <div class="tags">
     <h4>tags:</h4>
     <nav>
-      {{ range .Tags }}
+      {{ range .Post.Tags }}
       <a href="/tags/{{ . }}">{{ . }}</a>
       {{ end }}
     </nav>

@@ -1,5 +1,4 @@
 {{define "title"}}math{{end}}
-{{define "path"}}/tags/math{{end}}
 {{define "description"}}My posts related to math in some way, shape, or form.{{end}}
 {{define "keywords"}}math{{end}}
 
@@ -11,8 +10,8 @@
   All my posts tangentially related to math.
 </p>
 <ul>
-  {{ range . }}
+  {{ range .Posts -}}
   <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
-  {{ end }}
+  {{ end -}}
 </ul>
 {{end}}

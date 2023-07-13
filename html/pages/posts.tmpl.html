@@ -1,5 +1,4 @@
 {{define "title"}}posts{{end}}
-{{define "path"}}/posts{{end}}
 {{define "description"}}Here's where I post all my photos, articles, and all the rest.{{end}}
 {{define "keywords"}}posts{{end}}
 
@@ -11,19 +10,19 @@
 Here's where I post all my photos, articles, and all the rest.
 </p>
 <ul>
-  {{ range . }}
+  {{ range .Posts -}}
   <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
-  {{ end }}
+  {{ end -}}
 </ul>
 <div class="tags">
-  <h4>Search by Medium:</h4>
+  <h4>search by medium:</h4>
   <nav class="block center">
     <a href="/tags/articles">articles</a> ·
     <a href="/tags/photos">photos</a>
   </nav>
 </div>
 <div class="tags">
-<h4>Search by Topic:</h4>
+<h4>search by topic:</h4>
   <nav class="block center">
     <a href="/tags/milwaukee">milwaukee</a> ·
     <a href="/tags/math">math</a> ·
