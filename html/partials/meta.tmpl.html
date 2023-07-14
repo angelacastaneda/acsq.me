@@ -1,0 +1,9 @@
+{{ define "meta" }}
+<meta name="description" content="{{block "description" .}}ángel castañeda's personal website{{ end}}">
+<meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.{{ .Domain }}{{ .Path }}">
+<link rel="alternate" hreflang="en-US" href="https://en.{{ .Domain }}{{ .Path }}">
+<link rel="alternate" hreflang="es-US" href="https://es.{{ .Domain }}{{ .Path }}">
+<link rel="alternate" hreflang="de-DE" href="https://de.{{ .Domain }}{{ .Path }}">
+{{ end }}

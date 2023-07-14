@@ -22,12 +22,8 @@ func main() {
 	mux := http.NewServeMux()
 
   // TODO: Make cooler router
-	mux.HandleFunc("/", indexHandler)
-	mux.HandleFunc("/about", pageHandler("about"))
-	mux.HandleFunc("/library", pageHandler("library"))
-	mux.HandleFunc("/todo", pageHandler("todo"))
-	mux.HandleFunc("/friends", pageHandler("friends"))
-	mux.HandleFunc("/posts", postsPageHandler)
+	mux.HandleFunc("/", pageHandler)
+	mux.HandleFunc("/posts", pageHandler)
 	mux.HandleFunc("/posts/", postHandler)
 	mux.HandleFunc("/tags", tagHandler)
 	mux.HandleFunc("/tags/", tagHandler)

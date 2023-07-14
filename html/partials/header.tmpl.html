@@ -1,0 +1,23 @@
+{{define "header"}}
+<h1 class="center">
+  {{ translate .Lang "ángel" "ángel" "engel" }} castañeda
+</h1>
+<nav class="center">
+  <a href="/">
+    {{ translate .Lang
+    "home"
+    "inicio"
+    "start"
+    }}</a> ~
+  <a href="/posts">
+    {{ translate .Lang
+    "posts"
+    "posts"
+    "posten"}}</a> ~
+  <a href="/about">
+    {{ translate .Lang
+    "about"
+    "conóceme"
+    "über"}}</a>
+</nav>
+{{end}}

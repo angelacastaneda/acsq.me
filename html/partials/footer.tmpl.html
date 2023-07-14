@@ -1,3 +1,24 @@
-{{define "footer"}}
-<p>Cool</p>
-{{end}}
+{{ define "footer" }}
+<nav class="center">
+  <span>
+    {{ translate .Lang
+    "lang"
+    "idioma"
+    "sprache"
+    }}:
+  </span>
+  [<a href="{{ .Scheme }}://en.{{ .Domain }}{{ .Path }}">en</a>/<a href="{{ .Scheme }}://es.{{ .Domain }}{{ .Path }}">es</a>/<a href="{{ .Scheme }}://de.{{ .Domain }}{{ .Path }}">de</a>]
+  ·
+  <br class="mobile">
+  <address>
+    <span>
+      {{ translate .Lang
+      "contact"
+      "contacto"
+      "kontakt"
+      }}:
+    </span>
+    [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">pgp</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
+  </address>
+</nav>
+{{ end }}

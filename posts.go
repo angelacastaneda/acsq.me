@@ -132,7 +132,7 @@ func postsSorter(postQuant int, filterTag string) ([]Post, error) {
 
 func rockNRoll() (string, int) { // todo put this in a more sensible place
   awesomeTunes := []string{
-    // todo use better front end for youtube
+    // todo use something with less ads
     "https://youtu.be/ZV_UsQPTBy4", // "Sound and Vision" - David Bowie
     "https://youtu.be/GKdl-GCsNJ0", // "Here Comes the Sun" - The Beatles (duh)
     "https://youtu.be/ZVgHPSyEIqk", // "Let Down" - Radiohead
@@ -164,10 +164,10 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
     "https://youtu.be/Ef9zt8aCRQo", // "Here Today" - The Beach Boys
     "https://youtu.be/sDcDCZGcZj8", // "Rocky Raccoon" - The Beatles
   }
-  rando := rand.Intn(len(awesomeTunes))
-  shuffle := awesomeTunes[rando]
+  trackIndex := rand.Intn(len(awesomeTunes))
+  track := awesomeTunes[trackIndex]
 
-  return shuffle, rando
+  return track, trackIndex
 }
 
 func langFetcher(url string) string {
