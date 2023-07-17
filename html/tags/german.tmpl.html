@@ -1,0 +1,17 @@
+{{define "title"}}german{{end}}
+{{define "description"}}For my German posts.{{end}}
+{{define "keywords"}}german{{end}}
+
+{{define "main"}}
+<div class="rss">
+  <h2>german</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+</div>
+<p>
+  For my German posts.
+</p>
+<ul>
+  {{ range .Posts -}}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+  {{ end -}}
+</ul>
+{{end}}

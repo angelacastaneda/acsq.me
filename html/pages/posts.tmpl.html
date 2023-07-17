@@ -7,7 +7,7 @@
   <h2>posts</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
-Here's where I post all my photos, articles, and all the rest.
+  Here's where I post all my photos, articles, and all the rest.
 </p>
 <ul>
   {{ range .Posts -}}
@@ -22,12 +22,20 @@ Here's where I post all my photos, articles, and all the rest.
   </nav>
 </div>
 <div class="tags">
-<h4>search by topic:</h4>
+  <h4>search by topic:</h4>
   <nav class="block center">
     <a href="/tags/milwaukee">milwaukee</a> ·
     <a href="/tags/math">math</a> ·
     <a href="/tags/history">history</a> ·
     <a href="/tags/personal">personal</a>
+  </nav>
+</div>
+<div class="tags">
+  <h4>search by language:</h4>
+  <nav class="block center">
+    <a href="/tags/english">english</a> ·
+    <a href="/tags/spanish">spanish</a> ·
+    <a href="/tags/german">german</a>
   </nav>
 </div>
 {{end}}
