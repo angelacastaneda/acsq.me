@@ -196,3 +196,68 @@ func translate(lang, en, es, de string) string {
     return en
   }
 }
+
+func translateTag(lang, tagName string) string {
+  
+  tagDictionary := map[string]map[string]string{
+    // medium
+    "articles": {
+      "en-US": "articles",
+      "es-US": "artículos",
+      "de-DE": "artikel",
+    },
+    "photos": {
+      "en-US": "photos",
+      "es-US": "fotos",
+      "de-DE": "mathe",
+    },
+    // lang
+    "english": {
+      "en-US": "english",
+      "es-US": "inglés",
+      "de-DE": "englisch",
+    },
+    "spanish": {
+      "en-US": "spanish",
+      "es-US": "español",
+      "de-DE": "spanisch",
+    },
+    "german": {
+      "en-US": "german",
+      "es-US": "alemán",
+      "de-DE": "deutsch",
+    },
+    // tags
+    "math": {
+      "en-US": "math",
+      "es-US": "matemáticas",
+      "de-DE": "mathe",
+    },
+    "milwaukee": {
+      "en-US": "milwaukee",
+      "es-US": "milwaukee",
+      "de-DE": "milwaukee",
+    },
+    "history": {
+      "en-US": "history",
+      "es-US": "historia",
+      "de-DE": "geschichte",
+    },
+    "technology": {
+      "en-US": "technology",
+      "es-US": "tecnologia",
+      "de-DE": "technologie",
+    },
+    "personal": {
+      "en-US": "personal",
+      "es-US": "personal",
+      "de-DE": "persönliches",
+    },
+  } 
+
+  if tagDictionary[tagName][lang] == "" {
+    return tagName
+  }
+
+  return tagDictionary[tagName][lang]
+}

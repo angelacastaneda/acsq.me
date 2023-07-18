@@ -1,10 +1,10 @@
-{{define "title"}}articles{{end}}
+{{define "title"}}{{ translateTag .Lang "articles" }}{{end}}
 {{define "description"}}Longform text written by me.{{end}}
-{{define "keywords"}}articles{{end}}
+{{define "keywords"}}{{ translateTag .Lang "articles" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>articles</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "articles" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   Longform text written by me.

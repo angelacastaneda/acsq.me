@@ -1,10 +1,10 @@
-{{define "title"}}math{{end}}
+{{define "title"}}{{ translateTag .Lang "math" }}{{end}}
 {{define "description"}}My posts related to math in some way, shape, or form.{{end}}
-{{define "keywords"}}math{{end}}
+{{define "keywords"}}{{ translateTag .Lang "math" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>math</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "math" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   All my posts tangentially related to math.

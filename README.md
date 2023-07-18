@@ -1,4 +1,4 @@
-# personal website of ángel castañeda
+# personal website of [ángel castañeda](https://www.angel-castaneda.com)
 
 ## 
 
@@ -15,14 +15,12 @@ webserver works.
 
 * fancy error pages
 
-* MD -> html for articles
+* md -> html for articles
 
 * blog organizing w/ tagging system
 
-* https
-
 ## todo
 
-* rss feed
+* atom/rss feed
 
-* spanish and german
+* fill out spanish and german

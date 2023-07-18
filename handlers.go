@@ -87,6 +87,7 @@ func tmplBinder(files ...string) (*template.Template, error) {
   funcMap := template.FuncMap{
     "translate": translate,
     "lastOne": lastOne,
+    "translateTag": translateTag,
   }
 
   tmpl, err := template.New("noIdeaWhyThisExists").Funcs(funcMap).ParseFiles(files...)

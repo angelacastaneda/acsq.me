@@ -1,10 +1,10 @@
-{{define "title"}}history{{end}}
+{{define "title"}}{{ translateTag .Lang "history" }}{{end}}
 {{define "description"}}Anything cool related to the past I wanna talk about.{{end}}
-{{define "keywords"}}history{{end}}
+{{define "keywords"}}{{ translateTag .Lang "history" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>history</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "history" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   Anything cool related to the past I wanna talk about.

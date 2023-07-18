@@ -1,10 +1,15 @@
-{{define "title"}}posts{{end}}
+{{define "title"}}{{ translate .Lang "posts" "publicaciones" "posten"}}{{end}}
 {{define "description"}}Here's where I post all my photos, articles, and all the rest.{{end}}
-{{define "keywords"}}posts{{end}}
+{{define "keywords"}}{{ translate .Lang "posts" "publicaciones" "posten"}}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>posts</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>
+    {{ translate .Lang 
+    "posts"
+    "publicaciones"
+    "posten"}}
+  </h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   Here's where I post all my photos, articles, and all the rest.
@@ -15,27 +20,33 @@
   {{ end -}}
 </ul>
 <div class="tags">
-  <h4>search by medium:</h4>
+  <h4>
+    search by medium:
+  </h4>
   <nav class="block center">
-    <a href="/tags/articles">articles</a> ·
-    <a href="/tags/photos">photos</a>
+    <a href="/tags/articles">{{ translateTag .Lang "articles" }}</a> ·
+    <a href="/tags/photos">{{ translateTag .Lang "photos" }}</a>
   </nav>
 </div>
 <div class="tags">
-  <h4>search by topic:</h4>
+  <h4>
+    search by topic:
+  </h4>
   <nav class="block center">
-    <a href="/tags/milwaukee">milwaukee</a> ·
-    <a href="/tags/math">math</a> ·
-    <a href="/tags/history">history</a> ·
-    <a href="/tags/personal">personal</a>
+    <a href="/tags/milwaukee">{{ translateTag .Lang "milwaukee" }}</a> ·
+    <a href="/tags/math">{{ translateTag .Lang "math" }}</a> ·
+    <a href="/tags/history">{{ translateTag .Lang "history" }}</a> ·
+    <a href="/tags/personal">{{ translateTag .Lang "personal" }}</a>
   </nav>
 </div>
 <div class="tags">
-  <h4>search by language:</h4>
+  <h4>
+    search by language:
+  </h4>
   <nav class="block center">
-    <a href="/tags/english">english</a> ·
-    <a href="/tags/spanish">spanish</a> ·
-    <a href="/tags/german">german</a>
+    <a href="/tags/english">{{ translateTag .Lang "english" }}</a> ·
+    <a href="/tags/spanish">{{ translateTag .Lang "spanish" }}</a> ·
+    <a href="/tags/german">{{ translateTag .Lang "german" }}</a>
   </nav>
 </div>
 {{end}}

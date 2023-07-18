@@ -4,12 +4,18 @@
 
 {{define "main"}}
 <h2>
-  {{ translate .Lang "about" "conóceme" "ich über mich"}}
+  {{ translate .Lang
+  "about" 
+  "conóceme" 
+  "ich über mich"}}
 </h2>
 <figure class="pfp">
   <img src="/static/img/cantorselfie.jpg" alt="selfie with me and dr. georg cantor" title="c = 2^{\aleph_0}">
   <figcaption>
-    {Me}∪{Cantor}
+    &lbrace;{{ translate .Lang
+    "me" 
+    "yo" 
+    "ich"}}&rbrace;∪&lbrace;cantor&rbrace;
   </figcaption>
 </figure>
 <p>
@@ -21,14 +27,17 @@
   math is a humanity</a>.)  
 </p>
 <h4>
-  i also like...
+  {{ translate .Lang
+  "i also like"
+  "también me gusta"
+  "ich mag auch"}}...
 </h4>
 <ul>
   <li>insightful <a href="/library">books</a></li>
   <li>learning German</li>
   <li>
-    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> and random 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
-      <p><a href="https://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> == shuffle B-) 🎸</p> 
+    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by random 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
+      <p><a href="{{ .Scheme }}://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> then listenB-) 🎸</p> 
     </details>
   </li>
   <li>taking interesting <a href="/tags/photos">photos</a></li>

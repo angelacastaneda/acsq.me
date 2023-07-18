@@ -12,7 +12,7 @@
       {{ translate .Lang
       "recent photo"
       "foto reciente"
-      "neues foto"}}:
+      "aktuelles foto"}}:
     </h4>
     <figure>
       <a href="/posts/a_cool_pic">
@@ -21,7 +21,10 @@
     </figure>
     <a href="/tags/photos" class="block center">
       <strong>
-        &gt;see more
+        &gt;{{ translate .Lang
+        "see more"
+        "ver más"
+        "mehr sehen"}}
       </strong>
     </a>
     <h4>
@@ -53,26 +56,22 @@
           </a>
         </td>
       </tr>
-      <tr>
-        <td colspan="4">
-          <a href="/friends">
-            <strong>
-              &gt;{{ translate .Lang
-              "check them out"
-              "visitenlos"
-              "besuchst du diem"}}
-            </strong>
-          </a>
-        </td>
-      </tr>
     </table>
+    <a href="/friends" class="block center">
+      <strong>
+        &gt;{{ translate .Lang
+        "check them out"
+        "visitenlos"
+        "schau sie dir an"}}
+      </strong>
+    </a>
   </div>
   <div class="pane">
     <h4>
       {{ translate .Lang
       "recent articles"
-      "artículos reciente"
-      "neueste artikel"}}:
+      "artículos recientes"
+      "aktuelle artikel"}}:
     </h4>
     <ul>
       {{ range .Posts }}
@@ -90,8 +89,8 @@
     <h4>
       {{ translate .Lang
       "my library"
-      "mis libros"
-      "meine bücher"}}:
+      "mi biblioteca"
+      "meine bibliotek"}}:
     </h4>
     <figure class="bookcover">
       <img src="/static/img/catcher_in_the_rye.jpg" alt="The Catcher in the Rye">
@@ -102,7 +101,7 @@
     <a href="/library" class="block center">
       <strong>
         &gt;{{ translate .Lang
-        "my library"
+        "my books"
         "mis libros"
         "meine bücher"}}
       </strong>

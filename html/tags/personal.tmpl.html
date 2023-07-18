@@ -1,10 +1,10 @@
-{{define "title"}}personal{{end}}
+{{define "title"}}{{ translateTag .Lang "personal" }}{{end}}
 {{define "description"}}For whenever I feel compelled to share something in my life online.{{end}}
-{{define "keywords"}}personal{{end}}
+{{define "keywords"}}{{ translateTag .Lang "personal" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>personal</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "personal" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   For whenever I feel compelled to share something in my life online.

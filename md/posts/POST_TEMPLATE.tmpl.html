@@ -11,7 +11,7 @@
     <h4>tags:</h4>
     <nav>
       {{ range $index, $tag := .Post.Tags }}
-      <a href="/tags/{{ $tag }}">{{ $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      <a href="/tags/{{ $tag }}">{{ translateTag $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
       {{ end }}
     </nav>
   </div>

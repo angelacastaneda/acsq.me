@@ -1,10 +1,10 @@
-{{define "title"}}milwaukee{{end}}
+{{define "title"}}{{ translateTag .Lang "milwaukee" }}{{end}}
 {{define "description"}}Where I get to talk about the coolest city in the midwest.{{end}}
-{{define "keywords"}}milwaukee{{end}}
+{{define "keywords"}}{{ translateTag .Lang "milwaukee" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>milwaukee</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "milwaukee" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   Where I get to talk about the coolest city in the midwest.

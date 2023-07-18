@@ -1,10 +1,10 @@
-{{define "title"}}german{{end}}
+{{define "title"}}{{ translateTag .Lang "german" }}{{end}}
 {{define "description"}}For my German posts.{{end}}
-{{define "keywords"}}german{{end}}
+{{define "keywords"}}{{ translateTag .Lang "german" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>german</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateTag .Lang "german" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   For my German posts.
