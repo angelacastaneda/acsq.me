@@ -1,10 +1,16 @@
 {{define "title"}}{{ translate .Lang "homepage" "inicio" "startseite" }}{{end}}
-{{define "description"}}Thanks for visiting my site. I have a real need for sharing my time and affection toward a neat project.{{end}}
+{{define "description"}}{{ translate .Lang
+  "Hey, thanks for visiting my site. This is where I share some of what I do with my time."
+  "Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida."
+  "Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben." }}{{end}}
 {{define "keywords"}}Home{{end}}
 
 {{define "main"}}
 <p>
-  Hey, thanks for visiting my site. I'm Ángel, and this is where I share some of what I do with my time. 
+  {{ translate .Lang
+  "Hey, thanks for visiting my site. This is where I try share some of what I do with my time."
+  "Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida."
+  "Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben." }}
 </p>
 <div class="double">
   <div class="pane">
@@ -61,7 +67,7 @@
       <strong>
         &gt;{{ translate .Lang
         "check them out"
-        "visitenlos"
+        "visítelos"
         "schau sie dir an"}}
       </strong>
     </a>
@@ -96,7 +102,10 @@
       <img src="/static/img/catcher_in_the_rye.jpg" alt="The Catcher in the Rye">
     </figure>
     <p>
-      A bunch of different authors and genres I like learning and being inspired from.
+      {{ translate .Lang
+      "A bunch of different authors and genres I like learning and being inspired from."
+      "Los libros que me han inspirado y enseñedo mucho."
+      "Meine Lieblingsbücher." }}
     </p>
     <a href="/library" class="block center">
       <strong>

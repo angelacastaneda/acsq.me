@@ -209,7 +209,7 @@ func translateTag(lang, tagName string) string {
     "photos": {
       "en-US": "photos",
       "es-US": "fotos",
-      "de-DE": "mathe",
+      "de-DE": "fotos",
     },
     // lang
     "english": {

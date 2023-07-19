@@ -1,0 +1,23 @@
+{{define "title"}}{{ translateTag .Lang "technology" }}{{end}}
+{{define "description"}}{{ translate .Lang 
+  "For posts connected to tech and info affecting our lives."
+  "Para entradas sobre tecnologia y información."
+  "Für Technologie und Informatik." }}{{end}}
+{{define "keywords"}}{{ translateTag .Lang "technology" }}{{end}}
+
+{{define "main"}}
+<div class="rss">
+  <h2>{{ translateTag .Lang "technology" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+</div>
+<p>
+  {{ translate .Lang 
+  "For posts connected to tech and info affecting our lives."
+  "Para entradas sobre tecnologia y información."
+  "Für Technologie und Informatik." }}
+</p>
+<ul>
+  {{ range .Posts -}}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+  {{ end -}}
+</ul>
+{{end}}

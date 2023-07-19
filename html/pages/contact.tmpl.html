@@ -1,0 +1,24 @@
+{{define "title"}}{{ translate .Lang "contact" "contacto" "kontakt"}}{{end}}
+{{define "description"}}Here's my contact info for people wanting to connect.{{end}}
+{{define "keywords"}}{{ translate .Lang "contact" "contacto" "kontakt"}}{{end}}
+
+{{define "main"}}
+<h2>
+  {{ translate .Lang 
+  "contact"
+  "contacto"
+  "kontakt"}}
+</h2>
+<p>
+  {{ translate .Lang
+  "My email"
+  "Mi correo electronico"
+  "Meine mail adress"}}
+</p>
+<p id="email"><a href="mailto:angelaxel1420@disroot.org">angelaxel1420@disroot.org</a></p>
+<p>
+  uhhh not filled in yet.
+</p>
+<p>Here's my xmpp</p>
+<p id="xmpp"><a href="xmpp:angelaxel1420@disroot.org">angelaxel1420@disroot.org</a></p>
+{{end}}

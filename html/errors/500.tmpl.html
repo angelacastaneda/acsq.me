@@ -1,7 +1,24 @@
-{{define "title"}}internal server errors{{end}}
-{{define "description"}}HTTP 500 - Webserver not working correctly{{end}}
+{{define "title"}}{{ translate .Lang 
+                  "internal server errors"
+                  "error interno del servidor"
+                  "interner serverfehler" }}{{end}}
+{{define "description"}}HTTP 500 - {{ translate .Lang
+                                    "Server just exploded"
+                                    "El servidor se exploto"
+                                    "Server ist kaputt"}}{{end}}
 
 {{define "main"}}
-<h2>http 500: internal server errors</h2>
-<p>Server is kaputt D:</p>
+<h2>
+  http 500: 
+  {{ translate .Lang 
+  "internal server errors"
+  "error interno del servidor"
+  "interner serverfehler" }}
+</h2>
+<p>
+  {{ translate .Lang
+  "Server just exploded"
+  "El servidor se exploto"
+  "Server ist kaputt"}} D:
+</p>
 {{end}}

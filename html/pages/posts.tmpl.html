@@ -1,18 +1,24 @@
-{{define "title"}}{{ translate .Lang "posts" "publicaciones" "posten"}}{{end}}
-{{define "description"}}Here's where I post all my photos, articles, and all the rest.{{end}}
-{{define "keywords"}}{{ translate .Lang "posts" "publicaciones" "posten"}}{{end}}
+{{define "title"}}{{ translate .Lang "posts" "entradas" "posten"}}{{end}}
+{{define "description"}}{{ translate .Lang
+  "Here's all my posts from every format, topic, and language."
+  "Estas son todas mis publicaciones de mi sitio."
+  "Hier sind meine Posten."}}{{end}}
+{{define "keywords"}}{{ translate .Lang "posts" "entradas" "posten"}}{{end}}
 
 {{define "main"}}
 <div class="rss">
   <h2>
     {{ translate .Lang 
     "posts"
-    "publicaciones"
+    "entradas"
     "posten"}}
   </h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
-  Here's where I post all my photos, articles, and all the rest.
+  {{ translate .Lang
+  "Here's all my posts from every format, topic, and language."
+  "Estas son todas mis publicaciones de mi sitio."
+  "Hier sind meine Posten."}}
 </p>
 <ul>
   {{ range .Posts -}}
@@ -21,7 +27,10 @@
 </ul>
 <div class="tags">
   <h4>
-    search by medium:
+    {{ translate .Lang 
+    "search by medium"
+    "buscar por medio"
+    "nach medium suchen" }}:
   </h4>
   <nav class="block center">
     <a href="/tags/articles">{{ translateTag .Lang "articles" }}</a> ·
@@ -30,18 +39,25 @@
 </div>
 <div class="tags">
   <h4>
-    search by topic:
+    {{ translate .Lang
+    "search by topic"
+    "buscar por tema"
+    "nach thema suchen" }}:
   </h4>
   <nav class="block center">
-    <a href="/tags/milwaukee">{{ translateTag .Lang "milwaukee" }}</a> ·
-    <a href="/tags/math">{{ translateTag .Lang "math" }}</a> ·
     <a href="/tags/history">{{ translateTag .Lang "history" }}</a> ·
-    <a href="/tags/personal">{{ translateTag .Lang "personal" }}</a>
+    <a href="/tags/math">{{ translateTag .Lang "math" }}</a> ·
+    <a href="/tags/milwaukee">{{ translateTag .Lang "milwaukee" }}</a> ·
+    <a href="/tags/personal">{{ translateTag .Lang "personal" }}</a> ·
+    <a href="/tags/technology">{{ translateTag .Lang "technology" }}</a>
   </nav>
 </div>
 <div class="tags">
   <h4>
-    search by language:
+    {{ translate .Lang
+    "search by language"
+    "buscar por idioma"
+    "nach sprache suchen" }}:
   </h4>
   <nav class="block center">
     <a href="/tags/english">{{ translateTag .Lang "english" }}</a> ·
