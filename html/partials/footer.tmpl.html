@@ -7,7 +7,10 @@
     "sprache"
     }}:
   </span>
-  [<a href="{{ .Scheme }}://en.{{ .Domain }}{{ .Path }}">en</a>/<a href="{{ .Scheme }}://es.{{ .Domain }}{{ .Path }}">es</a>/<a href="{{ .Scheme }}://de.{{ .Domain }}{{ .Path }}">de</a>]
+  [<a href="
+    {{- .Scheme -}}://en.{{- .Domain -}}{{- .Path -}}
+    ">en</a>/<a href="{{- .Scheme -}}://es.{{- .Domain -}}{{- .Path -}}
+    ">es</a>/<a href="{{- .Scheme -}}://de.{{- .Domain -}}{{- .Path -}}">de</a>]
   ·
   <br class="mobile">
   <address>

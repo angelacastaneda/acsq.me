@@ -1,21 +1,25 @@
 {{define "header"}}
 <h1 class="center">:O</h1>
 <nav class="center">
-  <a href="/">
-    {{ translate .Lang
-    "home"
-    "inicio"
-    "start"
-    }}</a> ~
-  <a href="/posts">
-    {{ translate .Lang
-    "posts"
-    "entradas"
-    "posten"}}</a> ~
-  <a href="/about">
-    {{ translate .Lang
-    "about"
-    "conóceme"
-    "über"}}</a>
+  <strong>
+    <a href="/">
+      {{ translate .Lang
+      "home"
+      "inicio"
+      "start" -}}
+    </a> ~
+    <a href="/posts">
+      {{ translate .Lang
+      "posts"
+      "entradas"
+      "posten" -}}
+    </a> ~
+    <a href="/about">
+      {{ translate .Lang
+      "about"
+      "conóceme"
+      "über" -}}
+    </a>
+  </strong>
 </nav>
 {{end}}

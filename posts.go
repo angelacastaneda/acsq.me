@@ -2,6 +2,7 @@ package main
 
 import (
 	// "errors"
+	"html/template"
 	"log"
 	"math/rand"
 	"os"
@@ -186,14 +187,14 @@ func lastOne(index int, size int) bool{
   return index == size - 1
 }
 
-func translate(lang, en, es, de string) string {
+func translate(lang, en, es, de string) template.HTML {
   switch lang {
   case "es-US":
-    return es
+    return template.HTML(es)
   case "de-DE":
-    return de
+    return template.HTML(de)
   default:
-    return en
+    return template.HTML(en)
   }
 }
 
@@ -255,9 +256,81 @@ func translateTag(lang, tagName string) string {
     },
   } 
 
-  if tagDictionary[tagName][lang] == "" {
-    return tagName
+  translation, ok := tagDictionary[tagName][lang] 
+
+  if ok {
+    return translation
   }
 
-  return tagDictionary[tagName][lang]
+  return tagName
+}
+
+// type Translations struct {
+//   EnUS string
+//   EsUS string
+//   DeDE string
+// } // todo make this better
+
+func translateURL(lang, originalURL string) string {
+  // langURLs := map[string]Translations{
+  //   "about": {
+  //     EnUS: "about",
+  //     EsUS: "conoceme",
+  //     DeDE: "uber",
+  //   },
+  //   "posts": {
+  //     EnUS: "posts",
+  //     EsUS: "entradas",
+  //     DeDE: "posten",
+  //   },
+  //   "friends": {
+  //     EnUS: "friends",
+  //     EsUS: "amigos",
+  //     DeDE: "freunde",
+  //   },
+  //   "library": {
+  //     EnUS: "library",
+  //     EsUS: "biblioteca",
+  //     DeDE: "bibliotek",
+  //   },
+  // }
+  langURLs := map[string]map[string]string {
+    "about": {
+      "en-US": "about",
+      "es-US": "conoceme",
+      "de-DE": "uber",
+    },
+    "posts": {
+      "en-US": "posts",
+      "es-US": "entradas",
+      "de-DE": "posten",
+    },
+    "friends": {
+      "en-US": "friends",
+      "es-US": "amigos",
+      "de-DE": "freunde",
+    },
+    "library": {
+      "en-US": "library",
+      "es-US": "biblioteca",
+      "de-DE": "bibliotek",
+    },
+  }
+
+  switch originalURL {
+  case "about","conoceme","uber":
+    return langURLs["about"][lang]
+  case "posts","entradas","posten":
+    return langURLs["posts"][lang]
+  case "friends","amigos","freunde":
+    return langURLs["friends"][lang]
+  case "library","biblioteca","bibliotek":
+    return langURLs["library"][lang]
+  }
+
+  if langURLs[originalURL][lang] != "" {
+    return langURLs[originalURL][lang]
+  }
+
+  return originalURL
 }

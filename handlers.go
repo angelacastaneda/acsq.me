@@ -88,6 +88,7 @@ func tmplBinder(files ...string) (*template.Template, error) {
     "translate": translate,
     "lastOne": lastOne,
     "translateTag": translateTag,
+    "translateURL": translateURL,
   }
 
   tmpl, err := template.New("noIdeaWhyThisExists").Funcs(funcMap).ParseFiles(files...)
@@ -122,7 +123,7 @@ func dataFetcher(r *http.Request, postQuant int, tagFilter string) (map[string]i
     }
   }
 
-  if r.URL.Path == "/about" {
+  if r.URL.Path == "/about" || r.URL.Path == "/conoceme" || r.URL.Path == "/uber" {
     data["Song"], data["TrackIndex"] = rockNRoll()
   }
 
@@ -154,6 +155,21 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   if r.URL.Path == "/" {
     page = "index"
   }
+
+  if page != translateURL(langFetcher(r.Host), page) {
+  // if langFetcher(r.Host) != "en-US" {
+    http.Redirect(w, r, "/" + translateURL(langFetcher(r.Host), page), 302)
+    return
+    // page = translateURL("en-US", page)
+  }
+
+  if page != translateURL("en-US", page) {
+    page = translateURL("en-US", page)
+  }
+    // switch langFetcher(r.Host){
+    // case "es-US":
+    //   http.Redirect(w, r, "/" + langURLs[page][es], 302)
+    // }
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)

@@ -51,9 +51,17 @@ p {
   text-align: justify;
 }
 
+details p {
+  margin: 0em;
+}
+
 address {
   font-style: normal;
   display: inline;
+}
+
+footer a {
+  font-weight: bold;
 }
 
 article time {

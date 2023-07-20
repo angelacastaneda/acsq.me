@@ -19,12 +19,20 @@
   </figcaption>
 </figure>
 <p>
-  My name is Ángel Castañeda, and I'm an undergrad student based out of
+  {{ translate .Lang
+  `My name is Ángel Castañeda, and I'm an undergrad student based out of
   Milwaukee, WI. My main field of study is actuarial science, but I like
   learning way more than just that. Math and humanities are the coolest things
-  to learn about (but really, <a
-  href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener noreferrer">
-  math is a humanity</a>.)  
+  to learn about (but really, `  
+  `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuaria de los
+  estados unidos en Milwaukee, WI. Me encanta aprendiendo cosas nuevas como matemáticas,
+  `
+  "Hallo" }}
+  <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener noreferrer">
+  {{ translate .Lang
+  "math is a humanity"
+  "matemáticas es una humanidad"
+  "Mathe ist sehr cool"}}</a>.)
 </p>
 <h4>
   {{ translate .Lang
@@ -33,11 +41,11 @@
   "ich mag auch"}}...
 </h4>
 <ul>
-  <li>insightful <a href="/library">books</a></li>
+  <li>{{ translate .Lang `insightful <a href="/library">books</a>` `<a href="/library">libros</a> chidos` `Bücher` }} </li>
   <li>learning German</li>
   <li>
-    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by random 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
-      <p><a href="{{ .Scheme }}://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> then listenB-) 🎸</p> 
+    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
+      <p><a href="{{ .Scheme }}://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> then listen 🎸</p> 
     </details>
   </li>
   <li>taking interesting <a href="/tags/photos">photos</a></li>

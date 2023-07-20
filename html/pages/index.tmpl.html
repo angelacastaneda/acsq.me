@@ -1,16 +1,15 @@
 {{define "title"}}{{ translate .Lang "homepage" "inicio" "startseite" }}{{end}}
 {{define "description"}}{{ translate .Lang
-  "Hey, thanks for visiting my site. This is where I share some of what I do with my time."
-  "Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida."
-  "Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben." }}{{end}}
+  `Hey, thanks for visiting my site. Here's where I share some of what I do 
+  with my time.`
+  `Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero 
+  ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida.`
+  `Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben.` }}{{end}}
 {{define "keywords"}}Home{{end}}
 
 {{define "main"}}
 <p>
-  {{ translate .Lang
-  "Hey, thanks for visiting my site. This is where I try share some of what I do with my time."
-  "Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida."
-  "Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben." }}
+  {{ template "description" . }}
 </p>
 <div class="double">
   <div class="pane">
