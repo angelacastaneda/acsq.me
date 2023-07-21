@@ -43,12 +43,14 @@ Lorem ipsum dolor sit amet, qui minim labore adipisicing
   <p>
     Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint cillum sint consectetur cupidatat.
   </p>
-  <time datetime="2001-08-31">Friday, August 31, 2001</time>
+  <time datetime="2001-08-31">{{ translateDate .Lang .Post.Date }}</time>
   <div class="tags">
-    <h4>tags:</h4>
+    <h4>
+      {{ translateKeyword .Lang "tags" }}:
+    </h4>
     <nav>
       {{ range $index, $tag := .Post.Tags }}
-      <a href="/tags/{{ $tag }}">{{ translateTag $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
       {{ end }}
     </nav>
   </div>
