@@ -1,10 +1,10 @@
-{{define "title"}}{{ translateTag .Lang "photos" }}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "photos" }}{{end}}
 {{define "description"}}Photos I've taken with a camera or phone or 3ds.{{end}}
-{{define "keywords"}}{{ translateTag .Lang "photos" }}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "photos" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
-  <h2>{{ translateTag .Lang "photos" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
+  <h2>{{ translateKeyword .Lang "photos" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
   Photos I've taken with a camera or phone or 3ds.

@@ -1,25 +1,15 @@
 {{ define "footer" }}
 <nav class="center">
   <span>
-    {{ translate .Lang
-    "lang"
-    "idioma"
-    "sprache"
-    }}:
+    {{ translate .Lang "lang" "idioma" "sprache" }}:
   </span>
   [<a href="
-    {{- .Scheme -}}://en.{{- .Domain -}}{{- .Path -}}
-    ">en</a>/<a href="{{- .Scheme -}}://es.{{- .Domain -}}{{- .Path -}}
-    ">es</a>/<a href="{{- .Scheme -}}://de.{{- .Domain -}}{{- .Path -}}">de</a>]
+    {{- .Scheme -}}://en.{{- .Domain -}}{{ translateURL "en-US" .Path }} ">en</a>/<a href="{{- .Scheme -}}://es.{{- .Domain -}}{{ translateURL "es-US" .Path }} ">es</a>/<a href="{{- .Scheme -}}://de.{{- .Domain -}}{{ translateURL "de-DE" .Path }}">de</a>]
   ·
   <br class="mobile">
   <address>
     <span>
-      {{ translate .Lang
-      "contact"
-      "contacto"
-      "kontakt"
-      }}:
+      {{ translateKeyword .Lang "contact" }}:
     </span>
     [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">pgp</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
   </address>

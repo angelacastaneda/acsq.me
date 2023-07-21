@@ -1,19 +1,10 @@
-{{define "title"}}{{ translate .Lang
-                  "my friends"
-                  "mis amigos"
-                  "meine freunde"}}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "friends" }}{{end}}
 {{define "description"}}Here's where I feature all my friends that have cool sites of their own.{{end}}
-{{define "keywords"}}{{ translate .Lang
-  "my friends"
-  "mis amigos"
-  "meine freunde"}}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "friends" }}{{end}}
 
 {{define "main"}}
 <h2>
-  {{ translate .Lang
-  "my friends"
-  "mis amigos"
-  "meine freunde"}}
+  {{ translate .Lang "my friends" "mis amigos" "meine freunde" }}
 </h2>
 <p>
   At least the ones cool enough to have their own sites.

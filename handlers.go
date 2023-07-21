@@ -14,16 +14,16 @@ import (
 var (
   htmlDir = filepath.Join(".", "html") // routes to dirs
   staticDir = filepath.Join(".", "static")
-  testDomain = "localhost:4000" // todo fix this 
+  domain = "localhost:4000" // todo fix this 
   scheme = "http"
 )
 
-func httpsRedirect(w http.ResponseWriter, r *http.Request) {
+func redirectHTTPS(w http.ResponseWriter, r *http.Request) {
   target := "https://" + r.Host + r.URL.Path // todo get actual raw path too
   http.Redirect(w, r, target, 302)
 }
 
-func wwwRedirect(next http.Handler) http.Handler {
+func redirectWWW(next http.Handler) http.Handler {
   return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
     if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
       http.Redirect(w, r, scheme + "://www." + r.Host + r.RequestURI, 302)
@@ -38,7 +38,7 @@ func fancyErrorHandler(httpCode int, w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(httpCode)
 
-  tmpl, err := tmplBinder(
+  tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "partials", "error_meta" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "error_header" + tmplFileExt),
     filepath.Join(htmlDir, "errors", strconv.Itoa(httpCode) + tmplFileExt),
@@ -50,7 +50,7 @@ func fancyErrorHandler(httpCode int, w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  data, err := dataFetcher(r, -404, "")
+  data, err := fetchData(r, -404, "")
   if err != nil {
     log.Println(err.Error())
     http.Error(w,"Internal Server Error", http.StatusInternalServerError)
@@ -73,7 +73,7 @@ func doesFileExist(filePath string) bool {
   return true
 }
 
-func tmplBinder(files ...string) (*template.Template, error) {
+func bindTMPL(files ...string) (*template.Template, error) {
   for _, checkFile := range files {
     if !doesFileExist(checkFile) {
       return nil, errors.New("Template file missing " + checkFile)
@@ -87,8 +87,9 @@ func tmplBinder(files ...string) (*template.Template, error) {
   funcMap := template.FuncMap{
     "translate": translate,
     "lastOne": lastOne,
-    "translateTag": translateTag,
+    "translateKeyword": translateKeyword,
     "translateURL": translateURL,
+    "translateDate": translateDate,
   }
 
   tmpl, err := template.New("noIdeaWhyThisExists").Funcs(funcMap).ParseFiles(files...)
@@ -99,40 +100,41 @@ func tmplBinder(files ...string) (*template.Template, error) {
   return tmpl, nil
 }
 
-func dataFetcher(r *http.Request, postQuant int, tagFilter string) (map[string]interface{}, error) {
-  data := make(map[string]interface{})
+func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]interface{}, error) {
   var err error
+  lang := fetchLang(r.Host)
+  data := make(map[string]interface{})
 
-  data["Lang"] = langFetcher(r.Host)
-  data["Domain"] = testDomain 
+  data["Lang"] = lang
+  data["Domain"] = domain 
   data["Scheme"] = scheme 
 
   if postQuant != -404 { // todo undo this hack error filter
     data["Path"] = r.URL.Path
   }
 
-  data["Posts"], err = postsSorter(postQuant, tagFilter)
+  data["Posts"], err = aggregatePosts(postQuant, tagFilter)
   if err != nil {
     return data, err
   }
 
-  if strings.HasPrefix(r.URL.Path, "/posts/") && len(r.URL.Path) > len("/posts/") {
-    data["Post"], err = postFetcher(strings.TrimPrefix(r.URL.Path, "/posts/"))
+  if strings.HasPrefix(r.URL.Path, translateURL(lang, "/posts/")) && len(r.URL.Path) > len(translateURL(lang, "/posts/")) {
+    data["Post"], err = fetchPost(strings.TrimPrefix(r.URL.Path, translateURL(lang, "/posts/")))
     if err != nil {
       return data, err
     }
   }
 
-  if r.URL.Path == "/about" || r.URL.Path == "/conoceme" || r.URL.Path == "/uber" {
+  if r.URL.Path == translateURL(lang, "/about") {
     data["Song"], data["TrackIndex"] = rockNRoll()
   }
 
   return data, nil
 }
 
-func tmplServer(w http.ResponseWriter, r *http.Request, tmpl *template.Template, postQuant int, tagFilter string) {
+func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, postQuant int, tagFilter string) {
 
-  data, err := dataFetcher(r, postQuant, tagFilter)
+  data, err := fetchData(r, postQuant, tagFilter)
   if err != nil {
     log.Println(err.Error())
     fancyErrorHandler(http.StatusInternalServerError, w, r)
@@ -150,33 +152,25 @@ func tmplServer(w http.ResponseWriter, r *http.Request, tmpl *template.Template,
 func pageHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
-  page := strings.Trim(r.URL.Path,"/")
+  translatedURL := translateURL(fetchLang(r.Host), r.URL.Path)
+
+  if r.URL.Path != translatedURL {
+    http.Redirect(w, r, translatedURL, 302)
+    return
+  }
+
+  page := translateURL("en-US", r.URL.Path)
 
   if r.URL.Path == "/" {
     page = "index"
   }
-
-  if page != translateURL(langFetcher(r.Host), page) {
-  // if langFetcher(r.Host) != "en-US" {
-    http.Redirect(w, r, "/" + translateURL(langFetcher(r.Host), page), 302)
-    return
-    // page = translateURL("en-US", page)
-  }
-
-  if page != translateURL("en-US", page) {
-    page = translateURL("en-US", page)
-  }
-    // switch langFetcher(r.Host){
-    // case "es-US":
-    //   http.Redirect(w, r, "/" + langURLs[page][es], 302)
-    // }
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
     return
   }
 
-  tmpl, err := tmplBinder(
+  tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "header" + tmplFileExt),
     filepath.Join(htmlDir, "pages", page + tmplFileExt),
@@ -189,34 +183,53 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 
   switch r.URL.Path  {
   case "/":
-    tmplServer(w, r, tmpl, 3, "articles")
+    serveTMPL(w, r, tmpl, 3, "articles")
     return
-  case "/posts":
-    tmplServer(w, r, tmpl, 0, "")
+  case translateURL("en-US", "/posts"), translateURL("es-US", "/posts"), translateURL("de-DE", "/posts"): // todo make this less ugly
+    serveTMPL(w, r, tmpl, 0, "")
     return
   default:
-    tmplServer(w, r, tmpl, -1, "")
+    serveTMPL(w, r, tmpl, -1, "")
   } 
 }
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
+  
+  lang := fetchLang(r.Host)
 
-  if r.URL.Path == "/tags/" || r.URL.Path =="/tags" {
-    http.Redirect(w, r, "/posts", 302)
+  // example.org/tags/ -> example.org/posts
+  if r.URL.Path == translateURL("en-US", "/tags/") ||
+  r.URL.Path == translateURL("es-US", "/tags/") ||
+  r.URL.Path == translateURL("de-DE", "/tags/") {
+    http.Redirect(w, r, translateURL(lang, "/posts"), 302)
     return
   }
 
-  if !doesFileExist(filepath.Join(htmlDir, r.URL.Path + tmplFileExt)) {
+  urlPath := strings.Split(r.URL.Path, "/")
+
+  log.Println(urlPath[2])
+  log.Println()
+  tag := translateURL("en-US", urlPath[2])
+  log.Println(tag)
+
+  // de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
+  // example.org/tags/tag1/nonsense -> example.org/tags/tag1
+  if r.URL.Path != translateURL(lang, r.URL.Path) || len(urlPath) > 3 {
+    http.Redirect(w, r, translateURL(lang, "/tags/" + tag), 302)
+    return
+  }
+  
+  if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
     // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
-  tmpl, err := tmplBinder(
+  tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "header" + tmplFileExt),
-    filepath.Join(htmlDir, r.URL.Path + tmplFileExt), 
+    filepath.Join(htmlDir, "tags", tag + tmplFileExt), 
     filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
@@ -225,28 +238,43 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tagFilter := strings.TrimPrefix(r.URL.Path,"/tags/")
-  tmplServer(w, r, tmpl, 0, tagFilter)
+  serveTMPL(w, r, tmpl, 0, tag)
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
-  if r.URL.Path == "/posts/" || r.URL.Path == "/posts"{
-    http.Redirect(w, r, "/posts", 302)
+  lang := fetchLang(r.Host)
+
+  // example.org/posts/ -> example.org/posts
+  if r.URL.Path == translateURL("en-US", "/posts/") ||
+  r.URL.Path == translateURL("es-US", "/posts/") ||
+  r.URL.Path == translateURL("de-DE", "/posts/") {
+    http.Redirect(w, r, translateURL(lang, "/posts"), 302)
     return
   }
 
-  if !doesFileExist(filepath.Join(htmlDir, r.URL.Path + tmplFileExt)) {
+  urlPath := strings.Split(r.URL.Path, "/")
+  postsRoot := urlPath[1]
+  post := urlPath[2]
+
+  // de.example.org/entradas/post1 -> de.example.org/posten/post1
+  // example.org/posts/post1/nonsense -> example.org/posts/post1
+  if postsRoot != translateKeyword(lang, "posts") || len(urlPath) > 3 {
+    http.Redirect(w, r, translateURL(lang, "/posts/") + post, 302)
+    return
+  }
+
+  if !doesFileExist(filepath.Join(htmlDir, "posts", post + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
     // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
-  tmpl, err := tmplBinder(
+  tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "post_header" + tmplFileExt),
-    filepath.Join(htmlDir, r.URL.Path + tmplFileExt),
+    filepath.Join(htmlDir, "posts", post + tmplFileExt),
     filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
@@ -256,7 +284,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tmplServer(w, r, tmpl, -1, "")
+  serveTMPL(w, r, tmpl, -1, "")
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {

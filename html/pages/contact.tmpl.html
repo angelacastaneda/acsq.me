@@ -1,13 +1,10 @@
-{{define "title"}}{{ translate .Lang "contact" "contacto" "kontakt"}}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "contact" }}{{end}}
 {{define "description"}}Here's my contact info for people wanting to connect.{{end}}
-{{define "keywords"}}{{ translate .Lang "contact" "contacto" "kontakt"}}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "contact" }}{{end}}
 
 {{define "main"}}
 <h2>
-  {{ translate .Lang 
-  "contact"
-  "contacto"
-  "kontakt"}}
+  {{ translateKeyword .Lang "contact" }}
 </h2>
 <p>
   {{ translate .Lang
@@ -16,7 +13,7 @@
   "Meine mail adress"}}
 </p>
 <p id="email"><a href="mailto:angelaxel1420@disroot.org">angelaxel1420@disroot.org</a></p>
-<p>
+<p id="pgp">
   uhhh not filled in yet.
 </p>
 <p>Here's my xmpp</p>

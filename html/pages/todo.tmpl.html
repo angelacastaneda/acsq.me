@@ -1,10 +1,10 @@
 {{define "title"}}TODO{{end}}
 {{define "description"}}My page where I show off all the things I haven't yet done.{{end}}
-{{define "keywords"}}todo{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "todo" }}{{end}}
 
 {{define "main"}}
 <h2>
-  todo
+  {{ translateKeyword .Lang "todo" }}
 </h2>
 <p>
   Thanks to <a href="https://j3s.sh/thought/my-website-is-one-binary.html" 
@@ -21,6 +21,7 @@
 <ul class="todo">
   <li>Fill in site</li>
   <li>Fully fill in other languages</li>
+  <li><s>Multilingual urls</s></li>
   <li><s>Make tagging system</s></li>
   <li>Make RSS feed[s]</li>
   <li><s>solid look</s></li>

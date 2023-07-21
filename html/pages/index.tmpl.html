@@ -1,11 +1,11 @@
-{{define "title"}}{{ translate .Lang "homepage" "inicio" "startseite" }}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "homepage" "inicio" "startseite" }}{{end}}
 {{define "description"}}{{ translate .Lang
   `Hey, thanks for visiting my site. Here's where I share some of what I do 
   with my time.`
   `Muchas gracias por visitar mi sitio. El español fue mi primer idioma, pero 
   ahora lo hablo medio tarugo. Quiero seguir usandolo más en mi vida.`
   `Hallo. Mein Deutsch ist nicht gut. Ich will mehr Deutsch üben.` }}{{end}}
-{{define "keywords"}}Home{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "home" }}{{end}}
 
 {{define "main"}}
 <p>
@@ -95,7 +95,7 @@
       {{ translate .Lang
       "my library"
       "mi biblioteca"
-      "meine bibliotek"}}:
+      "meine bibliothek"}}:
     </h4>
     <figure class="bookcover">
       <img src="/static/img/catcher_in_the_rye.jpg" alt="The Catcher in the Rye">

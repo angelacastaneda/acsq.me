@@ -5,22 +5,13 @@
 <nav class="center">
   <strong>
     <a href="/">
-      {{ translate .Lang
-      "home"
-      "inicio"
-      "start" -}}
+      {{ translateKeyword .Lang "home" -}}
     </a> ~
     <a href="/posts">
-      {{ translate .Lang
-      "posts"
-      "entradas"
-      "posten" -}}
+      {{ translateKeyword .Lang "posts" -}}
     </a> ~
     <a href="/about">
-      {{ translate .Lang
-      "about"
-      "conóceme"
-      "über" -}}
+      {{ translateKeyword .Lang "about" -}}
     </a> 
   </strong>
 </nav>

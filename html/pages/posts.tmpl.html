@@ -1,24 +1,18 @@
-{{define "title"}}{{ translate .Lang "posts" "entradas" "posten"}}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "posts" }}{{end}}
 {{define "description"}}{{ translate .Lang
   "Here's all my posts from every format, topic, and language."
   "Estas son todas mis publicaciones de mi sitio."
   "Hier sind meine Posten."}}{{end}}
-{{define "keywords"}}{{ translate .Lang "posts" "entradas" "posten"}}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "posts" }}{{end}}
 
 {{define "main"}}
 <div class="rss">
   <h2>
-    {{ translate .Lang 
-    "posts"
-    "entradas"
-    "posten"}}
+    {{ translateKeyword .Lang "posts" }}
   </h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
 </div>
 <p>
-  {{ translate .Lang
-  "Here's all my posts from every format, topic, and language."
-  "Estas son todas mis publicaciones de mi sitio."
-  "Hier sind meine Posten."}}
+  {{ template "description" . }}
 </p>
 <ul>
   {{ range .Posts -}}
@@ -33,8 +27,8 @@
     "nach medium suchen" }}:
   </h4>
   <nav class="block center">
-    <a href="/tags/articles">{{ translateTag .Lang "articles" }}</a> ·
-    <a href="/tags/photos">{{ translateTag .Lang "photos" }}</a>
+    <a href="/tags/articles">{{ translateKeyword .Lang "articles" }}</a> ·
+    <a href="/tags/photos">{{ translateKeyword .Lang "photos" }}</a>
   </nav>
 </div>
 <div class="tags">
@@ -45,11 +39,11 @@
     "nach thema suchen" }}:
   </h4>
   <nav class="block center">
-    <a href="/tags/history">{{ translateTag .Lang "history" }}</a> ·
-    <a href="/tags/math">{{ translateTag .Lang "math" }}</a> ·
-    <a href="/tags/milwaukee">{{ translateTag .Lang "milwaukee" }}</a> ·
-    <a href="/tags/personal">{{ translateTag .Lang "personal" }}</a> ·
-    <a href="/tags/technology">{{ translateTag .Lang "technology" }}</a>
+    <a href="/tags/history">{{ translateKeyword .Lang "history" }}</a> ·
+    <a href="/tags/math">{{ translateKeyword .Lang "math" }}</a> ·
+    <a href="/tags/milwaukee">{{ translateKeyword .Lang "milwaukee" }}</a> ·
+    <a href="/tags/personal">{{ translateKeyword .Lang "personal" }}</a> ·
+    <a href="/tags/technology">{{ translateKeyword .Lang "technology" }}</a>
   </nav>
 </div>
 <div class="tags">
@@ -60,9 +54,9 @@
     "nach sprache suchen" }}:
   </h4>
   <nav class="block center">
-    <a href="/tags/english">{{ translateTag .Lang "english" }}</a> ·
-    <a href="/tags/spanish">{{ translateTag .Lang "spanish" }}</a> ·
-    <a href="/tags/german">{{ translateTag .Lang "german" }}</a>
+    <a href="/tags/english">{{ translateKeyword .Lang "english" }}</a> ·
+    <a href="/tags/spanish">{{ translateKeyword .Lang "spanish" }}</a> ·
+    <a href="/tags/german">{{ translateKeyword .Lang "german" }}</a>
   </nav>
 </div>
 {{end}}

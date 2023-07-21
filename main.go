@@ -6,9 +6,10 @@ import (
 	"net/http"
 )
 
-const (
+var (
   fullchain = "/etc/letsencrypt/live/angel-castaneda.com/fullchain.pem"
   privkey = "/etc/letsencrypt/live/angel-castaneda.com/privkey.pem"
+  langs = []string{"en-US", "es-US", "de-DE"}
 )
 
 func main() {
@@ -17,27 +18,28 @@ func main() {
 
   if *addr == ":443" {
     scheme = "https"
+    domain = "angel-castaneda.com" // todo don't hard code this
   } 
 
 	mux := http.NewServeMux()
 
   // TODO: Make cooler router
 	mux.HandleFunc("/", pageHandler)
-	mux.HandleFunc("/posts", pageHandler)
-	mux.HandleFunc("/posts/", postHandler)
-	mux.HandleFunc("/tags", tagHandler)
-	mux.HandleFunc("/tags/", tagHandler)
+  for _, lang := range langs {
+    mux.HandleFunc(translateURL(lang, "/posts"), pageHandler)
+    mux.HandleFunc(translateURL(lang, "/posts/"), postHandler)
+    mux.HandleFunc(translateURL(lang, "/tags/"), tagHandler)
+  }
 	mux.HandleFunc("/favicon.ico", faviconHandler)
-
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-  www := wwwRedirect(mux)
+  www := redirectWWW(mux)
 
   log.Printf("Starting the server on %s", *addr)
 
   if *addr == ":443" {
-    go http.ListenAndServe(":80", http.HandlerFunc(httpsRedirect))
+    go http.ListenAndServe(":80", http.HandlerFunc(redirectHTTPS))
     err := http.ListenAndServeTLS(*addr, fullchain, privkey, www) 
     log.Fatal(err)
   } else {

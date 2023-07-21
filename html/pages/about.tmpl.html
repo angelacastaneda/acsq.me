@@ -1,13 +1,10 @@
-{{define "title"}}{{ translate .Lang "about" "conóceme" "ich über mich"}}{{end}}
+{{define "title"}}{{ translateKeyword .Lang "about" }}{{end}}
 {{define "description"}}My name is Ángel Castañeda, and I'm an undergrad student based out of Milwaukee, WI. My main field of study is actuarial science, but I like learning way more than just that.{{end}}
-{{define "keywords"}}{{ translate .Lang "about" "conóceme" "ich über mich"}}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "about" }}{{end}}
 
 {{define "main"}}
 <h2>
-  {{ translate .Lang
-  "about" 
-  "conóceme" 
-  "ich über mich"}}
+  {{ translate .Lang "about me" "conóceme" "ich über mich" }}
 </h2>
 <figure class="pfp">
   <img src="/static/img/cantorselfie.jpg" alt="selfie with me and dr. georg cantor" title="c = 2^{\aleph_0}">
@@ -45,7 +42,7 @@
   <li>learning German</li>
   <li>
     <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
-      <p><a href="{{ .Scheme }}://{{ translate .Lang "www" "es" "de" }}.{{ .Domain }}{{ .Path }}">refresh</a> then listen 🎸</p> 
+      <p><a href="/about">refresh</a> then listen 🎸</p> 
     </details>
   </li>
   <li>taking interesting <a href="/tags/photos">photos</a></li>
