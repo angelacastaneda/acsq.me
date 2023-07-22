@@ -35,7 +35,7 @@ func redirectWWW(next http.Handler) http.Handler {
 }
 
 func fancyErrorHandler(httpCode int, w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
+  // w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(httpCode)
 
   tmpl, err := bindTMPL(
@@ -108,17 +108,18 @@ func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]int
   data["Lang"] = lang
   data["Domain"] = domain 
   data["Scheme"] = scheme 
+  data["Path"] = r.URL.Path
 
-  if postQuant != -404 { // todo undo this hack error filter
-    data["Path"] = r.URL.Path
-  }
+  if postQuant == -404 { // todo undo this hack error filter
+    data["Path"] = "/"
+  } 
 
   data["Posts"], err = aggregatePosts(postQuant, tagFilter)
   if err != nil {
     return data, err
   }
 
-  if strings.HasPrefix(r.URL.Path, translateURL(lang, "/posts/")) && len(r.URL.Path) > len(translateURL(lang, "/posts/")) {
+  if strings.HasPrefix(r.URL.Path, translateURL(lang, "/posts/")) && len(r.URL.Path) > len(translateURL(lang, "/posts/")) && postQuant != -404 {
     data["Post"], err = fetchPost(strings.TrimPrefix(r.URL.Path, translateURL(lang, "/posts/")))
     if err != nil {
       return data, err
@@ -137,14 +138,16 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
   data, err := fetchData(r, postQuant, tagFilter)
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // fancyErrorHandler(http.StatusInternalServerError, w, r)
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
 
   err = tmpl.ExecuteTemplate(w, "base", data)
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // fancyErrorHandler(http.StatusInternalServerError, w, r)
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
 }
@@ -167,6 +170,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
+    // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
@@ -208,18 +212,14 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 
   urlPath := strings.Split(r.URL.Path, "/")
 
-  log.Println(urlPath[2])
-  log.Println()
-  tag := translateURL("en-US", urlPath[2])
-  log.Println(tag)
-
   // de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
   // example.org/tags/tag1/nonsense -> example.org/tags/tag1
   if r.URL.Path != translateURL(lang, r.URL.Path) || len(urlPath) > 3 {
-    http.Redirect(w, r, translateURL(lang, "/tags/" + tag), 302)
+    http.Redirect(w, r, translateURL(lang, "/tags/" + urlPath[2]), 302)
     return
   }
   
+  tag := translateKeyword("en-US", urlPath[2])
   if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
     // http.Error(w,"Page Not Found", http.StatusNotFound)
@@ -234,7 +234,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // fancyErrorHandler(http.StatusInternalServerError, w, r)
+    http.Error(w,"Internal Server Error", http.StatusInternalServerError)
     return
   }
 
@@ -264,6 +265,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, translateURL(lang, "/posts/") + post, 302)
     return
   }
+
 
   if !doesFileExist(filepath.Join(htmlDir, "posts", post + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)

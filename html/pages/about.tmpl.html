@@ -23,8 +23,10 @@
   to learn about (but really, `  
   `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuaria de los
   estados unidos en Milwaukee, WI. Me encanta aprendiendo cosas nuevas como matemáticas,
+
   `
-  "Hallo" }}
+  `Hallo. Ich heiße Engel Castañeda. Ich studiere mathe in Milwaukee in die 
+  Vereinichten Staaten ` }}
   <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener noreferrer">
   {{ translate .Lang
   "math is a humanity"
@@ -38,14 +40,30 @@
   "ich mag auch"}}...
 </h4>
 <ul>
-  <li>{{ translate .Lang `insightful <a href="/library">books</a>` `<a href="/library">libros</a> chidos` `Bücher` }} </li>
-  <li>learning German</li>
+  <li>
+    {{ translate .Lang 
+    `insightful <a href="/library">books</a>` 
+    `<a href="/library">libros</a> chidos` 
+    `sehr gut <a href="/library">Bücher</a>` }} 
+  </li>
+  <li>
+    {{ translate .Lang 
+    "learning German" 
+    "aprendiendo alemán" 
+    "deutsch" }}
+  </li>
   <li>
     <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
-      <p><a href="/about">refresh</a> then listen 🎸</p> 
+      <p><a href='/about'>refresh</a> then listen 🎸</p> 
     </details>
   </li>
-  <li>taking interesting <a href="/tags/photos">photos</a></li>
+  <li>
+    {{ translate .Lang 
+    "taking interesting <a href='/tags/photos'>photos</a>" 
+    "tomando <a href='/tags/photos'>fotos</a> en mis camidas"
+    "fotographier" }}
+    
+  </li>
   <li>finding passionate, independent people</li>
   <li>becoming more independent myself</li>
 </ul>

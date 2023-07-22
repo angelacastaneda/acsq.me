@@ -34,204 +34,203 @@ func translate(lang, en, es, de string) template.HTML {
   }
 }
 
-func translateKeyword(lang, keyword string) string {
-  keywordDictionary := map[string]map[string]string{
-    /////////////// PAGES //////////////////// 
-    "home": {
-      "en-US": "home",
-      "es-US": "inicio",
-      "de-DE": "start",
-    },
-    "about": {
-      "en-US": "about",
-      "es-US": "conóceme",
-      "de-DE": "über",
-    },
-    "posts": {
-      "en-US": "posts",
-      "es-US": "entradas",
-      "de-DE": "posten",
-    },
-    "friends": {
-      "en-US": "friends",
-      "es-US": "amigos",
-      "de-DE": "freunde",
-    },
-    "library": {
-      "en-US": "library",
-      "es-US": "biblioteca",
-      "de-DE": "bibliothek",
-    },
-    "tags": {
-      "en-US": "tags",
-      "es-US": "etiquetas",
-      "de-DE": "stichwörter", 
-    },
-    "contact": {
-      "en-US": "contact",
-      "es-US": "contacto",
-      "de-DE": "kontakt", 
-    },
-    "todo": {
-      "en-US": "todo",
-      "es-US": "pendiente",
-      "de-DE": "aufgaben", 
-    },
-    //////////////// TAGS ///////////////////////
-    // medium
-    "articles": {
-      "en-US": "articles",
-      "es-US": "artículos",
-      "de-DE": "artikel",
-    },
-    "photos": {
-      "en-US": "photos",
-      "es-US": "fotos",
-      "de-DE": "fotos",
-    },
-    // lang
-    "english": {
-      "en-US": "english",
-      "es-US": "inglés",
-      "de-DE": "englisch",
-    },
-    "spanish": {
-      "en-US": "spanish",
-      "es-US": "español",
-      "de-DE": "spanisch",
-    },
-    "german": {
-      "en-US": "german",
-      "es-US": "alemán",
-      "de-DE": "deutsch",
-    },
-    // tags
-    "math": {
-      "en-US": "math",
-      "es-US": "matemáticas",
-      "de-DE": "mathe",
-    },
-    "milwaukee": {
-      "en-US": "milwaukee",
-      "es-US": "milwaukee",
-      "de-DE": "milwaukee",
-    },
-    "history": {
-      "en-US": "history",
-      "es-US": "historia",
-      "de-DE": "geschichte",
-    },
-    "technology": {
-      "en-US": "technology",
-      "es-US": "tecnologia",
-      "de-DE": "technologie",
-    },
-    "personal": {
-      "en-US": "personal",
-      "es-US": "personal",
-      "de-DE": "persönliches",
-    },
-    ///////////////// TIME ////////////////////
-    // days of week
-    "monday": {
-      "en-US": "monday",
-      "es-US": "lunes",
-      "de-DE": "montag",
-    },
-    "tuesday": {
-      "en-US": "tuesday",
-      "es-US": "martes",
-      "de-DE": "dienstag",
-    },
-    "wednesday": {
-      "en-US": "wednesday",
-      "es-US": "miércoles",
-      "de-DE": "mittwoch",
-    },
-    "thursday": {
-      "en-US": "thursday",
-      "es-US": "jueves",
-      "de-DE": "donnerstag",
-    },
-    "friday": {
-      "en-US": "friday",
-      "es-US": "viernes",
-      "de-DE": "freitag",
-    },
-    "saturday": {
-      "en-US": "saturday",
-      "es-US": "sábado",
-      "de-DE": "samstag",
-    },
-    "sunday": {
-      "en-US": "sunday",
-      "es-US": "domingo",
-      "de-DE": "sonntag",
-    },
-    // months
-    "january": {
-      "en-US": "january",
-      "es-US": "enero",
-      "de-DE": "januar",
-    },
-    "february": {
-      "en-US": "february",
-      "es-US": "febrero",
-      "de-DE": "februar",
-    },
-    "march": {
-      "en-US": "march",
-      "es-US": "marzo",
-      "de-DE": "märz",
-    },
-    "april": {
-      "en-US": "april",
-      "es-US": "abril",
-      "de-DE": "april",
-    },
-    "may": {
-      "en-US": "may",
-      "es-US": "mayo",
-      "de-DE": "mai",
-    },
-    "june": {
-      "en-US": "june",
-      "es-US": "junio",
-      "de-DE": "juni",
-    },
-    "july": {
-      "en-US": "july",
-      "es-US": "julio",
-      "de-DE": "juli",
-    },
-    "august": {
-      "en-US": "august",
-      "es-US": "agosto",
-      "de-DE": "august",
-    },
-    "september": {
-      "en-US": "september",
-      "es-US": "septiembre",
-      "de-DE": "september",
-    },
-    "october": {
-      "en-US": "october",
-      "es-US": "octubre",
-      "de-DE": "oktober",
-    },
-    "november": {
-      "en-US": "november",
-      "es-US": "noviembre",
-      "de-DE": "november",
-    },
-    "december": {
-      "en-US": "december",
-      "es-US": "diciembre",
-      "de-DE": "dezember",
-    },
-  } 
+var dictionary = buildDictionary([]map[string]string{
+  //////////////// PAGES ///////////////////////
+  {
+    "en-US": "home",
+    "es-US": "inicio",
+    "de-DE": "start",
+  }, {
+    "en-US": "about",
+    "es-US": "conóceme", // non ASCII 
+    "de-DE": "über", // non ASCII 
+  }, {
+    "en-US": "posts",
+    "es-US": "entradas",
+    "de-DE": "posten",
+  }, {
+    "en-US": "friends",
+    "es-US": "amigos",
+    "de-DE": "freunde",
+  }, {
+    "en-US": "library",
+    "es-US": "biblioteca",
+    "de-DE": "bibliothek",
+  }, {
+    "en-US": "tags",
+    "es-US": "etiquetas",
+    "de-DE": "stichwörter",  // non ASCII 
+  }, {
+    "en-US": "contact",
+    "es-US": "contacto",
+    "de-DE": "kontakt", 
+  }, {
+    "en-US": "todo",
+    "es-US": "pendiente",
+    "de-DE": "aufgaben", 
+  //////////////// TAGS ///////////////////////
+  }, { // medium
+    "en-US": "articles",
+    "es-US": "artículos", // non ASCII 
+    "de-DE": "artikel",
+  }, {
+    "en-US": "photos",
+    "es-US": "fotos",
+    "de-DE": "fotos",
+  }, { // lang
+    "en-US": "english",
+    "es-US": "inglés", // non ASCII 
+    "de-DE": "englisch",
+  }, {
+    "en-US": "spanish",
+    "es-US": "español", // non ASCII 
+    "de-DE": "spanisch",
+  }, {
+    "en-US": "german",
+    "es-US": "alemán", // non ASCII 
+    "de-DE": "deutsch",
+  }, { // tags
+    "en-US": "math",
+    "es-US": "matemáticas", // non ASCII 
+    "de-DE": "mathe",
+  }, {
+    "en-US": "milwaukee",
+    "es-US": "milwaukee",
+    "de-DE": "milwaukee",
+  }, {
+    "en-US": "history",
+    "es-US": "historia",
+    "de-DE": "geschichte",
+  }, {
+    "en-US": "technology",
+    "es-US": "tecnologia",
+    "de-DE": "technologie",
+  }, {
+    "en-US": "personal",
+    "es-US": "personal",
+    "de-DE": "persönliches", // non ASCII 
+  ///////////////// TIME ////////////////////
+  }, { // days of week
+    "en-US": "monday",
+    "es-US": "lunes",
+    "de-DE": "montag",
+  }, {
+    "en-US": "tuesday",
+    "es-US": "martes",
+    "de-DE": "dienstag",
+  }, {
+    "en-US": "wednesday",
+    "es-US": "miércoles", // non ASCII 
+    "de-DE": "mittwoch",
+  }, {
+    "en-US": "thursday",
+    "es-US": "jueves",
+    "de-DE": "donnerstag",
+  }, {
+    "en-US": "friday",
+    "es-US": "viernes",
+    "de-DE": "freitag",
+  }, {
+    "en-US": "saturday",
+    "es-US": "sábado", // non ASCII 
+    "de-DE": "samstag",
+  }, {
+    "en-US": "sunday",
+    "es-US": "domingo",
+    "de-DE": "sonntag",
+  }, { // months
+    "en-US": "january",
+    "es-US": "enero",
+    "de-DE": "januar",
+  }, {
+    "en-US": "february",
+    "es-US": "febrero",
+    "de-DE": "februar",
+  }, {
+    "en-US": "march",
+    "es-US": "marzo",
+    "de-DE": "märz", // non ASCII 
+  }, {
+    "en-US": "april",
+    "es-US": "abril",
+    "de-DE": "april",
+  }, {
+    "en-US": "may",
+    "es-US": "mayo",
+    "de-DE": "mai",
+  }, {
+    "en-US": "june",
+    "es-US": "junio",
+    "de-DE": "juni",
+  }, {
+    "en-US": "july",
+    "es-US": "julio",
+    "de-DE": "juli",
+  }, {
+    "en-US": "august",
+    "es-US": "agosto",
+    "de-DE": "august",
+  }, {
+    "en-US": "september",
+    "es-US": "septiembre",
+    "de-DE": "september",
+  }, {
+    "en-US": "october",
+    "es-US": "octubre",
+    "de-DE": "oktober",
+  }, {
+    "en-US": "november",
+    "es-US": "noviembre",
+    "de-DE": "november",
+  }, {
+    "en-US": "december",
+    "es-US": "diciembre",
+    "de-DE": "dezember",
+  },
+})
 
-  translation, ok := keywordDictionary[strings.ToLower(keyword)][lang] 
+func buildDictionary(maps []map[string]string) map[string]map[string]string {
+  rosetta := make(map[string]map[string]string)
+  for _, m := range maps {
+    for lang, translation := range m {
+      if rosetta[lang] == nil {
+        rosetta[lang] = make(map[string]string)
+      }
+      for _, word2 := range m {
+        rosetta[lang][word2] = translation
+      }
+    }
+  } 
+  return rosetta
+}
+
+func unAnglicize(word string) string {
+  authenticDictionary := map[string]string{
+    // español
+    "articulos": "artículos",
+    "conoceme": "conóceme",
+    "matematicas": "matemáticas",
+    "ingles": "inglés",
+    "espanol": "español",
+    "aleman": "alemán",
+    "miercoles": "miércoles",
+    "sabado": "sábado",
+    // deutsch
+    "ueber": "über",
+    "persoenliches": "persönliches",
+    "stichwoerter": "stichwörter",
+    "maerz": "märz",
+  }
+  
+  palabra, okey := authenticDictionary[word]
+  if okey {
+    return palabra
+  }
+  return word
+}
+
+func translateKeyword(lang, keyword string) string {
+  translation, ok := dictionary[lang][unAnglicize(strings.ToLower(keyword))]
   if ok {
     if keyword == strings.ToUpper(keyword) {
       return strings.ToUpper(translation)
@@ -241,7 +240,6 @@ func translateKeyword(lang, keyword string) string {
       return translation
     } 
   }
-
   return keyword
 }
 
@@ -277,43 +275,7 @@ func translateURL(lang, originalURL string) string {
   urlPath := strings.Split(originalURL, "/")
 
   for _, urlSlice := range urlPath[1:] {
-    switch urlSlice { // todo make something that lets keys be equal to each other to go directly from freunde -> amigos without friends middleman
-    case "math","matematicas","mathe":
-      urlSlice = anglicize(translateKeyword(lang, "math"))
-    case "articles","articulos","artikel":
-      urlSlice = anglicize(translateKeyword(lang, "articles"))
-    case "photos","fotos":
-      urlSlice = anglicize(translateKeyword(lang, "photos"))
-    case "english","ingles","englisch":
-      urlSlice = anglicize(translateKeyword(lang, "english"))
-    case "spanish","espanol","spanisch":
-      urlSlice = anglicize(translateKeyword(lang, "spanish"))
-    case "german","aleman","deutsch":
-      urlSlice = anglicize(translateKeyword(lang, "german"))
-    case "milwaukee":
-      urlSlice = anglicize(translateKeyword(lang, "milwaukee"))
-    case "history","historia","geschichte":
-      urlSlice = anglicize(translateKeyword(lang, "history"))
-    case "technology","tecnologia","technologie":
-      urlSlice = anglicize(translateKeyword(lang, "technology"))
-    case "personal","personliches":
-      urlSlice = anglicize(translateKeyword(lang, "personal"))
-    case "about","conoceme","ueber":
-      urlSlice = anglicize(translateKeyword(lang, "about"))
-    case "posts","entradas","posten":
-      urlSlice = anglicize(translateKeyword(lang, "posts"))
-    case "friends","amigos","freunde":
-      urlSlice = anglicize(translateKeyword(lang, "friends"))
-    case "library","biblioteca","bibliothek":
-      urlSlice = anglicize(translateKeyword(lang, "library"))
-    case "tags","etiquetas","stichwoerter":
-      urlSlice = anglicize(translateKeyword(lang, "tags"))
-    case "todo","pendiente","aufgaben":
-      urlSlice = anglicize(translateKeyword(lang, "todo"))
-    default:
-      urlSlice = anglicize(translateKeyword(lang, urlSlice))
-    }
-
+    urlSlice = anglicize(translateKeyword(lang, urlSlice))
     translatedURL = translatedURL + "/" + urlSlice
   }
 
