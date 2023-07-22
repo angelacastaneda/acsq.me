@@ -97,6 +97,10 @@ article time {
   font-size: 0.9em;
 }
 
+.loc {
+  width: 25%;
+}
+
 figcaption, .center {
   text-align: center;
 }
@@ -205,10 +209,13 @@ a:active, a:hover  {
   .mobile {
     display: block;
   }  
-  .bookcover, .pfp {
+  .bookcover, .pfp, .loc {
     float: none;
     margin: 1em auto;
-    width: 50%;
+    width: 60%;
+  }
+  .loc {
+    width: 75%;
   }
   .filter h4, .filter nav {
     text-align: center;
