@@ -162,10 +162,16 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  page := translateURL("en-US", r.URL.Path)
-
+  path := strings.Split(r.URL.Path, "/")
+  page := translateKeyword("en-US", path[1])
   if r.URL.Path == "/" {
     page = "index"
+  } else if len(path) == 3 && path[2] == "" {
+    http.Redirect(w, r, "/" + page, 302)
+  } else if len(path) > 2 {
+    fancyErrorHandler(http.StatusNotFound, w, r)
+    // http.Error(w,"Page Not Found", http.StatusNotFound)
+    return
   }
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {

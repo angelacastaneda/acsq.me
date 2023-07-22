@@ -31,7 +31,7 @@ img {
   margin: 0em auto;
 }
 
-details {
+.inline {
   display: inline;
 }
 
@@ -189,6 +189,11 @@ a:active, a:hover  {
   margin: 0em auto;
 }
 
+.filter h4, .filter nav {
+  text-align: left;
+  margin: 0em 0em 0em 40px;
+}
+
 .mobile {
   display: none;
 }
@@ -204,5 +209,9 @@ a:active, a:hover  {
     float: none;
     margin: 1em auto;
     width: 50%;
+  }
+  .filter h4, .filter nav {
+    text-align: center;
+    margin: 0em auto;
   }
 }

@@ -14,49 +14,52 @@
 <p>
   {{ template "description" . }}
 </p>
+<details class="filter">
+  <summary> <strong>{{ translate .Lang "filters" "filtros" "filter" }}</strong> </summary>
+  <div class="tags">
+    <h4>
+      {{ translate .Lang 
+      "search by medium"
+      "buscar por medio"
+      "nach inhalt suchen" }}:
+    </h4>
+    <nav>
+      <a href="/tags/articles">{{ translateKeyword .Lang "articles" }}</a> ·
+      <a href="/tags/photos">{{ translateKeyword .Lang "photos" }}</a>
+    </nav>
+  </div>
+  <div class="tags">
+    <h4>
+      {{ translate .Lang
+      "search by topic"
+      "buscar por tema"
+      "nach thema suchen" }}:
+    </h4>
+    <nav>
+      <a href="/tags/history">{{ translateKeyword .Lang "history" }}</a> ·
+      <a href="/tags/math">{{ translateKeyword .Lang "math" }}</a> ·
+      <a href="/tags/milwaukee">{{ translateKeyword .Lang "milwaukee" }}</a> ·
+      <a href="/tags/personal">{{ translateKeyword .Lang "personal" }}</a> ·
+      <a href="/tags/technology">{{ translateKeyword .Lang "technology" }}</a>
+    </nav>
+  </div>
+  <div class="tags">
+    <h4>
+      {{ translate .Lang
+      "search by language"
+      "buscar por idioma"
+      "nach sprache suchen" }}:
+    </h4>
+    <nav>
+      <a href="/tags/english">{{ translateKeyword .Lang "english" }}</a> ·
+      <a href="/tags/spanish">{{ translateKeyword .Lang "spanish" }}</a> ·
+      <a href="/tags/german">{{ translateKeyword .Lang "german" }}</a>
+    </nav>
+  </div>
+</details>
 <ul>
   {{ range .Posts -}}
   <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
   {{ end -}}
 </ul>
-<div class="tags">
-  <h4>
-    {{ translate .Lang 
-    "search by medium"
-    "buscar por medio"
-    "nach medium suchen" }}:
-  </h4>
-  <nav class="block center">
-    <a href="/tags/articles">{{ translateKeyword .Lang "articles" }}</a> ·
-    <a href="/tags/photos">{{ translateKeyword .Lang "photos" }}</a>
-  </nav>
-</div>
-<div class="tags">
-  <h4>
-    {{ translate .Lang
-    "search by topic"
-    "buscar por tema"
-    "nach thema suchen" }}:
-  </h4>
-  <nav class="block center">
-    <a href="/tags/history">{{ translateKeyword .Lang "history" }}</a> ·
-    <a href="/tags/math">{{ translateKeyword .Lang "math" }}</a> ·
-    <a href="/tags/milwaukee">{{ translateKeyword .Lang "milwaukee" }}</a> ·
-    <a href="/tags/personal">{{ translateKeyword .Lang "personal" }}</a> ·
-    <a href="/tags/technology">{{ translateKeyword .Lang "technology" }}</a>
-  </nav>
-</div>
-<div class="tags">
-  <h4>
-    {{ translate .Lang
-    "search by language"
-    "buscar por idioma"
-    "nach sprache suchen" }}:
-  </h4>
-  <nav class="block center">
-    <a href="/tags/english">{{ translateKeyword .Lang "english" }}</a> ·
-    <a href="/tags/spanish">{{ translateKeyword .Lang "spanish" }}</a> ·
-    <a href="/tags/german">{{ translateKeyword .Lang "german" }}</a>
-  </nav>
-</div>
 {{end}}

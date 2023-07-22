@@ -18,20 +18,22 @@
 <p>
   {{ translate .Lang
   `My name is Ángel Castañeda, and I'm an undergrad student based out of
-  Milwaukee, WI. My main field of study is actuarial science, but I like
-  learning way more than just that. Math and humanities are the coolest things
-  to learn about (but really, `  
-  `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuaria de los
-  estados unidos en Milwaukee, WI. Me encanta aprendiendo cosas nuevas como matemáticas,
-
-  `
-  `Hallo. Ich heiße Engel Castañeda. Ich studiere mathe in Milwaukee in die 
-  Vereinichten Staaten ` }}
-  <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener noreferrer">
-  {{ translate .Lang
-  "math is a humanity"
-  "matemáticas es una humanidad"
-  "Mathe ist sehr cool"}}</a>.)
+    Milwaukee, WI. My main field of study is actuarial science, but I like
+    learning way more than just that. Math and humanities are the coolest things
+    to learn about (but really, <a href="/static/files/LockhartsLament.pdf" 
+    target="_blank" rel="noopener noreferrer">math is a humanity</a>.) Most of
+    my real joy comes from talking to maniacs though.`  
+  `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuarial de 
+    los estados unidos en Milwaukee, WI. Me encanta aprender cosas nuevas como 
+    <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener 
+    noreferrer">las matemáticas</a> y la historia, pero me gusta más hablar con 
+    los extranjeros o los viejitos, especialmente si puedo practicar mi español 
+    con algien más que solo mi ma.`
+  `Hallo. Ich heiße Engel Castañeda. Ich studiere Mathe in die Vereinigten 
+    Staaten in Milwaukee, WI. Ich lerne gern neue Sachen, aber ich treffe gern 
+    tolle Leute. Ich habe Deutschland, Österreich, und die Schweiz dreimal 
+    besucht. Ich habe Cantor, Leibniz, Hilbert, und Gauß getruffen. Deutsche 
+    sind sehr cool B-)` }}
 </p>
 <h4>
   {{ translate .Lang
@@ -44,28 +46,38 @@
     {{ translate .Lang 
     `insightful <a href="/library">books</a>` 
     `<a href="/library">libros</a> chidos` 
-    `sehr gut <a href="/library">Bücher</a>` }} 
+    `sehr gute <a href="/library">Bücher</a>` }} 
   </li>
   <li>
     {{ translate .Lang 
     "learning German" 
-    "aprendiendo alemán" 
-    "deutsch" }}
+    "aprender alemán" 
+    "Deutsch" }}
   </li>
   <li>
-    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by 32bit integers <details> <summary>[{{ .TrackIndex }}]</summary>
-      <p><a href='/about'>refresh</a> then listen 🎸</p> 
+    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll</a> shuffled by 32bit integers <details class="inline"> <summary>[{{ .TrackIndex }}]</summary>
+      <p><a href='/about'>refresh</a> then listen B-)</p> 
     </details>
   </li>
   <li>
     {{ translate .Lang 
     "taking interesting <a href='/tags/photos'>photos</a>" 
-    "tomando <a href='/tags/photos'>fotos</a> en mis camidas"
-    "fotographier" }}
-    
+    "tomar <a href='/tags/photos'>fotos</a> caminando"
+    "Fotographie" }}
   </li>
-  <li>finding passionate, independent people</li>
-  <li>becoming more independent myself</li>
+  <li>
+    {{ translate .Lang
+    "finding passionate, independent people"
+    "la gente apasionada"
+    "passionierte Menschen" }}
+  </li>
+  <li>
+    {{/* god, spanish can be so concise */}}
+    {{ translate .Lang
+    "becoming more independent myself"
+    "independizarme" 
+    "Selbstständig werden" }}
+  </li>
 </ul>
 <p>
   This website is a collection of outlets for my disjointed interests.
