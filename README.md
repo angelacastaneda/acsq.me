@@ -9,10 +9,12 @@ webserver works.
 
 * real multilingual content/urls/localizations for spanish and german
 
+* atom feed
+
 * fancy error pages
 
 * md -> html for articles
 
 * blog organizing w/ tagging system
 
-* atom feed
+* gzipping

@@ -35,16 +35,14 @@ func main() {
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
-  www := redirectWWW(mux)
-
   log.Printf("Starting the server on %s", *addr)
 
   if *addr == ":443" {
     go http.ListenAndServe(":80", http.HandlerFunc(redirectHTTPS))
-    err := http.ListenAndServeTLS(*addr, fullchain, privkey, www) 
+    err := http.ListenAndServeTLS(*addr, fullchain, privkey, gzipHandler(redirectWWW(mux)))
     log.Fatal(err)
   } else {
-    err := http.ListenAndServe(*addr, www)
+    err := http.ListenAndServe(*addr, gzipHandler(redirectWWW(mux)))
     log.Fatal(err)
   }
 }
