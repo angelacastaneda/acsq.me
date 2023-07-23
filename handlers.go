@@ -17,8 +17,6 @@ import (
 var (
   htmlDir = filepath.Join(".", "html") // routes to dirs
   staticDir = filepath.Join(".", "static")
-  domain = "localhost:4000" // todo fix this 
-  scheme = "http"
 )
 
 type gzipResponseWriter struct {
@@ -46,8 +44,11 @@ func gzipHandler(next http.Handler) http.Handler {
 }
 
 func redirectHTTPS(w http.ResponseWriter, r *http.Request) {
-  target := "https://" + r.Host + r.URL.Path // todo get actual raw path too
-  http.Redirect(w, r, target, 302)
+  if r.TLS != nil {
+    http.Error(w, "HTTPS already working", http.StatusBadRequest)
+  }
+  target := "https://" + r.Host + r.RequestURI
+  http.Redirect(w, r, target, http.StatusMovedPermanently)
 }
 
 func redirectWWW(next http.Handler) http.Handler {
@@ -161,7 +162,6 @@ func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]int
 }
 
 func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, postQuant int, tagFilter string) {
-
   data, err := fetchData(r, postQuant, tagFilter)
   if err != nil {
     log.Println(err.Error())
@@ -183,7 +183,6 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
   translatedURL := translateURL(fetchLang(r.Host), r.URL.Path)
-
   if r.URL.Path != translatedURL {
     http.Redirect(w, r, translatedURL, 302)
     return
@@ -233,26 +232,23 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 func tagHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
   
+  path := strings.Split(r.URL.Path, "/")
   lang := fetchLang(r.Host)
 
   // example.org/tags/ -> example.org/posts
-  if r.URL.Path == translateURL("en-US", "/tags/") ||
-  r.URL.Path == translateURL("es-US", "/tags/") ||
-  r.URL.Path == translateURL("de-DE", "/tags/") {
+  if len(path) == 3 && path[2] == "" {
     http.Redirect(w, r, translateURL(lang, "/posts"), 302)
     return
   }
-
-  urlPath := strings.Split(r.URL.Path, "/")
+  tag := translateKeyword("en-US", path[2])
 
   // de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
   // example.org/tags/tag1/nonsense -> example.org/tags/tag1
-  if r.URL.Path != translateURL(lang, r.URL.Path) || len(urlPath) > 3 {
-    http.Redirect(w, r, translateURL(lang, "/tags/" + urlPath[2]), 302)
+  if r.URL.Path != translateURL(lang, r.URL.Path) || len(path) > 3 {
+    http.Redirect(w, r, translateURL(lang, "/tags/" + tag), 302)
     return
   }
   
-  tag := translateKeyword("en-US", urlPath[2])
   if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
     // http.Error(w,"Page Not Found", http.StatusNotFound)
@@ -280,21 +276,18 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
   lang := fetchLang(r.Host)
 
+  path := strings.Split(r.URL.Path, "/")
+  post := path[2]
   // example.org/posts/ -> example.org/posts
-  if r.URL.Path == translateURL("en-US", "/posts/") ||
-  r.URL.Path == translateURL("es-US", "/posts/") ||
-  r.URL.Path == translateURL("de-DE", "/posts/") {
+  if len(path) == 3 && path[2] == "" {
     http.Redirect(w, r, translateURL(lang, "/posts"), 302)
     return
   }
 
-  urlPath := strings.Split(r.URL.Path, "/")
-  postsRoot := urlPath[1]
-  post := urlPath[2]
 
   // de.example.org/entradas/post1 -> de.example.org/posten/post1
   // example.org/posts/post1/nonsense -> example.org/posts/post1
-  if postsRoot != translateKeyword(lang, "posts") || len(urlPath) > 3 {
+  if r.URL.Path != translateURL(lang, r.URL.Path) || len(path) > 3 {
     http.Redirect(w, r, translateURL(lang, "/posts/") + post, 302)
     return
   }
