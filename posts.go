@@ -19,7 +19,10 @@ var (
 type Post struct {
   FileName string
   Title string
+  Description string // todo make this do something
+  Content []byte // todo make this do something
   Date string
+  UpdateDate string // todo hope
   Tags []string
 }
 
@@ -27,26 +30,23 @@ func (p Post) containsTag(filterTag string) bool {
   if filterTag == "" {
     return true
   }
-
   for _, tag := range p.Tags {
     if filterTag == tag {
       return true
     }
   }
-
   return false
 }
 
-func fetchPost(postNameNoExt string) (Post, error) {
-
+func fetchPost(fileNameNoExt string) (Post, error) {
   // reading file
-  content, err := os.ReadFile(filepath.Join(postDir, postNameNoExt + tmplFileExt))
+  content, err := os.ReadFile(filepath.Join(postDir, fileNameNoExt + tmplFileExt))
   if err != nil {
     return Post{}, err
   }
 
   // getting title
-  formattedFileName := strings.ReplaceAll(postNameNoExt, "_", " ")
+  formattedFileName := strings.ReplaceAll(fileNameNoExt, "_", " ")
 
   // getting tags
   tagsPattern := regexp.MustCompile(`{{define "keywords"}}([\w\s]+){{end}}`) 
@@ -77,7 +77,7 @@ func fetchPost(postNameNoExt string) (Post, error) {
 
   // putting everything together
   return Post{
-    FileName: postNameNoExt,
+    FileName: fileNameNoExt,
     Title: formattedFileName,
     Date: date,
     Tags: tags,
