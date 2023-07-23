@@ -1,0 +1,21 @@
+{{define "title"}}{{ .Post.Title }}{{end}}
+{{define "description"}}I was walking over a bridge when I took this photo of this cool looking street. I didn’t notice the woman right away.{{end}}
+{{define "keywords"}}photos milwaukee english{{end}}
+
+{{define "main"}}
+<article>
+  <h2>{{ .Post.Title }}</h2>
+  <p><img src="https://preview.redd.it/hdnwdw6jy2f81.jpg?width=1024&amp;auto=webp&amp;v=enabled&amp;s=49a4b3cd118b59d5a59c92dd4a34740311ffa7ed" alt="photo of a woman walking beside a bright, cold street" /></p>
+  <time datetime="2022-01-31">{{ translateDate .Lang .Post.Date }}</time>
+  <div class="tags">
+    <h4>
+      {{ translateKeyword .Lang "tags" }}:
+    </h4>
+    <nav>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}

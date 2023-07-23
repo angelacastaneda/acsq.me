@@ -1,4 +1,4 @@
-{{define "title"}}{{ .Title }}{{end}}
+{{define "title"}}{{ .Post.Title }}{{end}}
 {{define "description"}}$description${{end}}
 {{define "keywords"}}$tags${{end}}
 
@@ -9,13 +9,5 @@
   <time datetime="$date$">{{ translateDate .Lang .Post.Date }}</time>
   <div class="tags">
     <h4>
-      {{ translateKeyword .Lang tags}}:
+      {{ translateKeyword .Lang "tags" }}:
     </h4>
-    <nav>
-      {{ range $index, $tag := .Post.Tags }}
-      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
-      {{ end }}
-    </nav>
-  </div>
-</article>
-{{end}}

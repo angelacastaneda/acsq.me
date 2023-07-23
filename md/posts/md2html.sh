@@ -3,6 +3,7 @@
 
 readonly POSTS_DIR="../../html/posts"
 readonly POST_TEMP="POST_TEMPLATE.tmpl.html"
+readonly IMPROV="nonsense.tmpl.html" 
 
 post=$(basename "$1" .md) 
 echo "converting $post to HTML"
@@ -12,3 +13,6 @@ pandoc -f markdown-auto_identifiers -t html --template=$POST_TEMP --wrap=none --
 
 # makes http & https links have target _blank and rel noopener noreferrer
 perl -i -0pe 's/(<\W*a\W*[^>]*href=)(["'"'"']http[s]?:\/\/[^"'"'"'>]*["'"'"'])([^>]*>)/$1$2 target="_blank" rel="noopener noreferrer"$3/g' "$POSTS_DIR/$post.tmpl.html"
+
+# improv cause of the dollar signs
+cat "$IMPROV" >> "$POSTS_DIR/$post.tmpl.html"

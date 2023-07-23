@@ -1,4 +1,5 @@
 ---
+title: EXAMPLE_POST
 date: 1865-06-19
 description: This is where you need to write a basic summary of the post you just wrote. Maybe push it off to the end.
 tags: relevant tags that apply

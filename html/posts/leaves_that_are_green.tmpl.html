@@ -1,0 +1,24 @@
+{{define "title"}}{{ .Post.Title }}{{end}}
+{{define "description"}}Took this pic on my way to university just by Lake Michigan{{end}}
+{{define "keywords"}}milwaukee photos english{{end}}
+
+{{define "main"}}
+<article>
+  <h2>{{ .Post.Title }}</h2>
+  <figure>
+    <img src="https://preview.redd.it/rgy06570s4w71.jpg?width=1024&auto=webp&v=enabled&s=6976a979db46bb48fa96e6fe61dcc6d1d2395141" alt="photo of tops of trees becoming orange" title="I was twenty-one years when I wrote this song">
+    <figcaption>Inspired by the <a href="https://youtu.be/OTlpdCPrx14" target="_blank" rel="noreferrer noopener">song</a></figcaption>
+  </figure>
+  <time datetime="2021-10-28">{{ translateDate .Lang .Post.Date }}</time>
+  <div class="tags">
+    <h4>
+      {{ translateKeyword .Lang "tags" }}:
+    </h4>
+    <nav>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}

@@ -1,0 +1,8 @@
+    <nav>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}

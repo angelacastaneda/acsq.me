@@ -9,10 +9,6 @@ webserver works.
 
 * templating html
 
-* beautiful absolute filepaths
-
-* arbitrary handlers so no .html suffix in url
-
 * fancy error pages
 
 * md -> html for articles
@@ -21,6 +17,4 @@ webserver works.
 
 ## todo
 
-* atom/rss feed
-
-* fill out spanish and german
+* atom feed
