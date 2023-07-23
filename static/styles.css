@@ -1,3 +1,31 @@
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: local('IBM Plex Mono Regular') url('/static/fonts/IBMPlexMono-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: local('IBM Plex Mono Italic') url('/static/fonts/IBMPlexMono-Italic.woff') format('woff');
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: local('IBM Plex Mono Bold') url('/static/fonts/IBMPlexMono-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: local('IBM Plex Mono Bold Italic') url('/static/fonts/IBMPlexMono-BoldItalic.woff') format('woff');
+  font-weight: bold;
+  font-style: italic;
+}
+
 :root {
   --body-color: #000000;
   --bg-color: #FFFFFF;
@@ -15,8 +43,8 @@
 }
 
 body {
-  font-family: "Fira Mono", monospace;
-  font-size: max(13pt, 100%);
+  font-family: IBMPlexMono, monospace;
+  font-size: max(15pt, 100%);
   max-width: 700px;
   margin: 0.7em auto;
   background-color: var(--bg-color);
