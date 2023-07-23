@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -293,6 +294,21 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   serveTMPL(w, r, tmpl, -1, "")
+}
+
+func feedHandler(w http.ResponseWriter, r *http.Request) {
+  w.Header().Set("Content-Type", "application/atom+xml")
+  posts, err := aggregatePosts(0, "")
+  if err != nil {
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    return
+  }
+  feed, err := generateFeed(posts)
+  if err != nil {
+    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    return
+  }
+  fmt.Fprintf(w, feed)
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {

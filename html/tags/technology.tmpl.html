@@ -6,14 +6,9 @@
 {{define "keywords"}}{{ translateKeyword .Lang "technology" }}{{end}}
 
 {{define "main"}}
-<div class="rss">
-  <h2>{{ translateKeyword .Lang "technology" }}</h2><a href="/todo"><img src="/static/img/rss.svg" alt="RSS Logo" class="rss"></a>
-</div>
+<h2>{{ translateKeyword .Lang "technology" }}</h2>
 <p>
-  {{ translate .Lang 
-  "For posts connected to tech and info affecting our lives."
-  "Para entradas sobre tecnologia y información."
-  "Für Technologie und Informatik." }}
+  {{ template "description" . }}
 </p>
 <ul>
   {{ range .Posts -}}

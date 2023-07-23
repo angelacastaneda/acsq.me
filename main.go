@@ -31,6 +31,7 @@ func main() {
     mux.HandleFunc(translateURL(lang, "/tags/"), tagHandler)
   }
 	mux.HandleFunc("/favicon.ico", faviconHandler)
+	mux.HandleFunc("/atom.xml", feedHandler)
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
