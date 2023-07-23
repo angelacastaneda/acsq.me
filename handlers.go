@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"compress/gzip"
 	"errors"
-	"fmt"
 	"html/template"
 	"io"
 	"log"
@@ -12,6 +12,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -322,12 +323,8 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
     http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
-  feed, err := generateFeed(posts)
-  if err != nil {
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-    return
-  }
-  fmt.Fprintf(w, feed)
+  feed := bytes.NewReader(generateFeed(posts))
+  http.ServeContent(w, r, "atom.xml", time.Now(), feed)
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
