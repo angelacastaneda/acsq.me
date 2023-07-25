@@ -15,15 +15,15 @@ func generateFeed(posts []Post) []byte {
   <author>
     <name>Angel Castaneda</name>
   </author>
-  <id>www.` + domain + `</id>
+  <id>https://www.` + domain + `</id>
   <updated>` + time.Now().UTC().Format("2006-01-02T15:04:05.000Z") + `</updated>`
 
   for _, post := range posts { // todo add content and summary
     entry := `
   <entry>
     <title>` + post.Title + `</title>
-    <link href="www.` + domain + `/posts/` + post.FileName + `"/>
-    <id>www.` + domain + `/posts/` + post.FileName + `</id>
+    <link href="https://www.` + domain + `/posts/` + post.FileName + `"/>
+    <id>https://www.` + domain + `/posts/` + post.FileName + `</id>
     <published>` + post.Date + `T00:00:00.000Z</published>
     <updated>` + post.Date + `T00:00:00.000Z</updated>` // todo actually add updating system.
     for _, tag := range post.Tags {
