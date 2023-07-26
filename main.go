@@ -31,9 +31,9 @@ func main() {
   // TODO: Make cooler router
 	mux.HandleFunc("/", pageHandler)
   for _, lang := range langs {
-    mux.HandleFunc(translateURL(lang, "/posts"), pageHandler)
-    mux.HandleFunc(translateURL(lang, "/posts/"), postHandler)
-    mux.HandleFunc(translateURL(lang, "/tags/"), tagHandler)
+    mux.HandleFunc(translatePath(lang, "/posts"), pageHandler)
+    mux.HandleFunc(translatePath(lang, "/posts/"), postHandler)
+    mux.HandleFunc(translatePath(lang, "/tags/"), tagHandler)
   }
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)

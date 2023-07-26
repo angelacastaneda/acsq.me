@@ -4,7 +4,7 @@
     {{ translate .Lang "lang" "idioma" "sprache" }}:
   </span>
   [<a href="
-    {{- .Scheme -}}://en.{{- .Domain -}}{{ translateURL "en-US" .Path }} ">en</a>/<a href="{{- .Scheme -}}://es.{{- .Domain -}}{{ translateURL "es-US" .Path }} ">es</a>/<a href="{{- .Scheme -}}://de.{{- .Domain -}}{{ translateURL "de-DE" .Path }}">de</a>]
+    {{- .Scheme -}}://{{- translateHost "en-US" .Domain -}}{{ translatePath "en-US" .Path }} ">en</a>/<a href="{{- .Scheme -}}://{{- translateHost "es-US" .Domain -}}{{ translatePath "es-US" .Path }} ">es</a>/<a href="{{- .Scheme -}}://{{- translateHost "de-DE" .Domain -}}{{ translatePath "de-DE" .Path }}">de</a>]
   ·
   <br class="mobile">
   <address>

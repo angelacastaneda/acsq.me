@@ -117,7 +117,8 @@ func bindTMPL(files ...string) (*template.Template, error) {
     "translate": translate,
     "lastOne": lastOne,
     "translateKeyword": translateKeyword,
-    "translateURL": translateURL,
+    "translatePath": translatePath,
+    "translateHost": translateHost,
     "translateDate": translateDate,
   }
 
@@ -135,7 +136,7 @@ func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]int
   data := make(map[string]interface{})
 
   data["Lang"] = lang
-  data["Domain"] = domain 
+  data["Domain"] = r.Host 
   data["Scheme"] = scheme 
   data["Path"] = r.URL.Path
 
@@ -148,14 +149,14 @@ func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]int
     return data, err
   }
 
-  if strings.HasPrefix(r.URL.Path, translateURL(lang, "/posts/")) && len(r.URL.Path) > len(translateURL(lang, "/posts/")) && postQuant != -404 {
-    data["Post"], err = fetchPost(strings.TrimPrefix(r.URL.Path, translateURL(lang, "/posts/")))
+  if strings.HasPrefix(r.URL.Path, translatePath(lang, "/posts/")) && len(r.URL.Path) > len(translatePath(lang, "/posts/")) && postQuant != -404 {
+    data["Post"], err = fetchPost(strings.TrimPrefix(r.URL.Path, translatePath(lang, "/posts/")))
     if err != nil {
       return data, err
     }
   }
 
-  if r.URL.Path == translateURL(lang, "/about") {
+  if r.URL.Path == translatePath(lang, "/about") {
     data["Song"], data["TrackIndex"] = rockNRoll()
   }
 
@@ -183,7 +184,7 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
 
-  translatedURL := translateURL(fetchLang(r.Host), r.URL.Path)
+  translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
   if r.URL.Path != translatedURL {
     http.Redirect(w, r, translatedURL, 302)
     return
@@ -222,7 +223,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   case "/":
     serveTMPL(w, r, tmpl, 3, "articles")
     return
-  case translateURL("en-US", "/posts"), translateURL("es-US", "/posts"), translateURL("de-DE", "/posts"): // todo make this less ugly
+  case translatePath("en-US", "/posts"), translatePath("es-US", "/posts"), translatePath("de-DE", "/posts"): // todo make this less ugly
     serveTMPL(w, r, tmpl, 0, "")
     return
   default:
@@ -238,15 +239,15 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 
   // example.org/tags/ -> example.org/posts
   if len(path) == 3 && path[2] == "" {
-    http.Redirect(w, r, translateURL(lang, "/posts"), 302)
+    http.Redirect(w, r, translatePath(lang, "/posts"), 302)
     return
   }
   tag := translateKeyword("en-US", path[2])
 
   // de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
   // example.org/tags/tag1/nonsense -> example.org/tags/tag1
-  if r.URL.Path != translateURL(lang, r.URL.Path) || len(path) > 3 {
-    http.Redirect(w, r, translateURL(lang, "/tags/" + tag), 302)
+  if r.URL.Path != translatePath(lang, r.URL.Path) || len(path) > 3 {
+    http.Redirect(w, r, translatePath(lang, "/tags/" + tag), 302)
     return
   }
   
@@ -281,15 +282,15 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   post := path[2]
   // example.org/posts/ -> example.org/posts
   if len(path) == 3 && path[2] == "" {
-    http.Redirect(w, r, translateURL(lang, "/posts"), 302)
+    http.Redirect(w, r, translatePath(lang, "/posts"), 302)
     return
   }
 
 
   // de.example.org/entradas/post1 -> de.example.org/posten/post1
   // example.org/posts/post1/nonsense -> example.org/posts/post1
-  if r.URL.Path != translateURL(lang, r.URL.Path) || len(path) > 3 {
-    http.Redirect(w, r, translateURL(lang, "/posts/") + post, 302)
+  if r.URL.Path != translatePath(lang, r.URL.Path) || len(path) > 3 {
+    http.Redirect(w, r, translatePath(lang, "/posts/") + post, 302)
     return
   }
 

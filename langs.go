@@ -270,7 +270,7 @@ func anglicize(foreign string) string {
   return domestic.String()
 }
 
-func translateURL(lang, originalURL string) string {
+func translatePath(lang, originalURL string) string {
   var translatedURL string
   urlPath := strings.Split(originalURL, "/")
 
@@ -306,5 +306,44 @@ func translateDate(lang, iso string) (string, error) {
     return formattedDate, nil
   default:
     return formattedDate, nil
+  }
+}
+
+func translateHost(lang, domain string) string {
+  subLangs := []string{"www.", "en.", "es.", "de."}
+  // localhost:4000 -> de.localhost:4000
+  // www.angel-castaneda.com -> es.angel-castaneda.com
+  // angel.localhost:8080 -> en.angel-castaneda.com
+  // en.angel.localhost:8080 -> www.angel.localhost:8080
+
+  switch lang{
+  case "en-US":
+    for _, lang := range subLangs {
+      if strings.HasPrefix(domain, lang) {
+        return strings.ReplaceAll(domain, lang, "en.")
+      }
+    }
+    return "en." + domain
+  case "es-US":
+    for _, lang := range subLangs {
+      if strings.HasPrefix(domain, lang) {
+        return strings.ReplaceAll(domain, lang, "es.")
+      }
+    }
+    return "es." + domain
+  case "de-DE":
+    for _, lang := range subLangs {
+      if strings.HasPrefix(domain, lang) {
+        return strings.ReplaceAll(domain, lang, "de.")
+      }
+    }
+    return "es." + domain
+  default:
+    for _, lang := range subLangs {
+      if strings.HasPrefix(domain, lang) {
+        return strings.ReplaceAll(domain, lang, "www.")
+      }
+    }
+    return "www." + domain
   }
 }

@@ -2,8 +2,8 @@
 <meta name="description" content="{{block "description" .}}ángel castañeda's personal website{{ end}}">
 <meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://www.{{ .Domain }}{{ translateURL "en-US" .Path }}">
-<link rel="alternate" hreflang="en-US" href="https://en.{{ .Domain }}{{ translateURL "en-US" .Path }}">
-<link rel="alternate" hreflang="es-US" href="https://es.{{ .Domain }}{{ translateURL "es-US" .Path }}">
-<link rel="alternate" hreflang="de-DE" href="https://de.{{ .Domain }}{{ translateURL "de-DE" .Path }}">
+<link rel="canonical" href="https://{{ translateHost "" .Domain }}{{ translatePath "en-US" .Path }}">
+<link rel="alternate" hreflang="en-US" href="https://{{ translateHost "en-US" .Domain }}{{ translatePath "en-US" .Path }}">
+<link rel="alternate" hreflang="es-US" href="https://{{ translateHost "es-US" .Domain }}{{ translatePath "es-US" .Path }}">
+<link rel="alternate" hreflang="de-DE" href="https://{{ translateHost "de-DE" .Domain }}{{ translatePath "de-DE" .Path }}">
 {{ end }}
