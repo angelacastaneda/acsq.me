@@ -6,6 +6,7 @@ import (
 
 // use this to check for valid feed: https://validator.w3.org/feed/
 func generateFeed(posts []Post) []byte {
+  domain := "angel-castaneda.com" // todo abstract more
   feed := `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>angel's site</title>

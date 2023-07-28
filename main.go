@@ -10,7 +10,6 @@ var (
   fullchain = "/etc/letsencrypt/live/angel-castaneda.com/fullchain.pem"
   privkey = "/etc/letsencrypt/live/angel-castaneda.com/privkey.pem"
   langs = []string{"en-US", "es-US", "de-DE"}
-  domain string
   scheme string
 )
 
@@ -20,10 +19,8 @@ func main() {
 
   if *addr == ":443" {
     scheme = "https"
-    domain = "angel-castaneda.com" // todo don't hard code this
   } else {
     scheme = "http"
-    domain = "localhost" + *addr // todo don't hard code this
   }
 
 	mux := http.NewServeMux()
