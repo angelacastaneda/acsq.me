@@ -167,18 +167,22 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
   data, err := fetchData(r, postQuant, tagFilter)
   if err != nil {
     log.Println(err.Error())
-    // fancyErrorHandler(http.StatusInternalServerError, w, r)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
     return
   }
 
-  err = tmpl.ExecuteTemplate(w, "base", data)
+  var buf bytes.Buffer
+
+  err = tmpl.ExecuteTemplate(&buf, "base", data)
   if err != nil {
     log.Println(err.Error())
-    // fancyErrorHandler(http.StatusInternalServerError, w, r)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
+
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
+  buf.WriteTo(w)
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
@@ -198,13 +202,11 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, "/" + page, 302)
   } else if len(path) > 2 {
     fancyErrorHandler(http.StatusNotFound, w, r)
-    // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
-    // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
@@ -216,7 +218,9 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    return
   }
 
   switch r.URL.Path  {
@@ -253,7 +257,6 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   
   if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
-    // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
@@ -265,8 +268,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    // fancyErrorHandler(http.StatusInternalServerError, w, r)
-    http.Error(w,"Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // http.Error(w,"Internal Server Error", http.StatusInternalServerError)
     return
   }
 
@@ -297,7 +300,6 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
   if !doesFileExist(filepath.Join(htmlDir, "posts", post + tmplFileExt)) {
     fancyErrorHandler(http.StatusNotFound, w, r)
-    // http.Error(w,"Page Not Found", http.StatusNotFound)
     return
   }
 
@@ -309,8 +311,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    // fancyErrorHandler(http.StatusInternalServerError, w, r)
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
 
@@ -318,12 +320,13 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
-  w.Header().Set("Content-Type", "application/atom+xml")
   posts, err := aggregatePosts(0, "")
   if err != nil {
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(http.StatusInternalServerError, w, r)
     return
   }
+  w.Header().Set("Content-Type", "application/atom+xml")
   feed := bytes.NewReader(generateFeed(posts))
   http.ServeContent(w, r, "atom.xml", time.Now(), feed)
 }
