@@ -223,11 +223,11 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  switch r.URL.Path  {
+  switch translatePath("en-US", r.URL.Path)  {
   case "/":
     serveTMPL(w, r, tmpl, 3, "articles")
     return
-  case translatePath("en-US", "/posts"), translatePath("es-US", "/posts"), translatePath("de-DE", "/posts"): // todo make this less ugly
+  case "/posts": 
     serveTMPL(w, r, tmpl, 0, "")
     return
   default:
