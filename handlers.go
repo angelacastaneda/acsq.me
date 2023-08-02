@@ -63,8 +63,8 @@ func redirectWWW(next http.Handler) http.Handler {
   })
 }
 
-func fancyErrorHandler(httpCode int, w http.ResponseWriter, r *http.Request) {
-  // w.Header().Set("Content-Type","text/html; charset=utf-8")
+func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
+  w.Header().Set("Content-Type","text/html; charset=utf-8")
   w.WriteHeader(httpCode)
 
   tmpl, err := bindTMPL(
@@ -79,7 +79,7 @@ func fancyErrorHandler(httpCode int, w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  data, err := fetchData(r, -404, "")
+  data, err := fetchData(r.Host, "/", -1, "")
   if err != nil {
     log.Println(err.Error())
     http.Error(w,"Internal Server Error", http.StatusInternalServerError)
@@ -130,58 +130,42 @@ func bindTMPL(files ...string) (*template.Template, error) {
   return tmpl, nil
 }
 
-func fetchData(r *http.Request, postQuant int, tagFilter string) (map[string]interface{}, error) {
+func fetchData(host string, path string, postQuant int, tagFilter string) (map[string]interface{}, error) {
   var err error
-  lang := fetchLang(r.Host)
+  lang := fetchLang(host)
   data := make(map[string]interface{})
 
   data["Lang"] = lang
-  data["Domain"] = r.Host 
+  data["Domain"] = host
   data["Scheme"] = scheme 
-  data["Path"] = r.URL.Path
-
-  if postQuant == -404 { // todo undo this hack error filter
-    data["Path"] = "/"
-  } 
-
+  data["Path"] = path
   data["Posts"], err = aggregatePosts(postQuant, tagFilter)
   if err != nil {
     return data, err
   }
 
-  if strings.HasPrefix(r.URL.Path, translatePath(lang, "/posts/")) && len(r.URL.Path) > len(translatePath(lang, "/posts/")) && postQuant != -404 {
-    data["Post"], err = fetchPost(strings.TrimPrefix(r.URL.Path, translatePath(lang, "/posts/")))
+  if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) && postQuant != -404 {
+    data["Post"], err = fetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
     if err != nil {
       return data, err
     }
   }
 
-  if r.URL.Path == translatePath(lang, "/about") {
+  if path == translatePath(lang, "/about") {
     data["Song"], data["TrackIndex"] = rockNRoll()
   }
 
   return data, nil
 }
 
-func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, postQuant int, tagFilter string) {
-  data, err := fetchData(r, postQuant, tagFilter)
-  if err != nil {
-    log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
-    return
-  }
-
+func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]interface{}) {
   var buf bytes.Buffer
-
-  err = tmpl.ExecuteTemplate(&buf, "base", data)
+  err := tmpl.ExecuteTemplate(&buf, "base", data)
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
-    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
     return
   }
-
-  w.Header().Set("Content-Type","text/html; charset=utf-8")
   buf.WriteTo(w)
 }
 
@@ -201,12 +185,12 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   } else if len(path) == 3 && path[2] == "" {
     http.Redirect(w, r, "/" + page, 302)
   } else if len(path) > 2 {
-    fancyErrorHandler(http.StatusNotFound, w, r)
+    fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
 
   if !doesFileExist(filepath.Join(htmlDir, "pages", page + tmplFileExt)) {
-    fancyErrorHandler(http.StatusNotFound, w, r)
+    fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
 
@@ -218,21 +202,26 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
     return
   }
 
+  var data map[string]interface{}
   switch translatePath("en-US", r.URL.Path)  {
   case "/":
-    serveTMPL(w, r, tmpl, 3, "articles")
-    return
+    data, err = fetchData(r.Host, r.URL.Path, 3, "articles")
   case "/posts": 
-    serveTMPL(w, r, tmpl, 0, "")
-    return
+    data, err = fetchData(r.Host, r.URL.Path, 0, "")
   default:
-    serveTMPL(w, r, tmpl, -1, "")
+    data, err = fetchData(r.Host, r.URL.Path, -1, "")
   } 
+  if err != nil {
+    log.Println(err.Error())
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
+    return
+  }
+
+  serveTMPL(w, r, tmpl, data)
 }
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
@@ -256,7 +245,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   }
   
   if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
-    fancyErrorHandler(http.StatusNotFound, w, r)
+    fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
 
@@ -268,12 +257,18 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
-    // http.Error(w,"Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
     return
   }
 
-  serveTMPL(w, r, tmpl, 0, tag)
+  data, err := fetchData(r.Host, r.URL.Path, 0, tag)
+  if err != nil {
+    log.Println(err.Error())
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
+    return
+  }
+
+  serveTMPL(w, r, tmpl, data)
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
@@ -289,7 +284,6 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-
   // de.example.org/entradas/post1 -> de.example.org/posten/post1
   // example.org/posts/post1/nonsense -> example.org/posts/post1
   if r.URL.Path != translatePath(lang, r.URL.Path) || len(path) > 3 {
@@ -297,9 +291,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-
   if !doesFileExist(filepath.Join(htmlDir, "posts", post + tmplFileExt)) {
-    fancyErrorHandler(http.StatusNotFound, w, r)
+    fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
 
@@ -311,19 +304,24 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   )
   if err != nil {
     log.Println(err.Error())
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
-    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
     return
   }
 
-  serveTMPL(w, r, tmpl, -1, "")
+  data, err := fetchData(r.Host, r.URL.Path, -1, "")
+  if err != nil {
+    log.Println(err.Error())
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
+    return
+  }
+
+  serveTMPL(w, r, tmpl, data)
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
   posts, err := aggregatePosts(0, "")
   if err != nil {
-    // http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-    fancyErrorHandler(http.StatusInternalServerError, w, r)
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
     return
   }
   w.Header().Set("Content-Type", "application/atom+xml")
