@@ -3,8 +3,12 @@
   <span>
     {{ translate .Lang "lang" "idioma" "sprache" }}:
   </span>
-  [<a href="
-    {{- .Scheme -}}://{{- translateHost "en-US" .Domain -}}{{ translatePath "en-US" .Path }} ">en</a>/<a href="{{- .Scheme -}}://{{- translateHost "es-US" .Domain -}}{{ translatePath "es-US" .Path }} ">es</a>/<a href="{{- .Scheme -}}://{{- translateHost "de-DE" .Domain -}}{{ translatePath "de-DE" .Path }}">de</a>]
+  [<a href="{{- .Scheme -}}://{{- translateHost "en-US" .Domain -}}
+    {{- translatePath "en-US" .Path }}">en</a>/<a href="
+    {{- .Scheme -}}://{{- translateHost "es-US" .Domain -}}
+    {{- translatePath "es-US" .Path }}">es</a>/<a href="
+    {{- .Scheme -}}://{{- translateHost "de-DE" .Domain -}}
+    {{- translatePath "de-DE" .Path }}">de</a>]
   ·
   <br class="mobile">
   <address>
