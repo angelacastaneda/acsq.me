@@ -140,7 +140,7 @@ func fetchData(host string, path string, postQuant int, tagFilter string) (map[s
     return data, err
   }
 
-  if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) && postQuant != -404 {
+  if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) {
     data["Post"], err = fetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
     if err != nil {
       return data, err

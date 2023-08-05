@@ -245,15 +245,20 @@ func translateKeyword(lang, keyword string) string {
 
 func anglicize(foreign string) string {
   ellisIsland := map[rune]string {
-    'á': "a",
+    // deutsch
     'ä': "ae",
+    'ö': "oe",
+    'ß': "ss",
+
+    // espanol
+    'á': "a",
     'é': "e",
     'í': "i",
     'ñ': "n",
     'ó': "o",
-    'ö': "oe",
-    'ß': "ss",
     'ú': "u",
+
+    // both
     'ü': "ue",
   }
   
@@ -311,11 +316,6 @@ func translateDate(lang, iso string) (string, error) {
 
 func translateHost(lang, domain string) string {
   subLangs := []string{"www.", "en.", "es.", "de."}
-  // localhost:4000 -> de.localhost:4000
-  // www.angel-castaneda.com -> es.angel-castaneda.com
-  // angel.localhost:8080 -> en.angel-castaneda.com
-  // en.angel.localhost:8080 -> www.angel.localhost:8080
-
   switch lang{
   case "en-US":
     for _, lang := range subLangs {
