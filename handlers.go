@@ -68,10 +68,10 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
   w.WriteHeader(httpCode)
 
   tmpl, err := bindTMPL(
+    filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "error_meta" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "error_header" + tmplFileExt),
     filepath.Join(htmlDir, "errors", strconv.Itoa(httpCode) + tmplFileExt),
-    filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())
@@ -108,10 +108,6 @@ func bindTMPL(files ...string) (*template.Template, error) {
       return nil, errors.New("Template file missing " + checkFile)
     }
   }
-  
-  files = append(files, 
-    filepath.Join(htmlDir, "base" + tmplFileExt),
-  )
 
   funcMap := template.FuncMap{
     "translate": translate,
@@ -122,7 +118,7 @@ func bindTMPL(files ...string) (*template.Template, error) {
     "translateDate": translateDate,
   }
 
-  tmpl, err := template.New("noIdeaWhyThisExists").Funcs(funcMap).ParseFiles(files...)
+  tmpl, err := template.New("notSureWhatThisDoes").Funcs(funcMap).ParseFiles(files...)
   if err != nil {
     return nil, err
   }
@@ -195,10 +191,8 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   tmpl, err := bindTMPL(
-    filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
-    filepath.Join(htmlDir, "partials", "header" + tmplFileExt),
+    filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "pages", page + tmplFileExt),
-    filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())
@@ -250,10 +244,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   tmpl, err := bindTMPL(
-    filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
-    filepath.Join(htmlDir, "partials", "header" + tmplFileExt),
+    filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "tags", tag + tmplFileExt), 
-    filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())
@@ -297,10 +289,9 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   }
 
   tmpl, err := bindTMPL(
-    filepath.Join(htmlDir, "partials", "meta" + tmplFileExt),
+    filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "post_header" + tmplFileExt),
     filepath.Join(htmlDir, "posts", post + tmplFileExt),
-    filepath.Join(htmlDir, "partials", "footer" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())

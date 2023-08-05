@@ -5,7 +5,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Angel Castaneda">
-    {{- template "meta" .}}
+    {{- block "meta" .}}
+    <meta name="description" content="{{block "description" .}}ángel castañeda's personal website{{ end}}">
+    <meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://{{ translateHost "" .Domain }}{{ translatePath "en-US" .Path }}">
+    <link rel="alternate" hreflang="en-US" href="https://{{ translateHost "en-US" .Domain }}{{ translatePath "en-US" .Path }}">
+    <link rel="alternate" hreflang="es-US" href="https://{{ translateHost "es-US" .Domain }}{{ translatePath "es-US" .Path }}">
+    <link rel="alternate" hreflang="de-DE" href="https://{{ translateHost "de-DE" .Domain }}{{ translatePath "de-DE" .Path }}">
+    {{ end }}
     <title>{{template "title" .}} - {{ translate .Lang
                                     "ángel's site"
                                     "sitio de ángel"
@@ -15,7 +23,24 @@
   </head>
   <body>
     <header>
-      {{- template "header" . -}}
+      {{- block "header" . -}}
+      <h1 class="center">
+        {{ translate .Lang "ángel's site" "sitio de ángel" "engels webseite" }}
+      </h1>
+      <nav class="center">
+        <strong>
+          <a href="/">
+            {{ translateKeyword .Lang "home" -}}
+          </a> ~
+          <a href="/posts">
+            {{ translateKeyword .Lang "posts" -}}
+          </a> ~
+          <a href="/about">
+            {{ translateKeyword .Lang "about" -}}
+          </a> 
+        </strong>
+      </nav>
+      {{ end }}
     <hr>
     </header>
     <main>
@@ -23,7 +48,27 @@
     </main>
     <footer>
       <hr>
-      {{- template "footer" . -}}
+      {{ block "footer" . }}
+        <nav class="center">
+          <span>
+            {{ translate .Lang "lang" "idioma" "sprache" }}:
+          </span>
+          [<a href="{{- .Scheme -}}://{{- translateHost "en-US" .Domain -}}
+            {{- translatePath "en-US" .Path }}">en</a>/<a href="
+            {{- .Scheme -}}://{{- translateHost "es-US" .Domain -}}
+            {{- translatePath "es-US" .Path }}">es</a>/<a href="
+            {{- .Scheme -}}://{{- translateHost "de-DE" .Domain -}}
+            {{- translatePath "de-DE" .Path }}">de</a>]
+          ·
+          <br class="mobile">
+          <address>
+            <span>
+              {{ translateKeyword .Lang "contact" }}:
+            </span>
+            [<a href="mailto:angelaxel1420@disroot.org">email</a>/<a href="/todo">pgp</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
+          </address>
+        </nav>
+      {{end}}
     </footer>
   </body>
 </html>
