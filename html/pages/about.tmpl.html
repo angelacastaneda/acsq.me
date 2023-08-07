@@ -54,10 +54,10 @@
     "aprender alemán" 
     "Deutsch" }}
   </li>
-  <li>
+  <li id="jukebox">
     <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll🎸</a> shuffled by 32bit integers <details class="inline"> <summary>[{{ .TrackIndex }}]</summary>
       <p>
-        <a href='/about'>
+        <a href="{{translatePath .Lang "/about"}}#jukebox">
           🔄</a> 
         then 
         <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">
@@ -66,7 +66,7 @@
     </details>
   </li>
   <li>
-    {{ translate .Lang 
+    {{ translateHTML .Lang 
     "taking interesting <a href='/tags/photos'>photos</a>" 
     "tomar <a href='/tags/photos'>fotos</a> caminando"
     "Fotographie" }}
