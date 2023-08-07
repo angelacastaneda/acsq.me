@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Angel Castaneda">
-    {{- block "meta" .}}
     <meta name="description" content="{{block "description" .}}ángel castañeda's personal website{{ end}}">
+    {{- block "meta" .}}
     <meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://{{ translateHost "" .Domain }}{{ translatePath "en-US" .Path }}">

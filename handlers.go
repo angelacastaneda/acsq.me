@@ -94,8 +94,8 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
   }
 }
 
-func doesFileExist(filePath string) bool {
-  info, err := os.Stat(filePath)
+func doesFileExist(pathToFile string) bool {
+  info, err := os.Stat(filepath.Clean(pathToFile))
   if err != nil || info.IsDir() {
     return false
   }
