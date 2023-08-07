@@ -5,8 +5,10 @@ description: This is where you need to write a basic summary of the post you jus
 tags: relevant tags that apply
 ---
 
-There's a predefined h2 tag with the title, so you don't need to worry about
-that. Just start typing out the post as you would.
+## title
+
+There's no longer predefined h2 tag with the title, so you need to worry about
+that. start typing out the post after you would need it.
 
 ### only use h3 on down cause h2 is reserved for that title tag
 

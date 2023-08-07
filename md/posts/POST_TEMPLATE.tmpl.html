@@ -4,7 +4,6 @@
 
 {{define "main"}}
 <article>
-  <h2>{{ .Post.Title }}</h2>
   $body$
   <time datetime="$date$">{{ translateDate .Lang .Post.Date }}</time>
   <div class="tags">
