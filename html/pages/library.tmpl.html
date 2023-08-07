@@ -128,6 +128,7 @@
   <li>Martin, George R.R. - <em>A Feast for Crows</em></li>
   <li>Martin, George R.R. - <em>A Game of Thrones</em></li>
   <li>Martin, George R.R. - <em>A Storm of Swords</em></li>
+  <!--between two intellecuals-->
   <li>Marx, Karl and Engels, Friedrich - <em>The Communist Manifesto</em></li>
   <li>Marx, Karl - <em>Das Kapital (english)</em></li>
   <li>Matheson, Richard - <em>I Am Legend</em></li>
@@ -207,7 +208,13 @@
   <li>Zweig, Stefan - <em>Shooting Stars: Ten Historic Miniatures</em></li>
   <li>Zweig, Stefan - <em>Sternstunden der Menschheit: Zwölf historische Miniaturen</em></li>
 </ul>
+<!--TODO fix email issue-->
 <p>
-  Think a book belongs here? <a href="mailto:angelaxel1420@disroot.org?subject=Book Suggestion">Evangelize it to me!</a>
+  {{ translateHTML .Lang
+  `Think a book belongs here? <a href="mailto:angelaxel1420@disroot.org?subject=Book Suggestion">Evangelize it to me</a>!`
+  `¿Tiene una recomendación paraque lea en español? <a
+  href="mailto:angelaxel1420@disroot.org?subject=Recomendación de libro">Mándame un correo electroníco</a>.`
+  `Send mir eine Buchempfehlung: 
+  <a href="mailto:angelaxel1420@disroot.org?subject=Neues Buch">Schick mir eine E-Mail</a>.` }}
 </p>
 {{end}}

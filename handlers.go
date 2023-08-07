@@ -110,8 +110,9 @@ func bindTMPL(files ...string) (*template.Template, error) {
   }
 
   funcMap := template.FuncMap{
-    "translate": translate,
     "lastOne": lastOne,
+    "translate": translate,
+    "translateHTML": translateHTML,
     "translateKeyword": translateKeyword,
     "translatePath": translatePath,
     "translateHost": translateHost,
@@ -130,11 +131,13 @@ func fetchData(host string, path string, postQuant int, tagFilter string) (map[s
   var err error
   lang := fetchLang(host)
   data := make(map[string]interface{})
+  email := "angelaxel1420@disroot.org" // for translations. todo don't just hardcode this in 
 
   data["Lang"] = lang
   data["Domain"] = host
   data["Scheme"] = scheme 
   data["Path"] = path
+  data["Email"] = email
   data["Posts"], err = aggregatePosts(postQuant, tagFilter)
   if err != nil {
     return data, err

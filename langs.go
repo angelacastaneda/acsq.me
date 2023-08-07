@@ -23,7 +23,18 @@ func lastOne(index int, size int) bool{
   return index == size - 1
 }
 
-func translate(lang, en, es, de string) template.HTML {
+func translate(lang, en, es, de string) string {
+  switch lang {
+  case "es-US":
+    return es
+  case "de-DE":
+    return de
+  default:
+    return en
+  }
+}
+
+func translateHTML(lang, en, es, de string) template.HTML {
   switch lang {
   case "es-US":
     return template.HTML(es)
