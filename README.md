@@ -7,7 +7,7 @@ webserver works.
 
 * templating html
 
-* real multilingual content/urls/localizations for spanish and german
+* real multilingual content/url localization for spanish and german
 
 * atom feed
 
@@ -18,3 +18,9 @@ webserver works.
 * blog organizing w/ tagging system
 
 * gzipping
+
+## todo
+
+* native go md -> html
+
+* sqlite server
