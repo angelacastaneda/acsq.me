@@ -163,6 +163,7 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
     "https://youtu.be/gl4lvJmvqQU", // "Happiness Is Easy" - Talk Talk
     "https://youtu.be/Ef9zt8aCRQo", // "Here Today" - The Beach Boys
     "https://youtu.be/sDcDCZGcZj8", // "Rocky Raccoon" - The Beatles
+    "https://youtu.be/CHLQs6u9wXw", // "Here There and Everywhere" - The Beatles (best cover of the song)
   }
   trackIndex := rand.Intn(len(awesomeTunes))
   track := awesomeTunes[trackIndex]
