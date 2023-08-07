@@ -39,6 +39,7 @@
   --bg-color: #FFFFFF;
   --hyperblue: #005F87;
   --hoverorange: #D75F00;
+  --bg-code: #06363b;
 }
 
 @media (prefers-color-scheme:dark) {
@@ -68,16 +69,26 @@ img {
   margin: 0em auto;
 }
 
-.inline {
-  display: inline;
-}
-
 li * {
   vertical-align: text-top;
 }
 
 p {
   text-align: justify;
+}
+
+figure {
+  margin: 1em auto;
+}
+
+.code { /* really gotta get syntax highlighting */
+  color: #FFFFFF;
+  font-size: 0.7em;
+  margin: 1em;
+  padding: 0.5em;
+  background: var(--bg-code);
+  border: 2px solid grey;
+  border-radius: 5px;
 }
 
 details p {
@@ -97,6 +108,10 @@ article time {
   text-align: right;
   display: block;
   font-style: italic;
+}
+
+.inline {
+  display: inline;
 }
 
 .bookcover {
@@ -183,7 +198,7 @@ a:active, a:hover  {
   color: var(--hoverorange);
 }
 
-.library em, .todo s, .orange {
+.library em, .todo s, .hl {
   color: var(--hoverorange);
 }
 

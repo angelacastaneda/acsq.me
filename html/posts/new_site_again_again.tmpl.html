@@ -1,0 +1,218 @@
+{{define "title"}}{{ .Post.Title }}{{end}}
+{{define "description"}}Justifying why I spent two months remaking my site as a cover to learn go.{{end}}
+{{define "keywords"}}technology english articles{{end}}
+
+{{define "main"}}
+<article>
+  <h2>
+    new site... again
+  </h2>
+  
+  <p>
+    You think by this point I’d stop making such a hassle out of this, but no.
+    I completely scrapped my site I just made in the spring over the past two 
+    months.
+  </p>
+  
+  <p>
+    The reason I destroyed it this time had nothing to do with bad design. Don’t get me wrong, it was kinda weird
+    looking for sure, but I enjoyed tinkering around with this tag or that. My main issue was I was expecting too much
+    from plain html files.
+  </p>
+
+  <h3>
+    the struggle
+  </h3>
+  
+  <p>
+    Most of my site design back in March and April was just vim (then eventually sed/regex) practice to see how
+    efficiently I could change the exact same header fifteen times if I ended up changing a tag or two. I wanted cool
+    features like article tagging and clever meta head stuff but by far the most cumbersome was multilingual content…
+  </p>
+  
+  <p>
+    This was definitely the biggest issue I had, so I wanna show my hack solution to dealing with it. Here’s how I’d
+    handle the html for my intro:
+  </p>
+  
+  <pre class="code"><code><strong>file: index.html</strong><hr>&lt;!doctype html&gt;
+&lt;html lang="en-US"&gt;
+  ...
+  &lt;h4 class="hl center"&gt;
+    &lt;span lang="en-US" xml:lang="en-US"&gt;Welcome to my site&lt;/span&gt;
+    &lt;span lang="es-US" xml:lang="es-US"&gt;Bienvenidos a mi sitio&lt;/span&gt;
+    &lt;span lang="de-DE" xml:lang="de-DE"&gt;Willkommen auf meiner Webseite&lt;/span&gt;
+  &lt;/h4&gt;
+  ...
+&lt;/html&gt;</code></pre>
+  
+  <p>
+    Then I had this rule in my css:
+  </p>
+  
+  <pre class="code"><code><strong>file: styles.css</strong><hr>/* what makes multilingual tags work */
+html:not([lang="en-US"]) :lang(en-US),
+html:not([lang="es-US"]) :lang(es-US),
+html:not([lang="de-DE"]) :lang(de-DE) {
+  display: none!important;
+}</code></pre>
+  
+  <p>
+    It was a pretty clever solution. I could just change the lang of the &lt;html&gt; tag itself as a switch for all my
+    spans. The source was a real mess, and chrome offering google translate would break the site, but it worked normally
+    besides those mishaps. The real issue was thinking this was a healthy way to write up a site.
+  </p>
+  
+  <p>
+    It didn’t take long before I burnt out writing it all by hand, so I stitched up html fragments into full files with a
+    shell script, but as long as I had to serve singular, static files, it was always gonna feel more like gluing a ransom
+    note than making a proper templating system.
+  </p>
+  
+  <figure>
+      <img src="/static/img/ransom_note.webp" alt="ransom note">
+      <figcaption>The culmination of my html scripting</figcaption>
+  </figure>
+
+  <h3>
+    a new way forward?
+  </h3>
+  
+  <p>
+    It was bad enough that I was just gonna move to some premade
+    <a href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">hugo</a> solution when I found <a
+      href="https://j3s.sh/thought/my-website-is-one-binary.html" target="_blank" rel="noopener noreferrer">this
+      article</a>
+    that evangelized the power and simplicity of dynamic sites, specifically with Go.
+  </p>
+  
+  <p>
+    It seems as good a thing as any to learn, so I learned go’s funny syntactic slang like std, pkg, and fmt (no YHWH
+    yet.) It took very little time to figure out its power not just as a templating engine but also exposing to me what my
+    reverse proxy, <a href="https://nginx.org/" target="_blank" rel="noopener noreferrer">nginx</a>, was doing the whole
+    time serving particular domains by reading requests and writing responses.
+  </p>
+
+  <h3>
+    why dynamic is better
+  </h3>
+  
+  <p>
+    A good analogy that helped me understand the power of dynamic sites is cassette tapes. My weird systems I devised to
+    generate html files were me cutting up a bunch of riffs and drum solos and gluing them together into one long tape to
+    be read by a deck for some ’80s kid to enjoy.
+  </p>
+  
+  <p>
+    Dynamic sites are like those
+    <a href="https://www.youtube.com/shorts/_53MotXGiZc" target="_blank" rel="noopener noreferrer">digital to cassette
+      converters</a> people get for cars too old to have cd players or aux. They don’t really have any magnetic tape and
+    instead have a beam where the read head is to trick a cassette player into thinking it’s reading real tape, so you can
+    play anything arbitrarily.
+  </p>
+
+  <figure>
+    <img src="/static/img/cassette.jpg" alt="cassette tape held up in front of a car stereo system">
+    <figcaption>A static file, ready to serve</figcaption>
+  </figure>
+  
+  <p>
+    I do wanna show off the templating system (that hugo uses too) cause I think it’s real neat. Here’s a lang aware func
+    I made for the site in action:
+  </p>
+  
+  <pre class="code"><code><strong>file: index.tmpl.html</strong><hr>&lt;!doctype html&gt;
+&lt;html lang="en-US"&gt;
+  ...
+  &lt;h4 class="hl center"&gt;
+    {{ "{{" }} translate .Lang
+    "Welcome to my site"
+    "Bienvenidos a mi sitio"
+    "Willkommen auf meiner Webseite" {{ "}}" }}
+  &lt;/h4&gt;
+  ...
+&lt;/html&gt;</code></pre>
+  
+  <p id="demo">
+    An here's a live demo (+ dynamic lang buttons):
+  </p>
+
+  
+  <h4 class="hl center">
+    {{ translate .Lang
+    "Welcome to my site"
+    "Bienvenidos a mi sitio"
+    "Willkommen auf meiner Webseite"}}
+  </h4>
+
+  <nav class="center">
+    <strong>
+      <a href="{{.Scheme}}://{{translateHost "en-US" .Domain}}{{translatePath "en-US" .Path}}#demo">{{translateKeyword .Lang "english"}}</a>
+      <a href="{{.Scheme}}://{{translateHost "es-US" .Domain}}{{translatePath "es-US" .Path}}#demo">{{translateKeyword .Lang "spanish"}}</a>
+      <a href="{{.Scheme}}://{{translateHost "de-DE" .Domain}}{{translatePath "de-DE" .Path}}#demo">{{translateKeyword .Lang "german"}}</a>
+    </strong>
+  </nav>
+  
+  <h3>
+    simplicity is the best extensibility
+  </h3>
+
+  <p>
+    The coolest part isn’t even go's http package or insane template engine. 
+    Dynamic stuff such as having language specific urls is great, but it 
+    wouldn't have been possible if it didn't make any sense to me.
+  </p>
+
+  <p>
+    The entire flow of control is self-written and, more importantly,
+    <em>self-understood</em>. Making your own handlers and router may seem hard
+    at first, but it's so much easier than messing around with config files in
+    reverse proxies like nginx or apache you don't understand in the first
+    place. Extensibility matters way less than comprehension. In fact, I'd argue 
+    you can't really utilize the former without the latter. Otherwise all you're
+    gonna do is shrug your shoulders, copy a bunch of code, and pretend you
+    know what's going on.
+  </p>
+
+  <h3>final thoughts</h3>
+
+  <p>
+    Static sites are cool. There's a real charm in being able to set up a site
+    in three minutes and knowing that the url bar actually represents the
+    directory structure on the server itself. But they're too restricive for me
+    to enjoy using them anymore. Writing my site in go was a fun way to stretch
+    out my feature set without having to use a godless flask/node/ruby on rails
+    webstack hosted on AWS/azure/google cloud.
+  </p>
+  
+  <p>
+    There’s still things I need to change like make a better md-&gt;html
+    system and move to a sqlite server cause constantly parsing files
+    for tags is painful, but after many months of writing angel-castaneda.com,
+    I finally feel like I’ve made something I can be proud of.
+  </p>
+  
+  <p>
+    Thanks again to
+    <a href="https://j3s.sh" target="_blank" rel="noopener noreferrer">jes</a> 
+    for helping me to say no to big, clunky frameworks, dynamic or not. I also 
+    wanna thank my friend <a href="https://www.alexscerba.com" target="_blank"
+    rel="noopener noreferrer">Alex</a> for helping me make my original site 
+    back in 2021 as well as coding with me this summer to become 
+    <em>dynamic</em>.
+  </p>
+
+  <time datetime="2023-08-07">{{ translateDate .Lang .Post.Date }}</time>
+
+  <div class="tags">
+    <h4>
+      {{ translateKeyword .Lang "tags" }}:
+    </h4>
+    <nav>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag }}">{{ translateKeyword $.Lang $tag }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}
