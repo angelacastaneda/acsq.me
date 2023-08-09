@@ -114,6 +114,28 @@ article time {
   display: inline;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
+.no-top {
+  margin-top: 0em;
+}
+
+.buttons *{
+  margin: 0 auto;
+}
+
+.buttons img {
+  margin: 0 0;
+  display: inline-block;
+}
+
+.buttons {
+  max-width: 400px;
+  margin: 1em 0em;
+}
+
 .bookcover {
   width: 20%;
   min-width: 100px;
@@ -223,7 +245,7 @@ a:active, a:hover  {
   margin-top: 0em;
 }
 
-.friend a {
+.friend a, .buttons a {
   text-decoration: none;
 }
 
@@ -264,5 +286,9 @@ a:active, a:hover  {
   .filter h4, .filter nav {
     text-align: center;
     margin: 0em auto;
+  }
+  .buttons {
+    margin: 1em auto;
+    text-align: center;
   }
 }
