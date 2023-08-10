@@ -130,7 +130,7 @@ article time {
   margin-top: 0em;
 }
 
-.buttons *{
+.buttons * {
   margin: 0 auto;
 }
 
@@ -141,7 +141,7 @@ article time {
 
 .buttons {
   max-width: 400px;
-  margin: 1em 0em;
+  margin: 0em;
 }
 
 .bookcover {
@@ -243,6 +243,10 @@ a:active, a:hover  {
   display: inline;
 }
 
+.friend {
+  margin: 1em 0;
+}
+
 .friend h4 {
   display: inline;
   margin-right: 0.2em;
@@ -267,9 +271,12 @@ a:active, a:hover  {
   margin: 0em auto;
 }
 
-.filter h4, .filter nav {
-  text-align: left;
+.filter .tags {
   margin: 0em 0em 0em 40px;
+}
+
+.filter .tags * {
+  text-align: left;
 }
 
 .mobile {
@@ -291,12 +298,14 @@ a:active, a:hover  {
   .loc {
     width: 75%;
   }
-  .filter h4, .filter nav {
+  .filter .tags {
+    margin: 0 auto;
+  }
+  .filter .tags * {
     text-align: center;
-    margin: 0em auto;
   }
   .buttons {
-    margin: 1em auto;
+    margin: 0 auto;
     text-align: center;
   }
 }
