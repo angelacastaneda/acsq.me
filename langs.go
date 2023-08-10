@@ -117,6 +117,14 @@ var dictionary = buildDictionary([]map[string]string{
     "es-US": "tecnologia",
     "de-DE": "technologie",
   }, {
+    "en-US": "code",
+    "es-US": "código", // non ASCII 
+    "de-DE": "code",
+  }, {
+    "en-US": "updates",
+    "es-US": "actualizaciones", 
+    "de-DE": "aktualisierungen",
+  }, {
     "en-US": "personal",
     "es-US": "personal",
     "de-DE": "persönliches", // non ASCII 
@@ -219,6 +227,7 @@ func unAnglicize(word string) string {
   authenticDictionary := map[string]string{
     // español
     "articulos": "artículos",
+    "codigo": "código",
     "conoceme": "conóceme",
     "matematicas": "matemáticas",
     "ingles": "inglés",

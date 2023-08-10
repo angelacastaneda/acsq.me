@@ -1,0 +1,18 @@
+{{define "title"}}{{ translateKeyword .Lang "code" }}{{end}}
+{{define "description"}}{{ translate .Lang 
+  "For posts with code and computer stuff."
+  "Para entradas sobre código."
+  "Für Informatik." }}{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "code" }}{{end}}
+
+{{define "main"}}
+<h2>{{ translateKeyword .Lang "code" }}</h2>
+<p>
+  {{ template "description" . }}
+</p>
+<ul>
+  {{ range .Posts -}}
+  <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+  {{ end -}}
+</ul>
+{{end}}
