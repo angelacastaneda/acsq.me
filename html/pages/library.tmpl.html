@@ -9,7 +9,10 @@
 <figure class="pfp loc">
   <img src="/static/img/library_card.jpg" alt="my library of congress card with a little paper to hide my signature and barcode" title="ideal for fake id">
   <figcaption>
-    library of congress card
+    {{ translate .Lang 
+    "library of congress card"
+    "tarjeta de la biblioteca del congreso de los estados unidos"
+    "ausweis der kongressbibliothek"}}
   </figcaption>
 </figure>
 <p>
@@ -208,13 +211,15 @@
   <li>Zweig, Stefan - <em>Shooting Stars: Ten Historic Miniatures</em></li>
   <li>Zweig, Stefan - <em>Sternstunden der Menschheit: Zwölf historische Miniaturen</em></li>
 </ul>
-<!--TODO fix email issue-->
 <p>
+  {{ translateHTML .Lang 
+  `Think a book belongs here? <a href="mailto:`
+  `¿Tiene una recomendación paraque lea en español? <a href="mailto:`
+  `Send mir eine Buchempfehlung: <a href="mailto:` }}
+  {{- .Email -}}
   {{ translateHTML .Lang
-  `Think a book belongs here? <a href="mailto:angelaxel1420@disroot.org?subject=Book Suggestion">Evangelize it to me</a>!`
-  `¿Tiene una recomendación paraque lea en español? <a
-  href="mailto:angelaxel1420@disroot.org?subject=Recomendación de libro">Mándame un correo electroníco</a>.`
-  `Send mir eine Buchempfehlung: 
-  <a href="mailto:angelaxel1420@disroot.org?subject=Neues Buch">Schick mir eine E-Mail</a>.` }}
+  `?subject=Book Suggestion">Evangelize it to me</a>!`
+  `?subject=Recomendación de libro">Mándame un correo electroníco</a>.`
+  `?subject=Neues Buch">Schick mir eine E-Mail</a>.` }}
 </p>
 {{end}}
