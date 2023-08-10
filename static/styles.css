@@ -89,15 +89,17 @@ figure {
   background: var(--bg-code);
   border: 2px solid grey;
   border-radius: 5px;
+  overflow-x: scroll;
+  -webkit-overflow-scrolling: touch;
 }
 
-pre.code {
-  white-space: pre-wrap;       /* Since CSS 2.1 */
-  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
-  white-space: -pre-wrap;      /* Opera 4-6 */
-  white-space: -o-pre-wrap;    /* Opera 7 */
-  word-wrap: break-word;       /* Internet Explorer 5.5+ */
-}
+/* pre.code {
+  white-space: pre-wrap;       
+  white-space: -moz-pre-wrap;  
+  white-space: -pre-wrap;      
+  white-space: -o-pre-wrap;    
+  word-wrap: break-word;       
+}*/ 
 
 details p {
   margin: 0em;
@@ -128,6 +130,15 @@ article time {
 
 .no-top {
   margin-top: 0em;
+}
+
+.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ul.centered {
+  display: table;
 }
 
 .buttons * {
@@ -308,4 +319,8 @@ a:active, a:hover  {
     margin: 0 auto;
     text-align: center;
   }
+  ul {
+    padding-left: 20px;
+  }
+
 }
