@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="Angel Castaneda">
     <meta name="description" content="{{block "description" .}}ángel castañeda's personal website{{ end}}">
-    {{- block "meta" .}}
+    {{- block "meta" . }}
     <meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://{{ translateHost "" .Domain }}{{ translatePath "en-US" .Path }}">
     <link rel="alternate" hreflang="en-US" href="https://{{ translateHost "en-US" .Domain }}{{ translatePath "en-US" .Path }}">
     <link rel="alternate" hreflang="es-US" href="https://{{ translateHost "es-US" .Domain }}{{ translatePath "es-US" .Path }}">
     <link rel="alternate" hreflang="de-DE" href="https://{{ translateHost "de-DE" .Domain }}{{ translatePath "de-DE" .Path }}">
-    {{ end }}
+    {{ end -}}
     <title>{{template "title" .}} - {{ translate .Lang
                                     "ángel's site"
                                     "sitio de ángel"
@@ -32,15 +32,15 @@
           <a href="/">
             {{ translateKeyword .Lang "home" -}}
           </a> ~
-          <a href="/posts">
+          <a href="{{ translatePath .Lang "/posts" }}">
             {{ translateKeyword .Lang "posts" -}}
           </a> ~
-          <a href="/about">
+          <a href="{{ translatePath .Lang "/about"}}">
             {{ translateKeyword .Lang "about" -}}
           </a> 
         </strong>
       </nav>
-      {{ end }}
+      {{ end -}}
     <hr>
     </header>
     <main>
@@ -48,7 +48,7 @@
     </main>
     <footer>
       <hr>
-      {{ block "footer" . }}
+      {{- block "footer" . }}
         <nav class="center">
           <span>
             {{ translate .Lang "lang" "idioma" "sprache" }}:
@@ -68,7 +68,7 @@
             [<a href="mailto:{{ .Email }}">email</a>/<a href="/todo">pgp</a>/<a href="xmpp:angelaxel1420@disroot.org">xmpp</a>]
           </address>
         </nav>
-      {{end}}
+      {{ end -}}
     </footer>
   </body>
 </html>
