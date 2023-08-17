@@ -14,6 +14,8 @@ var (
 )
 
 func main() {
+  makeDB()
+
 	addr := flag.String("addr", ":4000", "HTTP Network Address")
 	flag.Parse() // required before flag is used
 

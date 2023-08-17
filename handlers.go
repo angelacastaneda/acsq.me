@@ -13,11 +13,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+  "math/rand"
 )
 
 var (
   htmlDir = filepath.Join(".", "html") // routes to dirs
   staticDir = filepath.Join(".", "static")
+  tmplFileExt = ".tmpl.html"
 )
 
 type gzipResponseWriter struct {
@@ -92,6 +94,47 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
     http.Error(w, "Internal Server Error", http.StatusInternalServerError)
     return
   }
+}
+
+func rockNRoll() (string, int) { // todo put this in a more sensible place
+  awesomeTunes := []string{
+    // todo use something with less ads
+    "https://youtu.be/ZV_UsQPTBy4", // "Sound and Vision" - David Bowie
+    "https://youtu.be/GKdl-GCsNJ0", // "Here Comes the Sun" - The Beatles (duh)
+    "https://youtu.be/ZVgHPSyEIqk", // "Let Down" - Radiohead
+    "https://youtu.be/AZKch8dZ61w", // "St. Elmo's Fire" - Brian Eno
+    "https://youtu.be/OP63BRzKmB0", // "Blade Runner (End Titles)" - Vanegelis
+    "https://youtu.be/eLlmbCkb3As", // "Fallen Angel" - King Crimson
+    "https://youtu.be/Hgx267jVma0", // "A Pillow of Winds" - Pink Floyd
+    "https://youtu.be/vdvnOH060Qg", // "Happiness is a Warm Gun" - The Beatles (again)
+    "https://youtu.be/Eo2ZsAOlvEM", // "America" - Simon and Garfunkel
+    "https://youtu.be/fWB40wYQO-w", // "Dancing in My Head" - The Raincoats
+    "https://youtu.be/GIrcy12Hruo", // "The Plains / Bitter Dancer" - Fleet Foxes
+    "https://youtu.be/DMEOjFm4DJw", // "Cassius, -" - Fleet Foxes again cause I just saw their concert for a second time now
+    "https://youtu.be/t_tIYlzSd2c", // "Bachelorette" - Björk
+    "https://youtu.be/zG-q9Jozp4o", // "A New Kind of Water" - This Heat
+    "https://youtu.be/X1GH9WN92s0", // "Another Green World" - Brian Eno 
+    "https://youtu.be/3GE-sfEbJ7I", // "Sheep" - Pink Floyd
+    "https://youtu.be/dc6huqPzerY", // "Indiscipline" - King Crimson
+    "https://youtu.be/95cufW4h-gA", // "One More Cup of Coffee" - Bob Dylan
+    "https://youtu.be/i6d3yVq1Xtw", // "El Condor Pasa (If I Could)" - Simon and Garfunkel
+    "https://youtu.be/OYmmthTXbSA", // "Stella Maris" - Einstürzende Neubauten
+    "https://youtu.be/Y_V6y1ZCg_8", // "Norwegian Wood (This Bird Has Flow)" - The Beatles
+    "https://youtu.be/LQ3nAhJyE44", // "Sunblind" - Fleet Foxes
+    "https://youtu.be/K63CD2pwjD0", // "Wednesday Morning, 3 A.M." - Simon and Garfunkel
+    "https://youtu.be/AtGEgxaO7nI", // "Alphabet Town" - Elliott Smith
+    "https://youtu.be/NHDOk7lA53w", // "Ful Stop" - Radiohead
+    "https://youtu.be/5ugdrdFrhI0", // "Nosferatu Man" - Slint
+    "https://youtu.be/ojF9qAQ-8n4", // "Tangram Set 2" - Tangerine Dream
+    "https://youtu.be/gl4lvJmvqQU", // "Happiness Is Easy" - Talk Talk
+    "https://youtu.be/Ef9zt8aCRQo", // "Here Today" - The Beach Boys
+    "https://youtu.be/sDcDCZGcZj8", // "Rocky Raccoon" - The Beatles
+    "https://youtu.be/CHLQs6u9wXw", // "Here There and Everywhere" - The Beatles (best cover of the song)
+  }
+  trackIndex := rand.Intn(len(awesomeTunes))
+  track := awesomeTunes[trackIndex]
+
+  return track, trackIndex
 }
 
 func doesFileExist(pathToFile string) bool {

@@ -1,0 +1,20 @@
+{{define "title"}}{{ .Post.Title }}{{end}}
+{{define "description"}}{{ .Post.Description }}{{end}}
+{{define "keywords"}} cool {{end}}
+
+{{define "main"}}
+<article>
+  {{ .Post.Content }}
+  <time datetime="{{ .Post.PubDate }}">{{ translateDate .Lang .Post.PubDate }}</time>
+  <div class="tags">
+    <h4>
+      {{ translateKeyword .Lang "tags" }}:
+    </h4>
+    <nav>
+      {{ range $index, $tag := .Post.Tags }}
+      <a href="/tags/{{ $tag.Name }}">{{ translateKeyword $.Lang $tag.Name }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
+      {{ end }}
+    </nav>
+  </div>
+</article>
+{{end}}
