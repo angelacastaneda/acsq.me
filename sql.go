@@ -85,7 +85,7 @@ func aggregatePosts(postQty int, filterTag string) (posts []Post, err error){
   if postQty < 0 {
     return []Post{}, nil
   }
-  
+
   db, err := sql.Open("sqlite3", pathToDB)
   if err != nil {
     log.Fatal(err.Error())
@@ -161,7 +161,7 @@ func fetchPost(fileNameNoExtension string) (post Post, err error) {
   }
   defer tagRows.Close()
 
-  var tags []Tag 
+  var tags []Tag
   for tagRows.Next() {
     var name string
     err := tagRows.Scan(&name)

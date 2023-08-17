@@ -11,7 +11,7 @@ func fetchLang(url string) string {
   if strings.HasPrefix(url, "es.") {
     return "es-US"
   }
-  
+
   if strings.HasPrefix(url, "de.") {
     return "de-DE"
   }
@@ -53,8 +53,8 @@ var dictionary = buildDictionary([]map[string]string{
     "de-DE": "start",
   }, {
     "en-US": "about",
-    "es-US": "conóceme", // non ASCII 
-    "de-DE": "über", // non ASCII 
+    "es-US": "conóceme", // non ASCII
+    "de-DE": "über", // non ASCII
   }, {
     "en-US": "posts",
     "es-US": "entradas",
@@ -70,19 +70,19 @@ var dictionary = buildDictionary([]map[string]string{
   }, {
     "en-US": "tags",
     "es-US": "etiquetas",
-    "de-DE": "stichwörter",  // non ASCII 
+    "de-DE": "stichwörter",  // non ASCII
   }, {
     "en-US": "contact",
     "es-US": "contacto",
-    "de-DE": "kontakt", 
+    "de-DE": "kontakt",
   }, {
     "en-US": "todo",
     "es-US": "pendiente",
-    "de-DE": "aufgaben", 
+    "de-DE": "aufgaben",
   //////////////// TAGS ///////////////////////
   }, { // medium
     "en-US": "articles",
-    "es-US": "artículos", // non ASCII 
+    "es-US": "artículos", // non ASCII
     "de-DE": "artikel",
   }, {
     "en-US": "photos",
@@ -90,19 +90,19 @@ var dictionary = buildDictionary([]map[string]string{
     "de-DE": "fotos",
   }, { // lang
     "en-US": "english",
-    "es-US": "inglés", // non ASCII 
+    "es-US": "inglés", // non ASCII
     "de-DE": "englisch",
   }, {
     "en-US": "spanish",
-    "es-US": "español", // non ASCII 
+    "es-US": "español", // non ASCII
     "de-DE": "spanisch",
   }, {
     "en-US": "german",
-    "es-US": "alemán", // non ASCII 
+    "es-US": "alemán", // non ASCII
     "de-DE": "deutsch",
   }, { // tags
     "en-US": "math",
-    "es-US": "matemáticas", // non ASCII 
+    "es-US": "matemáticas", // non ASCII
     "de-DE": "mathe",
   }, {
     "en-US": "milwaukee",
@@ -118,16 +118,16 @@ var dictionary = buildDictionary([]map[string]string{
     "de-DE": "technologie",
   }, {
     "en-US": "code",
-    "es-US": "código", // non ASCII 
+    "es-US": "código", // non ASCII
     "de-DE": "code",
   }, {
     "en-US": "updates",
-    "es-US": "actualizaciones", 
+    "es-US": "actualizaciones",
     "de-DE": "aktualisierungen",
   }, {
     "en-US": "personal",
     "es-US": "personal",
-    "de-DE": "persönliches", // non ASCII 
+    "de-DE": "persönliches", // non ASCII
   ///////////////// TIME ////////////////////
   }, { // days of week
     "en-US": "monday",
@@ -139,7 +139,7 @@ var dictionary = buildDictionary([]map[string]string{
     "de-DE": "dienstag",
   }, {
     "en-US": "wednesday",
-    "es-US": "miércoles", // non ASCII 
+    "es-US": "miércoles", // non ASCII
     "de-DE": "mittwoch",
   }, {
     "en-US": "thursday",
@@ -151,7 +151,7 @@ var dictionary = buildDictionary([]map[string]string{
     "de-DE": "freitag",
   }, {
     "en-US": "saturday",
-    "es-US": "sábado", // non ASCII 
+    "es-US": "sábado", // non ASCII
     "de-DE": "samstag",
   }, {
     "en-US": "sunday",
@@ -168,7 +168,7 @@ var dictionary = buildDictionary([]map[string]string{
   }, {
     "en-US": "march",
     "es-US": "marzo",
-    "de-DE": "märz", // non ASCII 
+    "de-DE": "märz", // non ASCII
   }, {
     "en-US": "april",
     "es-US": "abril",
@@ -219,7 +219,7 @@ func buildDictionary(maps []map[string]string) map[string]map[string]string {
         rosetta[lang][word2] = translation
       }
     }
-  } 
+  }
   return rosetta
 }
 
@@ -241,7 +241,7 @@ func unAnglicize(word string) string {
     "stichwoerter": "stichwörter",
     "maerz": "märz",
   }
-  
+
   palabra, okey := authenticDictionary[word]
   if okey {
     return palabra
@@ -258,7 +258,7 @@ func translateKeyword(lang, keyword string) string {
       return strings.Title(translation)
     } else {
       return translation
-    } 
+    }
   }
   return keyword
 }
@@ -281,7 +281,7 @@ func anglicize(foreign string) string {
     // both
     'ü': "ue",
   }
-  
+
   var domestic strings.Builder
 
   for _, char := range foreign {

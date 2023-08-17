@@ -113,7 +113,7 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
     "https://youtu.be/DMEOjFm4DJw", // "Cassius, -" - Fleet Foxes again cause I just saw their concert for a second time now
     "https://youtu.be/t_tIYlzSd2c", // "Bachelorette" - Björk
     "https://youtu.be/zG-q9Jozp4o", // "A New Kind of Water" - This Heat
-    "https://youtu.be/X1GH9WN92s0", // "Another Green World" - Brian Eno 
+    "https://youtu.be/X1GH9WN92s0", // "Another Green World" - Brian Eno
     "https://youtu.be/3GE-sfEbJ7I", // "Sheep" - Pink Floyd
     "https://youtu.be/dc6huqPzerY", // "Indiscipline" - King Crimson
     "https://youtu.be/95cufW4h-gA", // "One More Cup of Coffee" - Bob Dylan
@@ -170,18 +170,18 @@ func bindTMPL(files ...string) (*template.Template, error) {
   return tmpl, nil
 }
 
-func fetchData(host string, path string, postQuant int, tagFilter string) (map[string]interface{}, error) {
+func fetchData(host string, path string, postQty int, tagFilter string) (map[string]interface{}, error) {
   var err error
   lang := fetchLang(host)
   data := make(map[string]interface{})
-  email := "angelaxel1420@disroot.org" // for translations. todo don't just hardcode this in 
+  email := "angelaxel1420@disroot.org" // for translations. todo don't just hardcode this in
 
   data["Lang"] = lang
   data["Domain"] = host
-  data["Scheme"] = scheme 
+  data["Scheme"] = scheme
   data["Path"] = path
   data["Email"] = email
-  data["Posts"], err = aggregatePosts(postQuant, tagFilter)
+  data["Posts"], err = aggregatePosts(postQty, tagFilter)
   if err != nil {
     return data, err
   }
@@ -250,11 +250,11 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
   switch translatePath("en-US", r.URL.Path)  {
   case "/":
     data, err = fetchData(r.Host, r.URL.Path, 3, "articles")
-  case "/posts": 
+  case "/posts":
     data, err = fetchData(r.Host, r.URL.Path, 0, "")
   default:
     data, err = fetchData(r.Host, r.URL.Path, -1, "")
-  } 
+  }
   if err != nil {
     log.Println(err.Error())
     fancyErrorHandler(w, r, http.StatusInternalServerError)
