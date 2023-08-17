@@ -193,6 +193,13 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
     }
   }
 
+  if strings.HasPrefix(path, translatePath(lang, "/tags/")) && len(path) > len(translatePath(lang, "/tags/")) {
+    data["Tag"], err = fetchTag(strings.TrimPrefix(path, translatePath(lang, "/tags/")))
+    if err != nil {
+      return data, err
+    }
+  }
+
   if path == translatePath(lang, "/about") {
     data["Song"], data["TrackIndex"] = rockNRoll()
   }
@@ -266,16 +273,21 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
   w.Header().Set("Content-Type","text/html; charset=utf-8")
-  
+
   path := strings.Split(r.URL.Path, "/")
   lang := fetchLang(r.Host)
+  tag := translateKeyword("en-US", path[2])
+
+  if !doesTagExist(tag) {
+    fancyErrorHandler(w, r, http.StatusNotFound)
+    return
+  }
 
   // example.org/tags/ -> example.org/posts
   if len(path) == 3 && path[2] == "" {
     http.Redirect(w, r, translatePath(lang, "/posts"), 302)
     return
   }
-  tag := translateKeyword("en-US", path[2])
 
   // de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
   // example.org/tags/tag1/nonsense -> example.org/tags/tag1
@@ -283,15 +295,10 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, translatePath(lang, "/tags/" + tag), 302)
     return
   }
-  
-  if !doesFileExist(filepath.Join(htmlDir, "tags", tag + tmplFileExt)) {
-    fancyErrorHandler(w, r, http.StatusNotFound)
-    return
-  }
 
   tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "base" + tmplFileExt),
-    filepath.Join(htmlDir, "tags", tag + tmplFileExt), 
+    filepath.Join(htmlDir, "tags", "tag_temp" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())
@@ -316,6 +323,12 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
   path := strings.Split(r.URL.Path, "/")
   post := path[2]
+
+  if !doesPostExist(post) {
+    fancyErrorHandler(w, r, http.StatusNotFound)
+    return
+  }
+
   // example.org/posts/ -> example.org/posts
   if len(path) == 3 && path[2] == "" {
     http.Redirect(w, r, translatePath(lang, "/posts"), 302)
@@ -329,15 +342,10 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  if !doesFileExist(filepath.Join(htmlDir, "posts", post + tmplFileExt)) {
-    fancyErrorHandler(w, r, http.StatusNotFound)
-    return
-  }
-
   tmpl, err := bindTMPL(
     filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "post_header" + tmplFileExt),
-    filepath.Join(htmlDir, "posts", post + tmplFileExt),
+    filepath.Join(htmlDir, "posts", "post_temp" + tmplFileExt),
   )
   if err != nil {
     log.Println(err.Error())
