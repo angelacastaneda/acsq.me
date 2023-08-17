@@ -6,7 +6,7 @@ import (
 
 // use this to check for valid feed: https://validator.w3.org/feed/
 func generateFeed(posts []Post) []byte {
-  domain := "angel-castaneda.com" // todo abstract more
+  domain := "angel-castaneda.com"
   feed := `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>angel's site</title>
@@ -19,17 +19,25 @@ func generateFeed(posts []Post) []byte {
   <id>https://www.` + domain + `</id>
   <updated>` + time.Now().UTC().Format("2006-01-02T15:04:05.000Z") + `</updated>`
 
-  for _, post := range posts { // todo add content and summary
+  for _, post := range posts {
     entry := `
   <entry>
     <title>` + post.Title + `</title>
     <link href="https://www.` + domain + `/posts/` + post.FileName + `"/>
     <id>https://www.` + domain + `/posts/` + post.FileName + `</id>
-    <published>` + post.Date + `T00:00:00.000Z</published>
-    <updated>` + post.Date + `T00:00:00.000Z</updated>` // todo actually add updating system.
+    <published>` + post.PubDate + `T00:00:00.000Z</published>`
+    if post.UpdateDate != "" {
+      entry = entry + `
+    <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>`
+    } else {
+      entry = entry + `
+    <updated>` + post.PubDate + `T00:00:00.000Z</updated>`
+    }
+    entry = entry + `
+    <summary>` + post.Description + `</summary>`
     for _, tag := range post.Tags {
       category := `
-    <category term="` + tag + `" scheme="https://www.` + domain + `/posts"/>`
+    <category term="` + tag.Name + `" scheme="https://www.` + domain + `/posts"/>`
       entry = entry + category
     }
     entry = entry + `
