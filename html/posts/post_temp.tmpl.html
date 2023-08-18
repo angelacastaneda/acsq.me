@@ -4,7 +4,7 @@
 
 {{define "main"}}
 <article>
-  {{ .Post.Content }}
+  {{ template "content" . }}
   <time datetime="{{ .Post.PubDate }}">{{ translateDate .Lang .Post.PubDate }}</time>
   <div class="tags">
     <h4>

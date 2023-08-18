@@ -1,7 +1,9 @@
-package main
+package sqlite
+
 import (
 	"database/sql"
 	"encoding/json"
+	"errors"
 	"log"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -9,6 +11,7 @@ import (
 
 var (
   pathToDB = "./posts.sqlite3"
+  ErrNotComplete = errors.New("unfilled required attributes")
 )
 
 type Post struct {
@@ -20,6 +23,10 @@ type Post struct {
   UpdateDate string
   Tags []Tag
   Thumbnail Thumbnail
+}
+
+type db struct {
+  db *sql.DB
 }
 
 type Thumbnail struct {
@@ -34,15 +41,26 @@ type Tag struct {
   Description string
 }
 
-func makeDB() {
+func OpenDB() (db *sql.DB) {
   db, err := sql.Open("sqlite3", pathToDB)
   if err != nil {
     log.Fatal(err.Error())
   }
-  defer db.Close()
+  return db
+}
+
+func CloseDB(db *sql.DB) {
+  if db != nil {
+    db.Close()
+  }
+}
+
+func MakeDB() {
+  db := OpenDB()
+  defer CloseDB(db)
 
   // post table
-  _, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts (
+  _, err := db.Exec(`CREATE TABLE IF NOT EXISTS posts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL UNIQUE,
   file_name TEXT NOT NULL UNIQUE,
@@ -51,7 +69,7 @@ func makeDB() {
   pub_date TEXT NOT NULL CHECK(pub_date LIKE '____-__-__'),
   update_date TEXT CHECK(update_date LIKE '____-__-__'),
   thumbnail TEXT -- in json format but go engine can't handle real json
-);`)
+)`)
   if err != nil {
     log.Println(err.Error())
   }
@@ -62,7 +80,7 @@ func makeDB() {
   name TEXT NOT NULL UNIQUE,
   category STRING NOT NULL DEFAULT 'content', -- for medium, content, and lang
   description TEXT
-);`)
+)`)
   if err != nil {
     log.Println(err.Error())
   }
@@ -74,23 +92,20 @@ func makeDB() {
   PRIMARY KEY (post_id, tag_id),
   FOREIGN KEY (post_id) REFERENCES posts(id),
   FOREIGN KEY (tag_id) REFERENCES tags(id)
-);`)
+)`)
   if err != nil {
     log.Println(err.Error())
   }
 
 }
 
-func aggregatePosts(postQty int, filterTag string) (posts []Post, err error){
+func AggregatePosts(postQty int, filterTag string) (posts []Post, err error){
   if postQty < 0 {
     return []Post{}, nil
   }
 
-  db, err := sql.Open("sqlite3", pathToDB)
-  if err != nil {
-    log.Fatal(err.Error())
-  }
-  defer db.Close()
+  db := OpenDB()
+  defer CloseDB(db)
 
   var query string
   var filters []interface{}
@@ -135,12 +150,9 @@ func aggregatePosts(postQty int, filterTag string) (posts []Post, err error){
   return posts, nil
 }
 
-func fetchPost(fileNameNoExtension string) (post Post, err error) {
-  db, err := sql.Open("sqlite3", pathToDB)
-  if err != nil {
-    log.Fatal(err.Error())
-  }
-  defer db.Close()
+func FetchPost(fileNameNoExtension string) (post Post, err error) {
+  db := OpenDB()
+  defer CloseDB(db)
 
   var id int
   var update_date, thumbnailJSON sql.NullString
@@ -192,12 +204,9 @@ func fetchPost(fileNameNoExtension string) (post Post, err error) {
   return post, nil
 }
 
-func fetchTag(tagName string) (tag Tag, err error) {
-  db, err := sql.Open("sqlite3", pathToDB)
-  if err != nil {
-    log.Fatal(err.Error())
-  }
-  defer db.Close()
+func FetchTag(tagName string) (tag Tag, err error) {
+  db := OpenDB()
+  defer CloseDB(db)
 
   err = db.QueryRow(`SELECT name, description, category
   FROM tags
@@ -209,15 +218,12 @@ func fetchTag(tagName string) (tag Tag, err error) {
   return tag, nil
 }
 
-func doesPostExist(fileNameNoExtension string) bool {
-  db, err := sql.Open("sqlite3", pathToDB)
-  if err != nil {
-    log.Fatal(err.Error())
-  }
-  defer db.Close()
+func DoesPostExist(fileNameNoExtension string) bool {
+  db := OpenDB()
+  defer CloseDB(db)
 
   var count int
-  err = db.QueryRow(`SELECT COUNT(*)
+  err := db.QueryRow(`SELECT COUNT(*)
   FROM posts
   WHERE file_name = ?`, fileNameNoExtension).Scan(&count)
   if err != nil {
@@ -228,15 +234,12 @@ func doesPostExist(fileNameNoExtension string) bool {
   return count > 0
 }
 
-func doesTagExist(tag string) bool {
-  db, err := sql.Open("sqlite3", pathToDB)
-  if err != nil {
-    log.Fatal(err.Error())
-  }
-  defer db.Close()
+func DoesTagExist(tag string) bool {
+  db := OpenDB()
+  defer CloseDB(db)
 
   var count int
-  err = db.QueryRow(`SELECT COUNT(*)
+  err := db.QueryRow(`SELECT COUNT(*)
   FROM tags
   WHERE name = ?`, tag).Scan(&count)
   if err != nil {
@@ -247,13 +250,54 @@ func doesTagExist(tag string) bool {
   return count > 0
 }
 
-func addPost(post Post) bool {
-  // connect to db and add post
-
-  return false
+func checkPost(p Post) error { // don't need to check update or thumbnail
+  if p.Title == "" ||
+    p.FileName == "" ||
+    p.Content == "" ||
+    p.Description == "" ||
+    p.PubDate == "" ||
+    len(p.Tags) < 1 {
+      return ErrNotComplete
+  }
+  return nil
 }
 
-func addTag(tag Tag) bool {
+func checkTag(t Tag) error {
+  if t.Name == "" ||
+    t.Category == "" ||
+    t.Description == "" {
+      return ErrNotComplete
+  }
+  return nil
+}
+
+func AddPost(post Post) (err error) {
+  if err = checkPost(post); err != nil {
+    return err
+  }
+
+  db := OpenDB()
+  defer CloseDB(db)
+
+  var jsonThumbnail []byte
+  if post.Thumbnail.Img != "" {
+    jsonThumbnail, err = json.Marshal(post.Thumbnail)
+    if err != nil {
+      return err
+    }
+  } 
+  _, err = db.Exec(`INSERT INTO posts (title, file_name, content, description, pub_date, update_date, thumbnail) 
+  VALUES
+  (?,  ?,  ?,  ?,  ?,  ?, ?)
+)`, post.Title, post.FileName, post.Content, post.Description, post.PubDate, post.UpdateDate, string(jsonThumbnail))
+  if err != nil {
+    return err
+  }
+
+  return nil
+}
+
+func AddTag(tag Tag) bool {
   // connect to db and add tag
 
   return false

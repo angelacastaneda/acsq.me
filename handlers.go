@@ -7,13 +7,15 @@ import (
 	"html/template"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
-  "math/rand"
+
+	"angel-castaneda.com/sqlite"
 )
 
 var (
@@ -181,20 +183,20 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
   data["Scheme"] = scheme
   data["Path"] = path
   data["Email"] = email
-  data["Posts"], err = aggregatePosts(postQty, tagFilter)
+  data["Posts"], err = sqlite.AggregatePosts(postQty, tagFilter)
   if err != nil {
     return data, err
   }
 
   if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) {
-    data["Post"], err = fetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
+    data["Post"], err = sqlite.FetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
     if err != nil {
       return data, err
     }
   }
 
   if strings.HasPrefix(path, translatePath(lang, "/tags/")) && len(path) > len(translatePath(lang, "/tags/")) {
-    data["Tag"], err = fetchTag(strings.TrimPrefix(path, translatePath(lang, "/tags/")))
+    data["Tag"], err = sqlite.FetchTag(strings.TrimPrefix(translatePath("en-US", path),"/tags/"))
     if err != nil {
       return data, err
     }
@@ -278,7 +280,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
   lang := fetchLang(r.Host)
   tag := translateKeyword("en-US", path[2])
 
-  if !doesTagExist(tag) {
+  if !sqlite.DoesTagExist(tag) {
     fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
@@ -324,7 +326,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
   path := strings.Split(r.URL.Path, "/")
   post := path[2]
 
-  if !doesPostExist(post) {
+  if !sqlite.DoesPostExist(post) {
     fancyErrorHandler(w, r, http.StatusNotFound)
     return
   }
@@ -364,7 +366,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
-  posts, err := aggregatePosts(0, "")
+  posts, err := sqlite.AggregatePosts(0, "")
   if err != nil {
     fancyErrorHandler(w, r, http.StatusInternalServerError)
     return

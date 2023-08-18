@@ -2,10 +2,12 @@ package main
 
 import (
 	"time"
+
+	"angel-castaneda.com/sqlite"
 )
 
 // use this to check for valid feed: https://validator.w3.org/feed/
-func generateFeed(posts []Post) []byte {
+func generateFeed(posts []sqlite.Post) []byte {
   domain := "angel-castaneda.com"
   feed := `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">

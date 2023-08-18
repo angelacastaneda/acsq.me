@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 	"net/http"
+
+	"angel-castaneda.com/sqlite"
 )
 
 var (
@@ -14,7 +16,7 @@ var (
 )
 
 func main() {
-  makeDB()
+  sqlite.MakeDB()
 
 	addr := flag.String("addr", ":4000", "HTTP Network Address")
 	flag.Parse() // required before flag is used
