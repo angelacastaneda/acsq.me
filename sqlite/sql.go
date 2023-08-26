@@ -148,15 +148,19 @@ func AggregatePosts(postQty int, filterTag string) (posts []Post, err error){
   return posts, nil
 }
 
-func FetchPost(fileNameNoExtension string) (post Post, err error) {
+func FetchPost(fileName string) (post Post, err error) {
+  if !DoesPostExist(fileName) {
+    return Post{}, errors.New(fileName + " doesn't exist")
+  }
+
   db := OpenDB()
   defer CloseDB(db)
 
   var id int
-  var update_date, thumbnailJSON sql.NullString
+  var thumbnailJSON sql.NullString
   err = db.QueryRow(`SELECT id, title, file_name, content, description, pub_date, update_date, thumbnail
   FROM posts
-  WHERE file_name = ?`, fileNameNoExtension).Scan(&id, &post.Title, &post.FileName, &post.Content, &post.Description, &post.PubDate, &update_date, &thumbnailJSON)
+  WHERE file_name = ?`, fileName).Scan(&id, &post.Title, &post.FileName, &post.Content, &post.Description, &post.PubDate, &post.UpdateDate, &thumbnailJSON)
   if err != nil {
     return Post{}, err
   }
@@ -185,15 +189,13 @@ func FetchPost(fileNameNoExtension string) (post Post, err error) {
   post.Tags = tags
 
   // optional stuff
-  if update_date.Valid {
-    post.UpdateDate = update_date.String
-  }
-  if thumbnailJSON.Valid {
-    // e.g. { "img" : "pic.jpeg", "alt" : "cool pic", "title" : "what you see if you hover"}
-    var thumbnail Thumbnail
+  if thumbnailJSON.Valid && len(thumbnailJSON.String) > 0 {
+    // e.g. { "src" : "pic.jpeg", "alt" : "cool pic", "title" : "what you see if you hover"}
+    var thumbnail Img
     err := json.Unmarshal([]byte(thumbnailJSON.String), &thumbnail)
     if err != nil {
       log.Println(err.Error())
+      return Post{}, err
     } else {
       post.Thumbnail = thumbnail
     }
@@ -276,12 +278,13 @@ func DoesTagExist(tag string) bool {
   return count > 0
 }
 
-func checkPost(p Post) error { // don't need to check update or thumbnail
+func checkPost(p Post) error { // don't need to check thumbnail
   if p.Title == "" ||
     p.FileName == "" ||
     p.Content == "" ||
     p.Description == "" ||
     p.PubDate == "" ||
+    p.UpdateDate == "" ||
     len(p.Tags) < 1 {
       return ErrNotComplete
   }
