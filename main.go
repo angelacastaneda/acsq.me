@@ -16,7 +16,9 @@ var (
 )
 
 func main() {
-  sqlite.MakeDB()
+  if err := sqlite.MakeDB(); err != nil {
+    log.Fatal(err)
+  }
 
 	addr := flag.String("addr", ":4000", "HTTP Network Address")
 	flag.Parse() // required before flag is used

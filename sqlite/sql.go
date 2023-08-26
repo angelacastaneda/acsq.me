@@ -55,12 +55,12 @@ func CloseDB(db *sql.DB) {
   }
 }
 
-func MakeDB() {
+func MakeDB() (err error) {
   db := OpenDB()
   defer CloseDB(db)
 
   // post table
-  _, err := db.Exec(`CREATE TABLE IF NOT EXISTS posts (
+  if _, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL UNIQUE,
   file_name TEXT NOT NULL UNIQUE,
@@ -69,34 +69,32 @@ func MakeDB() {
   pub_date TEXT NOT NULL CHECK(pub_date LIKE '____-__-__'),
   update_date TEXT NOT NULL CHECK(update_date LIKE '____-__-__'),
   thumbnail TEXT -- in json format but go engine can't handle real json
-)`)
-  if err != nil {
-    log.Println(err.Error())
+)`); err != nil {
+    return err
   }
 
   // tag table
-  _, err = db.Exec(`CREATE TABLE IF NOT EXISTS tags (
+  if _, err = db.Exec(`CREATE TABLE IF NOT EXISTS tags (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL UNIQUE,
   category STRING NOT NULL DEFAULT 'content', -- for medium, content, and lang
   description TEXT
-)`)
-  if err != nil {
-    log.Println(err.Error())
+)`); err != nil {
+    return err
   }
 
   // associative identity
-  _, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts_tags (
+  if _, err = db.Exec(`CREATE TABLE IF NOT EXISTS posts_tags (
   post_id INTEGER,
   tag_id INTEGER,
   PRIMARY KEY (post_id, tag_id),
   FOREIGN KEY (post_id) REFERENCES posts(id),
   FOREIGN KEY (tag_id) REFERENCES tags(id)
-)`)
-  if err != nil {
-    log.Println(err.Error())
+)`); err != nil {
+    return err
   }
 
+  return nil
 }
 
 func AggregatePosts(postQty int, filterTag string) (posts []Post, err error){
