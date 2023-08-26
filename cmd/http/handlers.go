@@ -17,8 +17,11 @@ import (
 )
 
 var (
-	htmlDir     = filepath.Join(".", "html") // routes to dirs
-	staticDir   = filepath.Join(".", "static")
+	htmlDir   = filepath.Join(".", "html") // routes to dirs
+	staticDir = filepath.Join(".", "static")
+)
+
+const (
 	tmplFileExt = ".tmpl.html"
 )
 

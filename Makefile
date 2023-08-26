@@ -1,24 +1,24 @@
 .DEFAULT_GOAL := run
 
 fmt:
-	go fmt .
+	go fmt ./cmd/http
 	go fmt ./sqlite
 .PHONY:fmt
 
 lint: fmt
-	golint .
+	golint ./cmd/http
 	golint ./sqlite
 .PHONY:lint
 
 vet: lint
-	go vet .
+	go vet ./cmd/http
 	go vet ./sqlite
 .PHONY:vet
 
 run: vet
-	go run .
+	go run ./cmd/http
 .PHONY:run
 
 build: vet
-	go build .
+	go build ./cmd/http
 .PHONY:build
