@@ -246,14 +246,14 @@ func FetchTag(tagName string) (tag Tag, err error) {
   return tag, nil
 }
 
-func DoesPostExist(fileNameNoExtension string) bool {
+func DoesPostExist(fileName string) bool {
   db := OpenDB()
   defer CloseDB(db)
 
   var count int
   err := db.QueryRow(`SELECT COUNT(*)
   FROM posts
-  WHERE file_name = ?`, fileNameNoExtension).Scan(&count)
+  WHERE file_name = ?`, fileName).Scan(&count)
   if err != nil {
     log.Println(err.Error())
     return false
