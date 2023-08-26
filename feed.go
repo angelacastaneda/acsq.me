@@ -27,15 +27,8 @@ func generateFeed(posts []sqlite.Post) []byte {
     <title>` + post.Title + `</title>
     <link href="https://www.` + domain + `/posts/` + post.FileName + `"/>
     <id>https://www.` + domain + `/posts/` + post.FileName + `</id>
-    <published>` + post.PubDate + `T00:00:00.000Z</published>`
-    if post.UpdateDate != "" {
-      entry = entry + `
-    <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>`
-    } else {
-      entry = entry + `
-    <updated>` + post.PubDate + `T00:00:00.000Z</updated>`
-    }
-    entry = entry + `
+    <published>` + post.PubDate + `T00:00:00.000Z</published>
+    <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>
     <summary>` + post.Description + `</summary>`
     for _, tag := range post.Tags {
       category := `

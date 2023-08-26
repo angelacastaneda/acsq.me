@@ -67,7 +67,7 @@ func MakeDB() {
   content TEXT NOT NULL,
   description TEXT NOT NULL,
   pub_date TEXT NOT NULL CHECK(pub_date LIKE '____-__-__'),
-  update_date TEXT CHECK(update_date LIKE '____-__-__'),
+  update_date TEXT NOT NULL CHECK(update_date LIKE '____-__-__'),
   thumbnail TEXT -- in json format but go engine can't handle real json
 )`)
   if err != nil {
