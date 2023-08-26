@@ -305,6 +305,13 @@ func AddPost(post Post) (err error) {
     return err
   }
 
+  // ensure tag existence
+  for _, t := range post.Tags {
+    if !DoesTagExist(t.Name) {
+      return errors.New("missing tag: "+ t.Name)
+    }
+  }
+
   db := OpenDB()
   defer CloseDB(db)
 
@@ -314,13 +321,25 @@ func AddPost(post Post) (err error) {
     if err != nil {
       return err
     }
-  } 
-  _, err = db.Exec(`INSERT INTO posts (title, file_name, content, description, pub_date, update_date, thumbnail) 
+  }
+
+  _, err = db.Exec(`INSERT INTO posts (title, file_name, content, description, pub_date, update_date, thumbnail)
   VALUES
   (?,  ?,  ?,  ?,  ?,  ?, ?)
-)`, post.Title, post.FileName, post.Content, post.Description, post.PubDate, post.UpdateDate, string(jsonThumbnail))
+`, post.Title, post.FileName, post.Content, post.Description, post.PubDate, post.UpdateDate, string(jsonThumbnail))
   if err != nil {
     return err
+  }
+
+  for _, t := range post.Tags {
+    _, err = db.Exec(`INSERT INTO posts_tags (post_id, tag_id)
+    VALUES
+    ((SELECT id
+    FROM posts
+    WHERE file_name = ?),
+    (SELECT id
+    FROM tags
+    WHERE name = ?))`, post.FileName, t.Name)
   }
 
   return nil
