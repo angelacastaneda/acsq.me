@@ -102,14 +102,8 @@ func doesFileExist(pathToFile string) bool {
   return true
 }
 
-func bindTMPL(files ...string) (*template.Template, error) {
-  for _, checkFile := range files {
-    if !doesFileExist(checkFile) {
-      return nil, errors.New("Template file missing " + checkFile)
-    }
-  }
-
-  funcMap := template.FuncMap{
+func getTempFuncs() (funcMap map[string]any) {
+  funcMap = template.FuncMap{
     "lastOne": lastOne,
     "translate": translate,
     "translateHTML": translateHTML,
@@ -118,8 +112,35 @@ func bindTMPL(files ...string) (*template.Template, error) {
     "translateHost": translateHost,
     "translateDate": translateDate,
   }
+  return funcMap
+}
 
-  tmpl, err := template.New("notSureWhatThisDoes").Funcs(funcMap).ParseFiles(files...)
+func bindTMPL(files ...string) (*template.Template, error) {
+  for _, checkFile := range files {
+    if !doesFileExist(checkFile) {
+      return nil, errors.New("Template file missing " + checkFile)
+    }
+  }
+
+  tmpl, err := template.New("notSureWhatThisDoes").Funcs(getTempFuncs()).ParseFiles(files...)
+  if err != nil {
+    return nil, err
+  }
+
+  return tmpl, nil
+}
+
+func sqlBindTMPL(sqlContent string, files ...string) (*template.Template, error) {
+  tmpl, err := bindTMPL(files...)
+  if err != nil {
+    return nil, err
+  }
+
+  sqlContent = `{{ define "sql" }}
+`+ sqlContent + `
+{{ end }}`
+
+  _, err = tmpl.New("sql").Parse(sqlContent)
   if err != nil {
     return nil, err
   }
@@ -260,7 +281,14 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tmpl, err := bindTMPL(
+  tagData, err := sqlite.FetchTag(tag)
+  if err != nil {
+    log.Println(err.Error())
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
+    return
+  }
+
+  tmpl, err := sqlBindTMPL(tagData.Description,
     filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "tags", "tag_temp" + tmplFileExt),
   )
@@ -306,7 +334,13 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  tmpl, err := bindTMPL(
+  postData, err := sqlite.FetchPost(post)
+  if err != nil {
+    log.Println(err.Error())
+    fancyErrorHandler(w, r, http.StatusInternalServerError)
+    return
+  }
+  tmpl, err := sqlBindTMPL(postData.Content,
     filepath.Join(htmlDir, "base" + tmplFileExt),
     filepath.Join(htmlDir, "partials", "post_header" + tmplFileExt),
     filepath.Join(htmlDir, "posts", "post_temp" + tmplFileExt),

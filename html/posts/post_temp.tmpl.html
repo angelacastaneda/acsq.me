@@ -1,10 +1,10 @@
 {{define "title"}}{{ .Post.Title }}{{end}}
 {{define "description"}}{{ .Post.Description }}{{end}}
-{{define "keywords"}} cool {{end}}
+{{define "keywords"}}{{ range $index, $tag := .Post.Tags }}{{ $tag.Name }}{{ if not (lastOne $index (len $.Post.Tags)) }} {{ end }}{{ end }}{{end}}
 
 {{define "main"}}
 <article>
-  {{ template "content" . }}
+  {{ template "sql" . }}
   <time datetime="{{ .Post.PubDate }}">{{ translateDate .Lang .Post.PubDate }}</time>
   <div class="tags">
     <h4>

@@ -1,11 +1,11 @@
 {{define "title"}}{{ translateKeyword .Lang .Tag.Name }}{{end}}
-{{define "description"}}{{ .Tag.Description }}{{end}}
+{{define "description"}}{{ template "sql" . }}{{end}}
 {{define "keywords"}}{{ translateKeyword .Lang .Tag.Name }}{{end}}
 
 {{define "main"}}
 <h2>{{ translateKeyword .Lang .Tag.Name }}</h2>
 <p>
-  {{ .Tag.Description }}
+  {{ template "sql" . }}
 </p>
 <ul>
   {{ range .Posts -}}
