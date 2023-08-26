@@ -2,14 +2,17 @@
 
 fmt:
 	go fmt .
+	go fmt ./sqlite
 .PHONY:fmt
 
 lint: fmt
 	golint .
+	golint ./sqlite
 .PHONY:lint
 
 vet: lint
 	go vet .
+	go vet ./sqlite
 .PHONY:vet
 
 run: vet
