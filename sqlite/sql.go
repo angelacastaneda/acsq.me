@@ -364,4 +364,36 @@ func AddTag(tag Tag) (err error) {
   return nil
 }
 
+func DeletePost(fileName string) (err error) {
+  if !DoesPostExist(fileName) {
+    return errors.New(fileName + " doesn't exist")
+  }
+
+  db := OpenDB()
+  defer CloseDB(db)
+
+  _, err = db.Exec(`DELETE FROM posts
+  WHERE file_name = ?`, fileName)
+  if err != nil {
+    return err
+  }
+
+  return nil
+}
+
+func DeleteTag(tagName string) (err error) {
+  if !DoesTagExist(tagName) {
+    return errors.New(tagName + " doesn't exist")
+  }
+
+  db := OpenDB()
+  defer CloseDB(db)
+
+  _, err = db.Exec(`DELETE FROM tags
+  WHERE name = ?`, tagName)
+  if err != nil {
+    return err
+  }
+
+  return nil
 }
