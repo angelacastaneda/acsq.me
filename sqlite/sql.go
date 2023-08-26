@@ -1,3 +1,4 @@
+// package for creating, reading, and writing to a sqlite database for my blog
 package sqlite
 
 import (
