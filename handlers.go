@@ -372,7 +372,7 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
     return
   }
   w.Header().Set("Content-Type", "application/atom+xml")
-  feed := bytes.NewReader(generateFeed(posts))
+  feed := bytes.NewReader(generateFeed(r.Host, posts))
   http.ServeContent(w, r, "atom.xml", time.Now(), feed)
 }
 
