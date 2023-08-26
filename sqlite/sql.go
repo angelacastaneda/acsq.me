@@ -22,15 +22,15 @@ type Post struct {
   PubDate string
   UpdateDate string
   Tags []Tag
-  Thumbnail Thumbnail
+  Thumbnail Img
 }
 
 type db struct {
   db *sql.DB
 }
 
-type Thumbnail struct {
-  Img string `json:"img"`
+type Img struct {
+  Src string `json:"src"`
   Alt string `json:"alt"`
   Title string `json:"title"`
 }
@@ -202,6 +202,34 @@ func FetchPost(fileNameNoExtension string) (post Post, err error) {
   return post, nil
 }
 
+func FetchThumbnail() (post Post, err error) {
+  db := OpenDB()
+  defer CloseDB(db)
+
+  var thumbnailJSON sql.NullString
+  err = db.QueryRow(`SELECT title, file_name, content, posts.description, pub_date, update_date, thumbnail
+  FROM posts JOIN posts_tags
+  ON posts.id = posts_tags.post_id JOIN tags
+  ON posts_tags.tag_id = tags.id
+  WHERE tags.name = 'photos'
+  AND posts.thumbnail IS NOT NULL
+  AND posts.thumbnail <> ''
+  ORDER BY posts.pub_date DESC
+  LIMIT 1`).Scan(&post.Title, &post.FileName, &post.Content, &post.Description, &post.PubDate, &post.UpdateDate, &thumbnailJSON)
+  if err != nil {
+    if err == sql.ErrNoRows {
+      return Post{}, errors.New("no valid thumbnails exist")
+    }
+    return Post{}, err
+  }
+
+  err = json.Unmarshal([]byte(thumbnailJSON.String), &post.Thumbnail)
+  if err != nil {
+    return Post{}, err
+  }
+  return post, nil
+}
+
 func FetchTag(tagName string) (tag Tag, err error) {
   db := OpenDB()
   defer CloseDB(db)
@@ -278,7 +306,7 @@ func AddPost(post Post) (err error) {
   defer CloseDB(db)
 
   var jsonThumbnail []byte
-  if post.Thumbnail.Img != "" {
+  if post.Thumbnail.Src != "" {
     jsonThumbnail, err = json.Marshal(post.Thumbnail)
     if err != nil {
       return err

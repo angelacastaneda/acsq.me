@@ -143,6 +143,13 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
     return data, err
   }
 
+  if path == "/" {
+    data["Post"], err = sqlite.FetchThumbnail()
+    if err != nil {
+      return data, err
+    }
+  }
+
   if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) {
     data["Post"], err = sqlite.FetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
     if err != nil {
