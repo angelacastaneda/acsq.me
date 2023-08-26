@@ -1,6 +1,10 @@
 .DEFAULT_GOAL := run
 
-lint: 
+fmt:
+	go fmt .
+.PHONY:fmt
+
+lint: fmt
 	golint .
 .PHONY:lint
 

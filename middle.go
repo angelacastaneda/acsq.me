@@ -7,46 +7,45 @@ import (
 	"strings"
 )
 
-
 type gzipResponseWriter struct {
-  io.Writer
-  http.ResponseWriter
+	io.Writer
+	http.ResponseWriter
 }
 
 func (grw gzipResponseWriter) Write(data []byte) (int, error) {
-  return grw.Writer.Write(data)
+	return grw.Writer.Write(data)
 }
 
 func gzipHandler(next http.Handler) http.Handler {
-  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
-      next.ServeHTTP(w, r)
-      return
-    }
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !strings.Contains(r.Header.Get("Accept-Encoding"), "gzip") {
+			next.ServeHTTP(w, r)
+			return
+		}
 
-    w.Header().Set("Content-Encoding", "gzip")
-    gzipWriter := gzip.NewWriter(w)
-    defer gzipWriter.Close()
-    gzippedResponseWriter := gzipResponseWriter{Writer: gzipWriter, ResponseWriter: w}
-    next.ServeHTTP(gzippedResponseWriter, r)
-  })
+		w.Header().Set("Content-Encoding", "gzip")
+		gzipWriter := gzip.NewWriter(w)
+		defer gzipWriter.Close()
+		gzippedResponseWriter := gzipResponseWriter{Writer: gzipWriter, ResponseWriter: w}
+		next.ServeHTTP(gzippedResponseWriter, r)
+	})
 }
 
 func redirectHTTPS(w http.ResponseWriter, r *http.Request) {
-  if r.TLS != nil {
-    http.Error(w, "HTTPS already working", http.StatusBadRequest)
-  }
-  target := "https://" + r.Host + r.RequestURI
-  http.Redirect(w, r, target, http.StatusMovedPermanently)
+	if r.TLS != nil {
+		http.Error(w, "HTTPS already working", http.StatusBadRequest)
+	}
+	target := "https://" + r.Host + r.RequestURI
+	http.Redirect(w, r, target, http.StatusMovedPermanently)
 }
 
 func redirectWWW(next http.Handler) http.Handler {
-  return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-    if !strings.HasPrefix(r.Host,"www.") && !strings.HasPrefix(r.Host,"en.") && !strings.HasPrefix(r.Host,"es.") && !strings.HasPrefix(r.Host,"de.") {
-      http.Redirect(w, r, scheme + "://www." + r.Host + r.RequestURI, 302)
-      return
-    }
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if !strings.HasPrefix(r.Host, "www.") && !strings.HasPrefix(r.Host, "en.") && !strings.HasPrefix(r.Host, "es.") && !strings.HasPrefix(r.Host, "de.") {
+			http.Redirect(w, r, scheme+"://www."+r.Host+r.RequestURI, 302)
+			return
+		}
 
-    next.ServeHTTP(w, r)
-  })
+		next.ServeHTTP(w, r)
+	})
 }
