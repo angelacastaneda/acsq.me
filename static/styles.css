@@ -139,6 +139,7 @@ article time {
 
 ul.centered {
   display: table;
+  padding-left: 0em;
 }
 
 .buttons * {
@@ -322,5 +323,4 @@ a:active, a:hover  {
   ul {
     padding-left: 20px;
   }
-
 }
