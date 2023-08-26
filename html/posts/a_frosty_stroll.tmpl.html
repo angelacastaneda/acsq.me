@@ -5,7 +5,9 @@
 {{define "main"}}
 <article>
   <h2>{{ .Post.Title }}</h2>
-  <p><img src="https://preview.redd.it/hdnwdw6jy2f81.jpg?width=1024&amp;auto=webp&amp;v=enabled&amp;s=49a4b3cd118b59d5a59c92dd4a34740311ffa7ed" alt="photo of a woman walking beside a bright, cold street" /></p>
+  <figure>
+    <img src="https://preview.redd.it/hdnwdw6jy2f81.jpg?width=1024&amp;auto=webp&amp;v=enabled&amp;s=49a4b3cd118b59d5a59c92dd4a34740311ffa7ed" alt="photo of a woman walking beside a bright, cold street" />
+  </figure>>
   <time datetime="2022-01-31">{{ translateDate .Lang .Post.Date }}</time>
   <div class="tags">
     <h4>
