@@ -14,6 +14,10 @@ var (
   ErrNotComplete = errors.New("unfilled required attributes")
 )
 
+type db struct {
+  PathToDB string
+}
+
 type Post struct {
   Title string
   FileName string
@@ -23,10 +27,6 @@ type Post struct {
   UpdateDate string
   Tags []Tag
   Thumbnail Img
-}
-
-type db struct {
-  db *sql.DB
 }
 
 type Img struct {
