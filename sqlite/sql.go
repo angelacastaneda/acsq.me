@@ -345,8 +345,23 @@ func AddPost(post Post) (err error) {
   return nil
 }
 
-func AddTag(tag Tag) bool {
-  // connect to db and add tag
+func AddTag(tag Tag) (err error) {
+  if err = checkTag(tag); err != nil {
+    return err
+  }
 
-  return false
+  db := OpenDB()
+  defer CloseDB(db)
+
+  _, err = db.Exec(`INSERT INTO tags (name, category, description)
+  VALUES
+  (?,  ?,  ?)
+`, tag.Name, tag.Category, tag.Description)
+  if err != nil {
+    return err
+  }
+
+  return nil
+}
+
 }
