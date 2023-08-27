@@ -224,9 +224,8 @@ func FetchPost(fileName string) (post Post, err error) {
 		if err != nil {
 			log.Println(err.Error())
 			return Post{}, err
-		} else {
-			post.Thumbnail = thumbnail
 		}
+		post.Thumbnail = thumbnail
 	}
 
 	return post, nil
