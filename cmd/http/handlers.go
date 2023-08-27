@@ -293,7 +293,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := sqlBindTMPL(tagData.Description,
 		filepath.Join(htmlDir, "base"+tmplFileExt),
-		filepath.Join(htmlDir, "tags", "tag_temp"+tmplFileExt),
+		filepath.Join(htmlDir, "blog", "tag"+tmplFileExt),
 	)
 	if err != nil {
 		log.Println(err.Error())
@@ -346,7 +346,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := sqlBindTMPL(postData.Content,
 		filepath.Join(htmlDir, "base"+tmplFileExt),
 		filepath.Join(htmlDir, "partials", "post_header"+tmplFileExt),
-		filepath.Join(htmlDir, "posts", "post_temp"+tmplFileExt),
+		filepath.Join(htmlDir, "blog", "post"+tmplFileExt),
 	)
 	if err != nil {
 		log.Println(err.Error())
