@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"time"
 
 	"angel-castaneda.com/sqlite"
@@ -29,9 +30,14 @@ func generateFeed(domain string, posts []sqlite.Post) []byte {
     <published>` + post.PubDate + `T00:00:00.000Z</published>
     <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>
     <summary>` + post.Description + `</summary>`
-		for _, t := range post.Tags {
+		p, err := sqlite.FetchPost(post.FileName)
+		if err != nil {
+			log.Println(err.Error())
+			break // todo undo this awful hack solution
+		}
+		for _, t := range p.Tags {
 			category := `
-    <category term="` + t.Name + `" scheme="https://` + domain + `/posts"/>`
+    <category term="` + t.Name + `" scheme="https://` + domain + `/tags/` + t.Name + `"/>`
 			entry = entry + category
 		}
 		entry = entry + `
