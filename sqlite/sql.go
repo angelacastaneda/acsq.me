@@ -134,11 +134,11 @@ func AggregatePosts(postQty int, filterTag string) (posts []Post, err error) {
 	var query string
 	var filters []interface{}
 	if filterTag == "" {
-		query = `SELECT title, file_name, pub_date, update_date
+		query = `SELECT title, file_name, description, pub_date, update_date
   FROM posts
   ORDER BY pub_date DESC`
 	} else {
-		query = `SELECT title, file_name, pub_date, update_date
+		query = `SELECT title, file_name, description, pub_date, update_date
   FROM posts JOIN posts_tags
   ON posts.id = posts_tags.post_id JOIN tags
   ON posts_tags.tag_id = tags.id
@@ -159,7 +159,7 @@ func AggregatePosts(postQty int, filterTag string) (posts []Post, err error) {
 	for rows.Next() {
 		post := Post{}
 		var update_date sql.NullString
-		err := rows.Scan(&post.Title, &post.FileName, &post.PubDate, &update_date)
+		err := rows.Scan(&post.Title, &post.FileName, &post.Description, &post.PubDate, &update_date)
 		if err != nil {
 			return posts, err
 		}
