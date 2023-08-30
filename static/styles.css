@@ -44,7 +44,7 @@
 
 @media (prefers-color-scheme:dark) {
   :root {
-    --bg-color: #000000;
+    --bg-color: #001A1E;
     --body-color: #FFFFFF;
     --hyperblue: #7DCEF0;
     --hoverorange: #FF7100;
@@ -139,6 +139,7 @@ article time {
 
 ul.centered {
   display: table;
+  padding-left: 0em;
 }
 
 .buttons * {
@@ -322,5 +323,4 @@ a:active, a:hover  {
   ul {
     padding-left: 20px;
   }
-
 }

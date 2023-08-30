@@ -20,8 +20,8 @@
       "aktuelles foto"}}:
     </h4>
     <figure>
-      <a href="/posts/a_frosty_stroll">
-        <img src="https://preview.redd.it/hdnwdw6jy2f81.jpg?width=1024&auto=webp&v=enabled&s=49a4b3cd118b59d5a59c92dd4a34740311ffa7ed" alt="a frosty stroll">
+      <a href="/posts/{{ .Post.FileName }}">
+        <img src="{{ .Post.Thumbnail.Src }}" alt="{{ .Post.Thumbnail.Alt }}" title="{{ .Post.Thumbnail.Title }}">
       </a>
     </figure>
     <a href="/tags/photos" class="block center">
