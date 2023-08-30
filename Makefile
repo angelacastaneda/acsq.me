@@ -19,6 +19,6 @@ run: vet
 	go run ./cmd/http
 .PHONY:run
 
-build: vet
+build: 
 	go build ./cmd/http
 .PHONY:build
