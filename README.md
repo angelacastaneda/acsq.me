@@ -19,8 +19,10 @@ webserver works.
 
 * gzipping
 
+* sqlite server
+
 ## todo
 
 * native go md -> html
 
-* sqlite server
+* cli tool to add to db
