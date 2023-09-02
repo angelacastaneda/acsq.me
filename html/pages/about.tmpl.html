@@ -10,8 +10,8 @@
   <img src="/static/img/cantorselfie.jpg" alt="selfie with me and dr. georg cantor" title="c = 2^{\aleph_0}">
   <figcaption>
     &lbrace;{{ translate .Lang
-    "me" 
-    "yo" 
+    "me"
+    "yo"
     "ich"}}&rbrace;∪&lbrace;cantor&rbrace;
   </figcaption>
 </figure>
@@ -20,19 +20,19 @@
   `My name is Ángel Castañeda, and I'm an undergrad student based out of
     Milwaukee, WI. My main field of study is actuarial science, but I like
     learning way more than just that. Math and humanities are the coolest things
-    to learn about (but really, <a href="/static/files/LockhartsLament.pdf" 
+    to learn about (but really, <a href="/static/files/LockhartsLament.pdf"
     target="_blank" rel="noopener noreferrer">math is a humanity</a>.) Most of
-    my real joy comes from talking to maniacs though.`  
-  `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuarial de 
-    los estados unidos en Milwaukee, WI. Me encanta aprender cosas nuevas como 
-    <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener 
-    noreferrer">las matemáticas</a> y la historia, pero me gusta más hablar con 
-    los extranjeros o los viejitos, especialmente si puedo practicar mi español 
+    my real joy comes from talking to maniacs though.`
+  `Mi nombre es Ángel Castañeda, y soy un estudiante de la ciencia actuarial de
+    los estados unidos en Milwaukee, WI. Me encanta aprender cosas nuevas como
+    <a href="/static/files/LockhartsLament.pdf" target="_blank" rel="noopener
+    noreferrer">las matemáticas</a> y la historia, pero me gusta más hablar con
+    los extranjeros o los viejitos, especialmente si puedo practicar mi español
     con algien más que solo mi ma.`
-  `Hallo. Ich heiße Engel Castañeda. Ich studiere Mathe in die Vereinigten 
-    Staaten in Milwaukee, WI. Ich lerne gern neue Sachen, aber ich treffe gern 
-    tolle Leute. Ich habe Deutschland, Österreich, und die Schweiz dreimal 
-    besucht. Ich habe Cantor, Leibniz, Hilbert, und Gauß getruffen. Deutsche 
+  `Hallo. Ich heiße Engel Castañeda. Ich studiere Mathe in die Vereinigten
+    Staaten in Milwaukee, WI. Ich lerne gern neue Sachen, aber ich treffe gern
+    tolle Leute. Ich habe Deutschland, Österreich, und die Schweiz dreimal
+    besucht. Ich habe Cantor, Leibniz, Hilbert, und Gauß getruffen. Deutsche
     sind sehr cool B-)` }}
 </p>
 <h4>
@@ -43,46 +43,51 @@
 </h4>
 <ul>
   <li>
-    {{ translateHTML .Lang 
-    `insightful <a href="/library">books</a>` 
-    `<a href="/library">libros</a> chidos` 
-    `sehr gute <a href="/library">Bücher</a>` }} 
-  </li>
-  <li>
-    {{ translate .Lang 
-    "learning German" 
-    "aprender alemán" 
-    "Deutsch" }}
-  </li>
-  <li>
-    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll🎸</a> shuffled by 32bit integers <details class="inline"> <summary>[{{ .TrackIndex }}]</summary>
-      <p>
-        <a href="{{translatePath .Lang "/about"}}">
-          🔄</a> 
-        then 
-        <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">
-          🎧</a>
-      </p> 
-    </details>
-  </li>
-  <li>
-    {{ translateHTML .Lang 
-    "taking interesting <a href='/tags/photos'>photos</a>" 
-    "tomar <a href='/tags/photos'>fotos</a> caminando"
-    "Fotographie" }}
+    {{ translateHTML .Lang
+    `insightful <a href="/library">books</a>📖`
+    `<a href="/library">libros</a>📖 chidos`
+    `sehr gute <a href="/library">Bücher</a>📖` }}
   </li>
   <li>
     {{ translate .Lang
-    "finding passionate, independent people"
-    "la gente apasionada"
-    "passionierte Menschen" }}
+    "learning German🇩🇪"
+    "aprender alemán🇩🇪"
+    "Deutsch🇩🇪" }}
+  </li>
+  <li>
+    <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">rock n roll🎸</a>
+    {{ translate .Lang
+    `shuffled by 32bit integers`
+    `mezclado por enteros`
+    `der mit ganzen Zahlen gemischt wird`}}
+    <details class="inline"> <summary>[{{ .TrackIndex }}]</summary>
+      <p>
+        <a href="{{translatePath .Lang "/about"}}">
+          🔄</a>
+        {{ translate .Lang "then" "y luego" "dann" }}
+        <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">
+          🎧</a>
+      </p>
+    </details>
+  </li>
+  <li>
+    {{ translateHTML .Lang
+    `taking interesting <a href="/tags/photos">photos</a>📸`
+    `tomar <a href="/tags/photos">fotos</a>📸 caminando`
+    `<a href="/tags/photos">Fotographie</a>📸` }}
+  </li>
+  <li>
+    {{ translate .Lang
+    "finding passionate💥, independent people"
+    "la gente apasionada💥"
+    "passionierte💥 Menschen" }}
   </li>
   <li>
     {{/* god, spanish can be so concise */}}
     {{ translate .Lang
-    "becoming more independent myself"
-    "independizarme" 
-    "Selbstständig werden" }}
+    "becoming more independent🗽 myself"
+    "independizarme🗽"
+    "Selbstständig🗽 werden" }}
   </li>
 </ul>
 <p>
@@ -104,9 +109,20 @@
   "quellcode" }}
 </h4>
 <p>
-  This site is written in <a href="https://go.dev" target="_blank" 
+  {{ translateHTML .Lang
+  `This site is written in <a href="https://go.dev" target="_blank"
   rel="noopener noreferrer">GO!</a> and can be found at
-  <a href="https://notabug.org/acsqdotme/angel-castaneda.com" target="_blank" 
-  rel="noopener noreferrer">notabug</a>.
+  <a href="https://notabug.org/acsqdotme/angel-castaneda.com" target="_blank"
+  rel="noopener noreferrer">notabug</a>.`
+
+  `Escribí este sitio en <a href="https://go.dev" target="_blank"
+  rel="noopener noreferrer">GO!</a> y se puede ver en código en
+  <a href="https://notabug.org/acsqdotme/angel-castaneda.com" target="_blank"
+  rel="noopener noreferrer">notabug</a>.`
+
+  `Diese Website ist in <a href="https://go.dev" target="_blank"
+  rel="noopener noreferrer">GO!</a> geschrieben und kann unter
+  <a href="https://notabug.org/acsqdotme/angel-castaneda.com" target="_blank"
+  rel="noopener noreferrer">notabug</a> gefunden werden.` }}
 </p>
 {{end}}
