@@ -291,6 +291,13 @@ a:active, a:hover  {
   text-align: left;
 }
 
+.textlogo {
+  max-height: 2em;
+  max-width: 2em;
+  vertical-align: middle;
+  display: inline;
+}
+
 .mobile {
   display: none;
 }
