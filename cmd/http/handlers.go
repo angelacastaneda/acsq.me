@@ -377,6 +377,10 @@ func feedHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeContent(w, r, "atom.xml", time.Now(), feed)
 }
 
+func cvHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, filepath.Join(staticDir, "files", "cv.pdf"))
+}
+
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join(staticDir, "favicon.ico"))
 }
