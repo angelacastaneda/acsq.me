@@ -40,6 +40,7 @@ func main() {
 	}
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 	mux.HandleFunc("/cv", cvHandler)
+	mux.HandleFunc("/acsq.gpg", gpgHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
