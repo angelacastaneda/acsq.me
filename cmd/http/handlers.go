@@ -383,7 +383,7 @@ func cvHandler(w http.ResponseWriter, r *http.Request) {
 
 func pgpHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
-	http.ServeFile(w, r, filepath.Join(staticDir, "files", "acsq.gpg"))
+	http.ServeFile(w, r, filepath.Join(staticDir, "files", "angelcastaneda.asc"))
 }
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
