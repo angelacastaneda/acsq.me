@@ -40,7 +40,6 @@ func main() {
 	}
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 	mux.HandleFunc("/cv.pdf", cvHandler)
-	mux.HandleFunc("/cv", cvHandler)
 	mux.HandleFunc("/angelcastaneda.asc", pgpHandler)
 	mux.HandleFunc("/pgp", pgpHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)
