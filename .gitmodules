@@ -1,3 +1,3 @@
 [submodule "dblog"]
 	path = dblog
-	url = git@acsq.me:dblog.git
+	url = https://git.sr.ht/~acsqdotme/dblog
