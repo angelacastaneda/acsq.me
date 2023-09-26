@@ -1,24 +1,27 @@
 .DEFAULT_GOAL := run
 
+http_path := ./cmd/http
+sql_pkg := ./sqlite
+
 fmt:
-	go fmt ./cmd/http
-	go fmt ./sqlite
+	go fmt $(http_path)
+	go fmt $(sql_pkg)
 .PHONY:fmt
 
 lint: fmt
-	golint ./cmd/http
-	golint ./sqlite
+	golint $(http_path)
+	golint $(sql_pkg)
 .PHONY:lint
 
 vet: lint
-	go vet ./cmd/http
-	go vet ./sqlite
+	go vet $(http_path)
+	go vet $(sql_pkg)
 .PHONY:vet
 
 run: vet
-	go run ./cmd/http
+	go run $(http_path)
 .PHONY:run
 
 build: 
-	go build ./cmd/http
+	go build $(http_path)
 .PHONY:build
