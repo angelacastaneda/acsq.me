@@ -7,15 +7,17 @@ webserver works.
 
 * templating html
 
-* real multilingual content/url localization for spanish and german
+* real multilingual content/url localization for
+  [spanish](https://es.angel-castaneda.com) and
+  [german](https://de.angel-castaneda.com)
 
-* atom feed
+* [atom feed](https://www.angel-castaneda.com/atom.xml)
 
-* fancy error pages
+* [fancy error pages](https://www.angel-castaneda.com/page/doesnt/exist)
 
 * md -> html for articles
 
-* blog organizing w/ tagging system
+* blog organized w/ tagging system
 
 * gzipping
 
