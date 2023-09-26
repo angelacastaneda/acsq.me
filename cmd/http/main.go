@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"angel-castaneda.com/sqlite"
+	"angel-castaneda.com/dblog"
 )
 
 var (
@@ -16,7 +16,7 @@ var (
 )
 
 func main() {
-	if err := sqlite.MakeDB(); err != nil {
+	if err := dblog.MakeDB(); err != nil {
 		log.Fatal(err)
 	}
 

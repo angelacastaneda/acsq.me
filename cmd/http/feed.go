@@ -4,11 +4,11 @@ import (
 	"log"
 	"time"
 
-	"angel-castaneda.com/sqlite"
+	"angel-castaneda.com/dblog"
 )
 
 // use this to check for valid feed: https://validator.w3.org/feed/
-func generateFeed(domain string, posts []sqlite.Post) []byte {
+func generateFeed(domain string, posts []dblog.Post) []byte {
 	feed := `<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>angel's site</title>
@@ -30,7 +30,7 @@ func generateFeed(domain string, posts []sqlite.Post) []byte {
     <published>` + post.PubDate + `T00:00:00.000Z</published>
     <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>
     <summary>` + post.Description + `</summary>`
-		p, err := sqlite.FetchPost(post.FileName)
+		p, err := dblog.FetchPost(post.FileName)
 		if err != nil {
 			log.Println(err.Error())
 			break // todo undo this awful hack solution

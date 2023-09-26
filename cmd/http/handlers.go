@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 
-	"angel-castaneda.com/sqlite"
+	"angel-castaneda.com/dblog"
 )
 
 var (
@@ -164,27 +164,27 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
 	data["Scheme"] = scheme
 	data["Path"] = path
 	data["Email"] = email
-	data["Posts"], err = sqlite.AggregatePosts(postQty, tagFilter)
+	data["Posts"], err = dblog.AggregatePosts(postQty, tagFilter)
 	if err != nil {
 		return data, err
 	}
 
 	if path == "/" {
-		data["Post"], err = sqlite.FetchThumbnail()
+		data["Post"], err = dblog.FetchThumbnail()
 		if err != nil {
 			return data, err
 		}
 	}
 
 	if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) {
-		data["Post"], err = sqlite.FetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
+		data["Post"], err = dblog.FetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
 		if err != nil {
 			return data, err
 		}
 	}
 
 	if strings.HasPrefix(path, translatePath(lang, "/tags/")) && len(path) > len(translatePath(lang, "/tags/")) {
-		data["Tag"], err = sqlite.FetchTag(strings.TrimPrefix(translatePath("en-US", path), "/tags/"))
+		data["Tag"], err = dblog.FetchTag(strings.TrimPrefix(translatePath("en-US", path), "/tags/"))
 		if err != nil {
 			return data, err
 		}
@@ -268,7 +268,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 	lang := fetchLang(r.Host)
 	tag := translateKeyword("en-US", path[2])
 
-	if !sqlite.DoesTagExist(tag) {
+	if !dblog.DoesTagExist(tag) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
@@ -286,7 +286,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tagData, err := sqlite.FetchTag(tag)
+	tagData, err := dblog.FetchTag(tag)
 	if err != nil {
 		log.Println(err.Error())
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
@@ -321,7 +321,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	path := strings.Split(r.URL.Path, "/")
 	post := path[2]
 
-	if !sqlite.DoesPostExist(post) {
+	if !dblog.DoesPostExist(post) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
@@ -339,7 +339,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	postData, err := sqlite.FetchPost(post)
+	postData, err := dblog.FetchPost(post)
 	if err != nil {
 		log.Println(err.Error())
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
@@ -367,7 +367,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
-	posts, err := sqlite.AggregatePosts(0, "")
+	posts, err := dblog.AggregatePosts(0, "")
 	if err != nil {
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
