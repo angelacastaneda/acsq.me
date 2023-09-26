@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := run
 
 http_path := ./cmd/http
-sql_pkg := ./sqlite
+sql_pkg := ./dblog
 
 fmt:
 	go fmt $(http_path)
