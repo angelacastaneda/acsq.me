@@ -23,8 +23,4 @@ webserver works.
 
 * sqlite server
 
-## todo
 
-* native go md -> html
-
-* cli tool to add to db
