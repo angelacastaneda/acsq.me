@@ -25,6 +25,9 @@ webserver works.
 
 ## License
 
+Code for this site is under the GPLv3. See [`LICENSE`](./LICENSE) for more
+details.
+
 This site uses my [dblog repo](https://git.acsq.me/dblog) as an interface
 between the sqlite database and my code. That package is licensed under the
 LGPLv3. Check it's [`LICENSE`](https://git.acsq.me/dblog/tree/LICENSE/)
