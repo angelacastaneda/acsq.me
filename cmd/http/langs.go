@@ -208,6 +208,8 @@ var dictionary = buildDictionary([]map[string]string{
 	},
 })
 
+// this awesome func come from a stack overflow post, and is not my own 
+// https://stackoverflow.com/a/76735864/21316874 ; it falls under CC BY-SA 4.0
 func buildDictionary(maps []map[string]string) map[string]map[string]string {
 	rosetta := make(map[string]map[string]string)
 	for _, m := range maps {
