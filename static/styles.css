@@ -44,9 +44,9 @@
 
 @media (prefers-color-scheme:dark) {
   :root {
-    --bg-color: #001A1E;
+    --bg-color: #212529;
     --body-color: #FFFFFF;
-    --hyperblue: #7DCEF0;
+    --hyperblue: #5DCFFF;
     --hoverorange: #FF7100;
   }
 }
