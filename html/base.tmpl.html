@@ -9,7 +9,7 @@
     {{- block "meta" . }}
     <meta name="keywords" content="{{block "keywords" .}}personal site{{ end}}">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://{{ translateHost "" .Domain }}{{ translatePath "en-US" .Path }}">
+    <link rel="canonical" href="https://{{ translateHost "www" .Domain }}{{ translatePath "en-US" .Path }}">
     <link rel="alternate" hreflang="en-US" href="https://{{ translateHost "en-US" .Domain }}{{ translatePath "en-US" .Path }}">
     <link rel="alternate" hreflang="es-US" href="https://{{ translateHost "es-US" .Domain }}{{ translatePath "es-US" .Path }}">
     <link rel="alternate" hreflang="de-DE" href="https://{{ translateHost "de-DE" .Domain }}{{ translatePath "de-DE" .Path }}">
