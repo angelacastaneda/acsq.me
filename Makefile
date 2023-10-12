@@ -2,6 +2,7 @@
 
 http_path := ./cmd/http
 sql_pkg := ./dblog
+bins := ./http
 
 fmt:
 	go fmt $(http_path)
@@ -25,3 +26,7 @@ run: vet
 build: 
 	go build $(http_path)
 .PHONY:build
+
+clean:
+	rm -fv $(bins)
+.PHONY:clean
