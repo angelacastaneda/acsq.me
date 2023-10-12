@@ -34,7 +34,7 @@ func gzipHandler(next http.Handler) http.Handler {
 func redirectWWW(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !strings.HasPrefix(r.Host, "www.") && !strings.HasPrefix(r.Host, "en.") && !strings.HasPrefix(r.Host, "es.") && !strings.HasPrefix(r.Host, "de.") {
-			http.Redirect(w, r, scheme+"://www."+r.Host+r.RequestURI, 302)
+			http.Redirect(w, r, scheme+"://www."+r.Host+r.RequestURI, http.StatusMovedPermanently)
 			return
 		}
 
