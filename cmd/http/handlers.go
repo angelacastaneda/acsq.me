@@ -349,6 +349,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, err := sqlBindTMPL(postData.Content,
 		filepath.Join(htmlDir, "base"+tmplFileExt),
 		filepath.Join(htmlDir, "partials", "post_header"+tmplFileExt),
+		filepath.Join(htmlDir, "partials", "katex"+tmplFileExt), // todo make it check if it's a math article first
 		filepath.Join(htmlDir, "blog", "post"+tmplFileExt),
 	)
 	if err != nil {

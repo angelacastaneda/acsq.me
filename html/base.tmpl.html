@@ -17,6 +17,7 @@
     <title>{{template "title" .}} - {{ translate .Lang "ángel's site" "sitio de ángel" "engels webseite"}}</title>
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="icon" href="/static/favicon.ico">
+    {{ block "katex" . }}{{ end }}
   </head>
   <body>
     <header>
