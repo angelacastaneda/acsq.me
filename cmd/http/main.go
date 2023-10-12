@@ -19,9 +19,10 @@ func main() {
 	}
 
 	addr := flag.String("addr", ":4000", "HTTP Network Address")
+	https := flag.Bool("https", false, "TLS Encryption")
 	flag.Parse() // required before flag is used
 
-	if *addr == ":443" {
+	if *https {
 		scheme = "https"
 	} else {
 		scheme = "http"
