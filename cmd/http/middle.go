@@ -31,14 +31,6 @@ func gzipHandler(next http.Handler) http.Handler {
 	})
 }
 
-func redirectHTTPS(w http.ResponseWriter, r *http.Request) {
-	if r.TLS != nil {
-		http.Error(w, "HTTPS already working", http.StatusBadRequest)
-	}
-	target := "https://" + r.Host + r.RequestURI
-	http.Redirect(w, r, target, http.StatusMovedPermanently)
-}
-
 func redirectWWW(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !strings.HasPrefix(r.Host, "www.") && !strings.HasPrefix(r.Host, "en.") && !strings.HasPrefix(r.Host, "es.") && !strings.HasPrefix(r.Host, "de.") {

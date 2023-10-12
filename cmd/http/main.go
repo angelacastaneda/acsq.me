@@ -9,10 +9,8 @@ import (
 )
 
 var (
-	fullchain = "/etc/letsencrypt/live/angel-castaneda.com/fullchain.pem"
-	privkey   = "/etc/letsencrypt/live/angel-castaneda.com/privkey.pem"
-	langs     = []string{"en-US", "es-US", "de-DE"}
-	scheme    string
+	langs  = []string{"en-US", "es-US", "de-DE"}
+	scheme string
 )
 
 func main() {
@@ -48,12 +46,6 @@ func main() {
 
 	log.Printf("Starting the server on %s", *addr)
 
-	if *addr == ":443" {
-		go http.ListenAndServe(":80", http.HandlerFunc(redirectHTTPS))
-		err := http.ListenAndServeTLS(*addr, fullchain, privkey, gzipHandler(redirectWWW(mux)))
-		log.Fatal(err)
-	} else {
-		err := http.ListenAndServe(*addr, gzipHandler(redirectWWW(mux)))
-		log.Fatal(err)
-	}
+	err := http.ListenAndServe(*addr, gzipHandler(redirectWWW(mux)))
+	log.Fatal(err)
 }
