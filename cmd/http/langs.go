@@ -68,6 +68,10 @@ var dictionary = buildDictionary([]map[string]string{
 		"es-US": "biblioteca",
 		"de-DE": "bibliothek",
 	}, {
+		"en-US": "recommend",
+		"es-US": "recomendar",
+		"de-DE": "empfehlen",
+	}, {
 		"en-US": "tags",
 		"es-US": "etiquetas",
 		"de-DE": "stichwörter", // non ASCII
