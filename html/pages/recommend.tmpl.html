@@ -4,15 +4,18 @@
 
 {{define "main"}}
 <h2>
-  recommend me a book
+  {{ translate .Lang
+  "recommend me a book"
+  "recomiéndame un libro"
+  "mir ein buch empfehlen"}}
 </h2>
 <form>
   <table>
-    <tr><td><input type="text" name="recommender" placeholder="Who Are You?" required></td></tr>
-    <tr><td><input type="text" name="title" placeholder="Book Title" required></td></tr>
-    <tr><td><input type="text" name="author" placeholder="Author Name(s)" required></td></tr>
-    <tr><td><textarea rows="5" placeholder="Why is this book awesome?" required></textarea></td></tr>
-    <tr><td><input type="button" name="send" value="send!"></td></tr>
+    <tr><td><input type="text" name="recommender" placeholder="{{ translate .Lang "Who Are You? (optional)" "¿Quién eres? (opcional)" "Wer sind Sie? (fakultativ)" }}" required></td></tr>
+    <tr><td><input type="text" name="title" placeholder="{{ translate .Lang "Book Title" "Título de libro" "Buchtitel" }}" required></td></tr>
+    <tr><td><input type="text" name="author" placeholder="{{ translate .Lang "Author Name(s)" "Nombre(s) de autor" "Autorenname(n)" }}" required></td></tr>
+    <tr><td><textarea rows="5" placeholder="{{ translate .Lang "Why is this book awesome?" "¿Por qué este libro es chido?" "Warum ist dieses Buch cool?" }}" required></textarea></td></tr>
+    <tr><td><input type="button" name="send" value="{{ translate .Lang "send!" "¡enviar!" "senden!" }}"></td></tr>
   </table>
 </form>
 {{end}}
