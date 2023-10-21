@@ -9,13 +9,23 @@
   "recomiéndame un libro"
   "mir ein buch empfehlen"}}
 </h2>
+<style>
+  textarea, input {
+    width: 100%;
+  }
+  input.button {
+    max-width: 5em;
+    text-align: center;
+  }
+</style>
+<!-- TODO make table look cool without sans serif fonts-->
 <form>
-  <table>
+  <table style="width: 90%; margin: 1em auto;">
     <tr><td><input type="text" name="recommender" placeholder="{{ translate .Lang "Who Are You? (optional)" "¿Quién eres? (opcional)" "Wer sind Sie? (fakultativ)" }}" required></td></tr>
     <tr><td><input type="text" name="title" placeholder="{{ translate .Lang "Book Title" "Título de libro" "Buchtitel" }}" required></td></tr>
     <tr><td><input type="text" name="author" placeholder="{{ translate .Lang "Author Name(s)" "Nombre(s) de autor" "Autorenname(n)" }}" required></td></tr>
     <tr><td><textarea rows="5" placeholder="{{ translate .Lang "Why is this book awesome?" "¿Por qué este libro es chido?" "Warum ist dieses Buch cool?" }}" required></textarea></td></tr>
-    <tr><td><input type="button" name="send" value="{{ translate .Lang "send!" "¡enviar!" "senden!" }}"></td></tr>
+    <tr style="text-align: center;"><td><input type="button" name="send" value="{{ translate .Lang "send!" "¡enviar!" "senden!" }}"></td></tr>
   </table>
 </form>
 {{end}}
