@@ -1,0 +1,18 @@
+{{define "title"}}{{ translateKeyword .Lang "recommend" }}{{end}}
+{{define "description"}}Recommendation page for people to share new books to me.{{end}}
+{{define "keywords"}}{{ translateKeyword .Lang "recommend" }}{{end}}
+
+{{define "main"}}
+<h2>
+  recommend me a book
+</h2>
+<form>
+  <table>
+    <tr><td><input type="text" name="recommender" placeholder="Who Are You?" required></td></tr>
+    <tr><td><input type="text" name="title" placeholder="Book Title" required></td></tr>
+    <tr><td><input type="text" name="author" placeholder="Author Name(s)" required></td></tr>
+    <tr><td><textarea rows="5" placeholder="Why is this book awesome?" required></textarea></td></tr>
+    <tr><td><input type="button" name="send" value="send!"></td></tr>
+  </table>
+</form>
+{{end}}
