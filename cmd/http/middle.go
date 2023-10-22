@@ -44,3 +44,9 @@ func redirectWWW(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func redirectHandler(url string) func(w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, url, 302)
+	}
+}
