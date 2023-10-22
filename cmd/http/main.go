@@ -37,10 +37,12 @@ func main() {
 		mux.HandleFunc(translatePath(lang, "/posts/"), postHandler)
 		mux.HandleFunc(translatePath(lang, "/tags/"), tagHandler)
 	}
+	mux.HandleFunc("/favicon", redirectHandler("/favicon.ico"))
 	mux.HandleFunc("/favicon.ico", faviconHandler)
+	mux.HandleFunc("/cv", redirectHandler("/cv.pdf"))
 	mux.HandleFunc("/cv.pdf", cvHandler)
+	mux.HandleFunc("/pgp", redirectHandler("/angelcastaneda.asc"))
 	mux.HandleFunc("/angelcastaneda.asc", pgpHandler)
-	mux.HandleFunc("/pgp", pgpHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
