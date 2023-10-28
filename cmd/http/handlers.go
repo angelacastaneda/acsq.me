@@ -435,3 +435,55 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 	params.Add("recommender", recommendation.Name)
 	http.Redirect(w, r, "/recommend?"+params.Encode(), http.StatusSeeOther)
 }
+
+func recommendHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+
+	if !doesFileExist(filepath.Join(htmlDir, "recommend"+tmplFileExt)) {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	path := strings.Split(r.URL.Path, "/")
+	// then if it does exist to cut out ending slash or redirect if theres extra stuff at end
+	if len(path) == 3 && path[2] == "" {
+		http.Redirect(w, r, "/recommend", 302)
+	} else if len(path) > 2 {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// then finally you can translate url itself
+	translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
+	if r.URL.Path != translatedURL {
+		http.Redirect(w, r, translatedURL, 302)
+		return
+	}
+
+	tmpl, err := bindTMPL(
+		filepath.Join(htmlDir, "base"+tmplFileExt),
+		filepath.Join(htmlDir, "recommend"+tmplFileExt),
+	)
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+
+	data, err := fetchData(r.Host, r.URL.Path, -1, "")
+	Rec := struct {
+		Title       string
+		Recommender string
+	}{
+		Title:       r.URL.Query().Get("title"),
+		Recommender: r.URL.Query().Get("recommender"),
+	}
+	data["Rec"] = Rec
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+
+	serveTMPL(w, r, tmpl, data)
+}
