@@ -36,6 +36,8 @@ func main() {
 		mux.HandleFunc(translatePath(lang, "/posts"), pageHandler)
 		mux.HandleFunc(translatePath(lang, "/posts/"), postHandler)
 		mux.HandleFunc(translatePath(lang, "/tags/"), tagHandler)
+		mux.HandleFunc(translatePath(lang, "/recommend"), recommendHandler)
+		mux.HandleFunc(translatePath(lang, "/recommend/"), recommendHandler)
 	}
 	mux.HandleFunc("/favicon", redirectHandler("/favicon.ico"))
 	mux.HandleFunc("/favicon.ico", faviconHandler)
