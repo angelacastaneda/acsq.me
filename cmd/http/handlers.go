@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"html/template"
 	"log"
@@ -390,4 +391,38 @@ func pgpHandler(w http.ResponseWriter, r *http.Request) {
 
 func faviconHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, filepath.Join(staticDir, "favicon.ico"))
+}
+
+func apiHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		log.Println(http.StatusMethodNotAllowed)
+		return
+	}
+
+	if err := r.ParseForm(); err != nil {
+		http.Error(w, "Error parsing form", http.StatusBadRequest)
+		log.Println(http.StatusBadRequest)
+		return
+	}
+
+	recommendation := struct {
+		Name   string `json:"name"`
+		Title  string `json:"title"`
+		Author string `json:"author"`
+		Note   string `json:"note"`
+	}{
+		Name:   r.FormValue("recommender"),
+		Title:  r.FormValue("title"),
+		Author: r.FormValue("author"),
+		Note:   r.FormValue("note"),
+	}
+
+	jsonBytes, err := json.Marshal(recommendation)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	log.Println(string(jsonBytes))
+	http.Redirect(w, r, "/library", http.StatusSeeOther) // todo don't just redirect to library without any knowledge of confirmation
 }
