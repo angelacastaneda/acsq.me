@@ -32,9 +32,17 @@
 
 {{ if (ne .Rec.Title "") }}
 <div class="center">
-  <h4 style="color: green; display: inline;">SUBMITTED:</h4>
+  <h4 style="color: green; display: inline;">{{ translate .Lang
+    "SUBMITTED"
+    "RECIBIDO"
+    "EMPFANGEN" }}:</h4>
 
-  <span>Thanks for recommending <em>{{ .Rec.Title }}</em>{{ if (ne .Rec.Recommender "") }}, {{ .Rec.Recommender }}{{ end }}!</span>
+  <span>
+    {{ translate .Lang
+    "Thanks for recommending"
+    "¡Gracias por recommendar"
+    "Danke für die Empfehlung von" }}
+    <em>{{ .Rec.Title }}</em>{{ if (ne .Rec.Recommender "") }}, {{ .Rec.Recommender }}{{ end }}!</span>
 </div>
 {{ end }}
-{{end}}
+{{ end }}
