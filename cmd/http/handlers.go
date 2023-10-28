@@ -213,25 +213,29 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
-	translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
-	if r.URL.Path != translatedURL {
-		http.Redirect(w, r, translatedURL, 302)
-		return
-	}
-
+	// first step is to see if file exists in page directory. if not then 404
 	path := strings.Split(r.URL.Path, "/")
 	page := translateKeyword("en-US", path[1])
 	if r.URL.Path == "/" {
 		page = "index"
-	} else if len(path) == 3 && path[2] == "" {
+	}
+	if !doesFileExist(filepath.Join(htmlDir, "pages", page+tmplFileExt)) {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// then if it does exist to cut out ending slash or redirect if theres extra stuff at end
+	if len(path) == 3 && path[2] == "" {
 		http.Redirect(w, r, "/"+page, 302)
 	} else if len(path) > 2 {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
-	if !doesFileExist(filepath.Join(htmlDir, "pages", page+tmplFileExt)) {
-		fancyErrorHandler(w, r, http.StatusNotFound)
+	// then finally you can translate url itself
+	translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
+	if r.URL.Path != translatedURL {
+		http.Redirect(w, r, translatedURL, 302)
 		return
 	}
 
