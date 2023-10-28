@@ -8,6 +8,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -428,5 +429,9 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	log.Println(string(jsonBytes))
-	http.Redirect(w, r, "/library", http.StatusSeeOther) // todo don't just redirect to library without any knowledge of confirmation
+
+	params := url.Values{}
+	params.Add("title", recommendation.Title)
+	params.Add("recommender", recommendation.Name)
+	http.Redirect(w, r, "/recommend?"+params.Encode(), http.StatusSeeOther)
 }
