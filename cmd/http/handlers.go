@@ -436,6 +436,10 @@ func apiHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/recommend?"+params.Encode(), http.StatusSeeOther)
 }
 
+func redirectWithParams(params url.Values, w http.ResponseWriter, r *http.Request, url string, code int) {
+	http.Redirect(w, r, url+"?"+params.Encode(), code)
+}
+
 func recommendHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 
@@ -456,7 +460,7 @@ func recommendHandler(w http.ResponseWriter, r *http.Request) {
 	// then finally you can translate url itself
 	translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
 	if r.URL.Path != translatedURL {
-		http.Redirect(w, r, translatedURL, 302)
+		redirectWithParams(r.URL.Query(), w, r, translatedURL, 302)
 		return
 	}
 
@@ -470,7 +474,7 @@ func recommendHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := fetchData(r.Host, r.URL.Path, -1, "")
+	data, err := fetchData(r.Host, r.URL.RequestURI(), -1, "")
 	Rec := struct {
 		Title       string
 		Recommender string
