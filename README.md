@@ -24,6 +24,18 @@ Original inspiration came from [this blog post](https://j3s.sh/thought/my-websit
 
 * gzipping
 
+## todo
+
+- [ ] generate site map
+
+- [ ] finish [recommend page](https://www.acsq.me/recommend) api
+
+- [ ] move away from pandoc+perl for md->html
+
+more todos at [acsq.me/todo](https://www.acsq.me/todo). You can submit more
+suggestions on [sr.ht](https://todo.sr.ht/~acsqdotme/acsq.me) or just emailing
+me at [angel@acsq.me](mailto:angel@acsq.me?subject=suggestion).
+
 ## license
 
 Code for this site is under the GPLv3. See [`LICENSE`](./LICENSE) for more
