@@ -1,4 +1,4 @@
-module angel-castaneda.com
+module acsq.me
 
 go 1.20
 

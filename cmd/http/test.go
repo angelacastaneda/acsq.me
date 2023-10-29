@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"angel-castaneda.com/dblog"
+	"acsq.me/dblog"
 )
 
 func injectTag(name, cat, desc string) {

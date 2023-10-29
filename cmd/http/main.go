@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"angel-castaneda.com/dblog"
+	"acsq.me/dblog"
 )
 
 var (

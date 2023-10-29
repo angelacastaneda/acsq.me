@@ -15,7 +15,7 @@ import (
 	"strings"
 	"time"
 
-	"angel-castaneda.com/dblog"
+	"acsq.me/dblog"
 )
 
 var (

@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	"angel-castaneda.com/dblog"
+	"acsq.me/dblog"
 )
 
 // use this to check for valid feed: https://validator.w3.org/feed/
