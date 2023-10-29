@@ -160,7 +160,7 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
 	var err error
 	lang := fetchLang(host)
 	data := make(map[string]interface{})
-	email := "angelaxel1420@disroot.org" // for translations. todo don't just hardcode this in
+	email := translate(lang, "me@angelcastaneda.org", "yo@angelcastaneda.org", "ich@angelcastaneda.org")
 
 	data["Lang"] = lang
 	data["Domain"] = host
