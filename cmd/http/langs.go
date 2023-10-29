@@ -83,6 +83,11 @@ var dictionary = buildDictionary([]map[string]string{
 		"en-US": "todo",
 		"es-US": "pendiente",
 		"de-DE": "aufgaben",
+		//////////////// MISC ///////////////////////
+	}, {
+		"en-US": "hi",
+		"es-US": "hola",
+		"de-DE": "hallo",
 		//////////////// TAGS ///////////////////////
 	}, { // medium
 		"en-US": "articles",
