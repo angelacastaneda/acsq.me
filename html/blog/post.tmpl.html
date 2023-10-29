@@ -5,11 +5,17 @@
 {{define "main"}}
 <article>
   {{ template "sql" . }}
+
   <time datetime="{{ .Post.PubDate }}">{{ translateDate .Lang .Post.PubDate }}</time>
+
+  {{ block "footnotes" . }}
+  {{ end }}
+
   <div class="tags">
     <h4>
       {{ translateKeyword .Lang "tags" }}:
     </h4>
+
     <nav>
       {{ range $index, $tag := .Post.Tags }}
       <a href="/tags/{{ $tag.Name }}">{{ translateKeyword $.Lang $tag.Name }}</a> {{ if not (lastOne $index (len $.Post.Tags)) }}·{{ end }}
