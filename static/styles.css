@@ -81,6 +81,12 @@ figure {
   margin: 1em auto;
 }
 
+blockquote {
+  border-left: 10px solid #ccc;
+  margin: 1.5em 10px;
+  padding: 0.1em 10px;
+}
+
 .code { /* really gotta get syntax highlighting */
   color: #FFFFFF;
   font-size: 0.7em;
