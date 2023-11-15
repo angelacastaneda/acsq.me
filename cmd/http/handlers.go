@@ -95,6 +95,7 @@ func rockNRoll() (string, int) { // todo put this in a more sensible place
 		"https://youtu.be/ciLNMesqPh0", // "Vincent" - Don McLean
 		"https://youtu.be/oFd9OhnKqvw", // "I Nearly Married A Human" - Tubeway Army
 		"https://youtu.be/vwM77SSxLp8", // "Time It's Time" - Talk Talk (love this album)
+		"https://youtu.be/zG-q9Jozp4o", // "A New Kind of Water" - Deceit
 	}
 	trackIndex := rand.Intn(len(awesomeTunes))
 	track := awesomeTunes[trackIndex]
