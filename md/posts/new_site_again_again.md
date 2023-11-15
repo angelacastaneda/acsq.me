@@ -45,7 +45,7 @@ Then I'd have this rule in my css:
 html:not([lang="en-US"]) :lang(en-US),
 html:not([lang="es-US"]) :lang(es-US),
 html:not([lang="de-DE"]) :lang(de-DE) {
-  display: none!important; 
+  display: none!important;
 }
 ```
 
@@ -58,7 +58,7 @@ way to write up a site.
 It didn't take long before I burnt out writing it all by hand, so I stitched
 up html fragments into full files with a shell script, but as long as I had to
 serve singular, static files, it was always gonna feel more like gluing a
-ransom note than making a proper templating system. 
+ransom note than making a proper templating system.
 
 <style type="text/css">
 #ransomizer {
@@ -98,7 +98,7 @@ ransom note than making a proper templating system.
 It was bad enough that I was just gonna move to some premade
 [hugo](https://gohugo.io/) solution when I found [this
 article](https://j3s.sh/thought/my-website-is-one-binary.html) that evangelized
-the power and simplicity of dynamic sites, specifically with Go. 
+the power and simplicity of dynamic sites, specifically with Go.
 
 It seems as good a thing as any to learn, so I learned go's funny syntactic
 slang like std, pkg, and fmt (no YHWH yet.) It took very little time to
@@ -109,7 +109,7 @@ domains by reading requests and writing responses.
 A good analogy that helped me understand the power of dynamic sites is cassette
 tapes. My weird systems I devised to generate html files were me cutting up a
 bunch of riffs and drum solos and gluing them together into one long tape to be
-read by a deck for some '80s kid to enjoy. 
+read by a deck for some '80s kid to enjoy.
 
 Dynamic sites are like those [digital to cassette
 converters](https://www.youtube.com/shorts/_53MotXGiZc) people get for cars too
@@ -150,7 +150,7 @@ to me without having to just shrug and pretend I know what it means.
 There's still some things I'm gonna change like make a better md-&gt;html system
 and probably move to a sqlite server cause constantly parsing files for tags is
 painful, but after many months of writing angel-castaneda.com, I finally feel
-like I've made something I can be really proud of. 
+like I've made something I can be really proud of.
 
 Thanks again to [jes](https://j3s.sh) for helping me to say no to big, clunky
 frameworks, dynamic or not. I also wanna thank my friend

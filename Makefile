@@ -23,7 +23,7 @@ run: vet
 	go run $(http_path)
 .PHONY:run
 
-build: 
+build:
 	go build $(http_path)
 .PHONY:build
 

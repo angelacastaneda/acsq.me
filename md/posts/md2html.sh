@@ -3,9 +3,9 @@
 
 readonly POSTS_DIR="../../html/posts"
 readonly POST_TEMP="POST_TEMPLATE.tmpl.html"
-readonly IMPROV="nonsense.tmpl.html" 
+readonly IMPROV="nonsense.tmpl.html"
 
-post=$(basename "$1" .md) 
+post=$(basename "$1" .md)
 echo "converting $post to HTML"
 
 # pandoc for md to html

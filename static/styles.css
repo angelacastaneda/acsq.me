@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'IBMPlexMono';
-  src: 
+  src:
     local('IBM Plex Mono Regular'),
     url('/static/fonts/IBMPlexMono-Regular.woff') format('woff');
   font-weight: normal;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: 'IBMPlexMono';
-  src: 
+  src:
     local('IBM Plex Mono Italic'),
     url('/static/fonts/IBMPlexMono-Italic.woff') format('woff');
   font-weight: normal;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: 'IBMPlexMono';
-  src: 
+  src:
     local('IBM Plex Mono Bold'),
     url('/static/fonts/IBMPlexMono-Bold.woff') format('woff');
   font-weight: bold;
@@ -27,7 +27,7 @@
 
 @font-face {
   font-family: 'IBMPlexMono';
-  src: 
+  src:
     local('IBM Plex Mono Bold Italic'),
     url('/static/fonts/IBMPlexMono-BoldItalic.woff') format('woff');
   font-weight: bold;
@@ -100,12 +100,12 @@ blockquote {
 }
 
 /* pre.code {
-  white-space: pre-wrap;       
-  white-space: -moz-pre-wrap;  
-  white-space: -pre-wrap;      
-  white-space: -o-pre-wrap;    
-  word-wrap: break-word;       
-}*/ 
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}*/
 
 details p {
   margin: 0em;
@@ -230,7 +230,7 @@ table.favicon img, img.favicon {
 }
 
 /* this will only work separated for some reason... */
-::selection { 
+::selection {
   background: var(--hyperblue);
   color: var(--bg-color);
 }
@@ -320,7 +320,7 @@ a:active, a:hover  {
   }
   .mobile {
     display: block;
-  }  
+  }
   .bookcover, .pfp, .loc {
     float: none;
     margin: 1em auto;
