@@ -209,12 +209,11 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	buf.WriteTo(w)
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	// first step is to see if file exists in page directory. if not then 404
 	path := strings.Split(r.URL.Path, "/")
 	page := translateKeyword("en-US", path[1])
@@ -270,8 +269,6 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	path := strings.Split(r.URL.Path, "/")
 	lang := fetchLang(r.Host)
 	tag := translateKeyword("en-US", path[2])
@@ -322,8 +319,6 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	lang := fetchLang(r.Host)
 
 	path := strings.Split(r.URL.Path, "/")
@@ -442,8 +437,6 @@ func redirectWithParams(params url.Values, w http.ResponseWriter, r *http.Reques
 }
 
 func recommendHandler(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
 	if !doesFileExist(filepath.Join(htmlDir, "recommend"+tmplFileExt)) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
