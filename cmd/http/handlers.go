@@ -158,10 +158,10 @@ func sqlBindTMPL(sqlContent string, files ...string) (*template.Template, error)
 	return tmpl, nil
 }
 
-func fetchData(host string, path string, postQty int, tagFilter string) (map[string]interface{}, error) {
+func fetchData(host string, path string, postQty int, tagFilter string) (map[string]any, error) {
 	var err error
 	lang := fetchLang(host)
-	data := make(map[string]interface{})
+	data := make(map[string]any)
 	email := translate(lang, "me@angelcastaneda.org", "yo@angelcastaneda.org", "ich@angelcastaneda.org")
 
 	data["Lang"] = lang
@@ -202,7 +202,7 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
 	return data, nil
 }
 
-func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]interface{}) {
+func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]any) {
 	var buf bytes.Buffer
 	err := tmpl.ExecuteTemplate(&buf, "base", data)
 	if err != nil {
@@ -251,7 +251,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data map[string]interface{}
+	var data map[string]any
 	switch translatePath("en-US", r.URL.Path) {
 	case "/":
 		data, err = fetchData(r.Host, r.URL.Path, 3, "articles")
