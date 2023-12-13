@@ -56,6 +56,7 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
+	return
 }
 
 func rockNRoll() (string, int) { // todo put this in a more sensible place
@@ -266,6 +267,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serveTMPL(w, r, tmpl, data)
+	return
 }
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
@@ -316,6 +318,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serveTMPL(w, r, tmpl, data)
+	return
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
@@ -368,6 +371,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serveTMPL(w, r, tmpl, data)
+	return
 }
 
 func feedHandler(w http.ResponseWriter, r *http.Request) {
@@ -484,4 +488,5 @@ func recommendHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	serveTMPL(w, r, tmpl, data)
+	return
 }
