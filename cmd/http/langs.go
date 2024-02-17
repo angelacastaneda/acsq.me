@@ -5,6 +5,9 @@ import (
 	"strings"
 	"time"
 	"unicode"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 func fetchLang(url string) string {
@@ -261,12 +264,14 @@ func unAnglicize(word string) string {
 }
 
 func translateKeyword(lang, keyword string) string {
+	caser := cases.Title(language.Und) // TODO learn to compose spanish, german, and english
+
 	translation, ok := dictionary[lang][unAnglicize(strings.ToLower(keyword))]
 	if ok {
 		if keyword == strings.ToUpper(keyword) {
 			return strings.ToUpper(translation)
-		} else if keyword == strings.Title(strings.ToLower(keyword)) {
-			return strings.Title(translation)
+		} else if keyword == caser.String(strings.ToLower(keyword)) {
+			return caser.String(translation)
 		} else {
 			return translation
 		}
