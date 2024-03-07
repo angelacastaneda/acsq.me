@@ -43,7 +43,7 @@ func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
 		return
 	}
 
-	data, err := fetchData(r.Host, "/", -1, "")
+	data := fetchBaseData(r.Host, "/")
 	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -158,48 +158,18 @@ func sqlBindTMPL(sqlContent string, files ...string) (*template.Template, error)
 	return tmpl, nil
 }
 
-func fetchData(host string, path string, postQty int, tagFilter string) (map[string]any, error) {
-	var err error
+func fetchBaseData(host string, path string) map[string]any {
 	lang := fetchLang(host)
 	data := make(map[string]any)
 	email := translate(lang, "me@angelcastaneda.org", "yo@angelcastaneda.org", "ich@angelcastaneda.org")
 
 	data["Lang"] = lang
-	data["Domain"] = host
 	data["Scheme"] = scheme
 	data["Path"] = path
+	data["Domain"] = host
 	data["Email"] = email
-	data["Posts"], err = dblog.AggregatePosts(postQty, tagFilter)
-	if err != nil {
-		return data, err
-	}
 
-	if path == "/" || path == "/index.html" {
-		data["Post"], err = dblog.FetchThumbnail()
-		if err != nil {
-			return data, err
-		}
-	}
-
-	if strings.HasPrefix(path, translatePath(lang, "/posts/")) && len(path) > len(translatePath(lang, "/posts/")) {
-		data["Post"], err = dblog.FetchPost(strings.TrimPrefix(path, translatePath(lang, "/posts/")))
-		if err != nil {
-			return data, err
-		}
-	}
-
-	if strings.HasPrefix(path, translatePath(lang, "/tags/")) && len(path) > len(translatePath(lang, "/tags/")) {
-		data["Tag"], err = dblog.FetchTag(strings.TrimPrefix(translatePath("en-US", path), "/tags/"))
-		if err != nil {
-			return data, err
-		}
-	}
-
-	if path == translatePath(lang, "/about.html") { // TODO fix this abomination and modularize data
-		data["Song"], data["TrackIndex"] = rockNRoll()
-	}
-
-	return data, nil
+	return data
 }
 
 func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, data map[string]any) {
@@ -259,14 +229,20 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data map[string]any
+	data := fetchBaseData(r.Host, r.URL.Path)
 	switch page {
 	case "index":
-		data, err = fetchData(r.Host, r.URL.Path, 3, "articles")
+		data["Posts"], err = dblog.AggregatePosts(3, "articles")
+		if err != nil { // TODO consider goto for error handling
+			log.Println(err.Error())
+			fancyErrorHandler(w, r, http.StatusInternalServerError)
+			return
+		}
+		data["Post"], err = dblog.FetchThumbnail()
 	case "posts":
-		data, err = fetchData(r.Host, r.URL.Path, 0, "")
+		data["Posts"], err = dblog.AggregatePosts(0, "")
 	default:
-		data, err = fetchData(r.Host, r.URL.Path, -1, "")
+		data["Song"], data["TrackIndex"] = rockNRoll()
 	}
 	if err != nil {
 		log.Println(err.Error())
@@ -318,7 +294,14 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := fetchData(r.Host, r.URL.Path, 0, tag)
+	data := fetchBaseData(r.Host, r.URL.Path)
+	data["Posts"], err = dblog.AggregatePosts(0, tag)
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+	data["Tag"], err = dblog.FetchTag(tag)
 	if err != nil {
 		log.Println(err.Error())
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
@@ -371,7 +354,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := fetchData(r.Host, r.URL.Path, -1, "")
+	data := fetchBaseData(r.Host, r.URL.Path)
+	data["Post"] = postData
 	if err != nil {
 		log.Println(err.Error())
 		fancyErrorHandler(w, r, http.StatusInternalServerError)
@@ -480,7 +464,7 @@ func recommendHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := fetchData(r.Host, r.URL.RequestURI(), -1, "")
+	data := fetchBaseData(r.Host, r.URL.RequestURI())
 	Rec := struct {
 		Title       string
 		Recommender string
