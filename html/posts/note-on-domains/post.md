@@ -32,4 +32,4 @@ and lastly, I've updated my public pgp key to adding email identities for
 [ich@angelcastaneda.org](mailto:ich@angelcastaneda.org) to my key, so in case
 you have my older pub, I can decrypt it just fine, but it won't have my newer
 identities. It may also sign funny but I haven't checked myself, so please
-[update](/pgp) if you care about that stuff.
+[update](/angelcastaneda.asc) if you care about that stuff.
