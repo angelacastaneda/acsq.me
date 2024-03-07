@@ -174,7 +174,7 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
 		return data, err
 	}
 
-	if path == "/" {
+	if path == "/" || path == "/index.html" {
 		data["Post"], err = dblog.FetchThumbnail()
 		if err != nil {
 			return data, err
@@ -195,7 +195,7 @@ func fetchData(host string, path string, postQty int, tagFilter string) (map[str
 		}
 	}
 
-	if path == translatePath(lang, "/about") {
+	if path == translatePath(lang, "/about.html") { // TODO fix this abomination and modularize data
 		data["Song"], data["TrackIndex"] = rockNRoll()
 	}
 
