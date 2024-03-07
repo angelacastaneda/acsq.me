@@ -41,11 +41,8 @@ func main() {
 		mux.HandleFunc(translatePath(lang, "/recommend.html"), recommendHandler)
 		mux.HandleFunc(translatePath(lang, "/recommend/"), recommendHandler)
 	}
-	mux.HandleFunc("/favicon", redirectHandler("/favicon.ico"))
 	mux.HandleFunc("/favicon.ico", faviconHandler)
-	mux.HandleFunc("/cv", redirectHandler("/cv.pdf"))
 	mux.HandleFunc("/cv.pdf", cvHandler)
-	mux.HandleFunc("/pgp", redirectHandler("/angelcastaneda.asc"))
 	mux.HandleFunc("/angelcastaneda.asc", pgpHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)
 	mux.HandleFunc("/submit", apiHandler)
