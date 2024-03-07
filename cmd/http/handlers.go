@@ -313,29 +313,31 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
-	lang := fetchLang(r.Host)
+	// first step is to clean the url
+	path := strings.SplitN(r.URL.Path, "/", 4) // TODO turn this into middleware
+	if len(path) != 3 {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
 
-	path := strings.Split(r.URL.Path, "/")
+	// then see if the post exists
 	post := path[2]
-
+	post = strings.TrimSuffix(post, ".html")
 	if !dblog.DoesPostExist(post) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
-	// example.org/posts/ -> example.org/posts
-	if len(path) == 3 && path[2] == "" {
-		http.Redirect(w, r, translatePath(lang, "/posts"), 302)
+	// then redirect to correct lang
+	lang := fetchLang(r.Host)
+	// de.example.org/entradas/cool-post.html -> de.example.org/posten/cool-post.html
+	// example.org/posts/cool-post -> example.org/posts/cool-posts.html
+	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, ".html") {
+		http.Redirect(w, r, translatePath(lang, "/posts/")+post+".html", 302)
 		return
 	}
 
-	// de.example.org/entradas/post1 -> de.example.org/posten/post1
-	// example.org/posts/post1/nonsense -> example.org/posts/post1
-	if r.URL.Path != translatePath(lang, r.URL.Path) || len(path) > 3 {
-		http.Redirect(w, r, translatePath(lang, "/posts/")+post, 302)
-		return
-	}
-
+	// then build page
 	postData, err := dblog.FetchPost(post)
 	if err != nil {
 		log.Println(err.Error())
