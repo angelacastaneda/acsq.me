@@ -260,10 +260,10 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var data map[string]any
-	switch translatePath("en-US", r.URL.Path) {
-	case "/":
+	switch page {
+	case "index":
 		data, err = fetchData(r.Host, r.URL.Path, 3, "articles")
-	case "/posts":
+	case "posts":
 		data, err = fetchData(r.Host, r.URL.Path, 0, "")
 	default:
 		data, err = fetchData(r.Host, r.URL.Path, -1, "")
