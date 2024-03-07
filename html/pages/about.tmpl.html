@@ -44,9 +44,9 @@
 <ul>
   <li>
     {{ translateHTML .Lang
-    `insightful <a href="/library">books</a>📖`
-    `<a href="/library">libros</a>📖 chidos`
-    `sehr gute <a href="/library">Bücher</a>📖` }}
+		`insightful <a href="/library.html">books</a>📖`
+    `<a href="/biblioteca.html">libros</a>📖 chidos`
+    `sehr gute <a href="/bibliothek.html">Bücher</a>📖` }}
   </li>
   <li>
     {{ translate .Lang
@@ -62,7 +62,7 @@
     `der mit ganzen Zahlen🇿 gemischt wird`}}
     <details class="inline"> <summary>[{{ .TrackIndex }}]</summary>
       <p>
-        <a href="{{translatePath .Lang "/about"}}">
+        <a href="{{ translatePath .Lang "/about.html" }}">
           🔄</a>
         {{ translate .Lang "then" "y luego" "dann" }}
         <a href="{{ .Song }}" target="_blank" rel="noopener noreferrer">

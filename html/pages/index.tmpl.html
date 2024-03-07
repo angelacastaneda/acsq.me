@@ -62,7 +62,7 @@
         </td>
       </tr>
     </table>
-    <a href="/friends" class="block center">
+	<a href="{{ translatePath .Lang "/friends.html" }}" class="block center">
       <strong>
         &gt;{{ translate .Lang
         "check them out"
@@ -98,7 +98,7 @@
       "meine bibliothek"}}:
     </h4>
     <figure class="bookcover">
-      <a href="/library#featured">
+		<a href="{{ translatePath .Lang "/library.html" }}#featured">
         <img src="/static/img/books/theblackjacobins.jpg" alt="The Black Jacobins">
       </a>
     </figure>
@@ -108,7 +108,7 @@
       "Los libros que me han inspirado y enseñedo mucho."
       "Meine Lieblingsbücher." }}
     </p>
-    <a href="/library" class="block center">
+    <a href="{{ translatePath .Lang "/library.html" }}" class="block center">
       <strong>
         &gt;{{ translate .Lang
         "my books"
