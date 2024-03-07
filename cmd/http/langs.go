@@ -315,9 +315,20 @@ func translatePath(lang, originalURL string) string {
 	var translatedURL string
 	urlPath := strings.Split(originalURL, "/")
 
+	last := urlPath[len(urlPath)-1]
+	addHTML := false
+	if strings.HasSuffix(last, ".html") {
+		addHTML = true
+		urlPath[len(urlPath)-1] = strings.TrimSuffix(last, ".html")
+	}
+
 	for _, urlSlice := range urlPath[1:] {
 		urlSlice = anglicize(translateKeyword(lang, urlSlice))
 		translatedURL = translatedURL + "/" + urlSlice
+	}
+
+	if addHTML {
+		return translatedURL + ".html"
 	}
 
 	return translatedURL
