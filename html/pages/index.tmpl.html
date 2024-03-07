@@ -20,7 +20,7 @@
       "aktuelles foto"}}:
     </h4>
     <figure class="thumbnail">
-      <a href="/posts/{{ .Post.FileName }}">
+	<a href="{{ translatePath .Lang "/posts/" }}{{ .Post.FileName }}.html">
         <img src="{{ .Post.Thumbnail.Src }}" alt="{{ .Post.Thumbnail.Alt }}" title="{{ .Post.Thumbnail.Title }}">
       </a>
     </figure>
@@ -80,7 +80,7 @@
     </h4>
     <ul class="centered">
       {{ range .Posts }}
-      <li><a href="/posts/{{ .FileName }}">{{ .Title }}</a></li>
+      <li><a href="{{ translatePath $.Lang "/posts/" }}{{ .FileName }}.html">{{ .Title }}</a></li>
       {{ end }}
     </ul>
     <a href="/tags/articles" class="block center">

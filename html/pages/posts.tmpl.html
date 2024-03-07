@@ -60,7 +60,7 @@
 </details>
 <ul>
   {{ range .Posts -}}
-  <li><a href="{{ translatePath $.Lang "/posts" }}/{{ .FileName }}">{{ .Title }}</a></li>
+  <li><a href="{{ translatePath $.Lang "/posts/" }}{{ .FileName }}.html">{{ .Title }}</a></li>
   {{ end -}}
 </ul>
 {{end}}
