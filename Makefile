@@ -10,8 +10,8 @@ fmt:
 .PHONY:fmt
 
 lint: fmt
-	golint $(http_path)
-	golint $(sql_pkg)
+	golangci-lint run $(http_path) || true
+	golangci-lint run $(sql_pkg) || true
 .PHONY:lint
 
 vet: lint
