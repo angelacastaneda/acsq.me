@@ -438,22 +438,25 @@ func redirectWithParams(params url.Values, w http.ResponseWriter, r *http.Reques
 }
 
 func recommendHandler(w http.ResponseWriter, r *http.Request) {
+	// first step is to clean the url
+	path := strings.SplitN(r.URL.Path, "/", 3) // TODO turn this into middleware
+	if len(path) == 3 {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// then check if page exists
 	if !doesFileExist(filepath.Join(htmlDir, "recommend"+tmplFileExt)) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
-	path := strings.Split(r.URL.Path, "/")
-	// then if it does exist to cut out ending slash or redirect if theres extra stuff at end
-	if len(path) == 3 && path[2] == "" {
-		http.Redirect(w, r, "/recommend", 302)
-	} else if len(path) > 2 {
-		fancyErrorHandler(w, r, http.StatusNotFound)
-		return
-	}
-
 	// then finally you can translate url itself
-	translatedURL := translatePath(fetchLang(r.Host), r.URL.Path)
+	lang := fetchLang(r.Host)
+	translatedURL := translatePath(lang, r.URL.Path)
+	if !strings.HasSuffix(translatedURL, ".html") {
+		translatedURL += ".html"
+	}
 	if r.URL.Path != translatedURL {
 		redirectWithParams(r.URL.Query(), w, r, translatedURL, 302)
 		return

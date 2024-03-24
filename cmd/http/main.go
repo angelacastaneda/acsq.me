@@ -39,7 +39,6 @@ func main() {
 		mux.HandleFunc(translatePath(lang, "/tags/"), tagHandler)
 		mux.HandleFunc(translatePath(lang, "/recommend"), recommendHandler)
 		mux.HandleFunc(translatePath(lang, "/recommend.html"), recommendHandler)
-		mux.HandleFunc(translatePath(lang, "/recommend/"), recommendHandler)
 	}
 	mux.HandleFunc("/favicon.ico", faviconHandler)
 	mux.HandleFunc("/cv.pdf", cvHandler)
