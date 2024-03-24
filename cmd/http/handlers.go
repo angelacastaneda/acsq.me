@@ -181,7 +181,10 @@ func serveTMPL(w http.ResponseWriter, r *http.Request, tmpl *template.Template, 
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	buf.WriteTo(w)
+	_, err = buf.WriteTo(w)
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
 }
 
 func pageHandler(w http.ResponseWriter, r *http.Request) {
