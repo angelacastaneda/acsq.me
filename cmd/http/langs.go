@@ -362,35 +362,19 @@ func translateDate(lang, iso string) (string, error) {
 }
 
 func translateHost(lang, domain string) string {
-	subLangs := []string{"www.", "en.", "es.", "de."}
-	switch lang {
-	case "en-US":
-		for _, lang := range subLangs {
-			if strings.HasPrefix(domain, lang) {
-				return strings.ReplaceAll(domain, lang, "en.")
-			}
-		}
-		return "en." + domain
-	case "es-US":
-		for _, lang := range subLangs {
-			if strings.HasPrefix(domain, lang) {
-				return strings.ReplaceAll(domain, lang, "es.")
-			}
-		}
-		return "es." + domain
-	case "de-DE":
-		for _, lang := range subLangs {
-			if strings.HasPrefix(domain, lang) {
-				return strings.ReplaceAll(domain, lang, "de.")
-			}
-		}
-		return "de." + domain
-	default:
-		for _, lang := range subLangs {
-			if strings.HasPrefix(domain, lang) {
-				return strings.ReplaceAll(domain, lang, "www.")
-			}
-		}
+	subDomains := map[string]string{
+		"en-US": "en.",
+		"es-US": "es.",
+		"de-DE": "de.",
+	}
+
+	for _, sub := range subDomains {
+		domain = strings.TrimPrefix(domain, sub)
+	}
+
+	sub, ok := subDomains[lang]
+	if !ok {
 		return "www." + domain
 	}
+	return sub + domain
 }
