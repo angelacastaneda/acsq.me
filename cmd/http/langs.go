@@ -384,7 +384,7 @@ func translateHost(lang, domain string) string {
 				return strings.ReplaceAll(domain, lang, "de.")
 			}
 		}
-		return "es." + domain
+		return "de." + domain
 	default:
 		for _, lang := range subLangs {
 			if strings.HasPrefix(domain, lang) {
