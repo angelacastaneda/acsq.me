@@ -264,19 +264,20 @@ func unAnglicize(word string) string {
 }
 
 func translateKeyword(lang, keyword string) string {
-	caser := cases.Title(language.Und) // TODO learn to compose spanish, german, and english
+	fmtedKeyword := unAnglicize(strings.ToLower(keyword))
+	translation, ok := dictionary[lang][fmtedKeyword]
 
-	translation, ok := dictionary[lang][unAnglicize(strings.ToLower(keyword))]
-	if ok {
-		if keyword == strings.ToUpper(keyword) {
-			return strings.ToUpper(translation)
-		} else if keyword == caser.String(strings.ToLower(keyword)) {
-			return caser.String(translation)
-		} else {
-			return translation
-		}
+	if !ok {
+		return keyword
 	}
-	return keyword
+
+	caser := cases.Title(language.Und) // TODO learn to compose spanish, german, and english
+	if keyword == strings.ToUpper(keyword) {
+		return strings.ToUpper(translation)
+	} else if keyword == caser.String(strings.ToLower(keyword)) {
+		return caser.String(translation)
+	}
+	return translation
 }
 
 func anglicize(foreign string) string {
