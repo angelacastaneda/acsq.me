@@ -258,28 +258,34 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func tagHandler(w http.ResponseWriter, r *http.Request) {
-	path := strings.Split(r.URL.Path, "/")
-	lang := fetchLang(r.Host)
-	tag := translateKeyword("en-US", path[2])
-
-	if !dblog.DoesTagExist(tag) {
+	// first step is to clean the url
+	path := strings.SplitN(r.URL.Path, "/", 4) // TODO turn this into middleware
+	if len(path) != 3 {
+		log.Println("too long path", path)
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
-	// example.org/tags/ -> example.org/posts
-	if len(path) == 3 && path[2] == "" {
-		http.Redirect(w, r, translatePath(lang, "/posts"), 302)
+	// then see if tag exists
+	lang := fetchLang(r.Host)
+	tag := strings.TrimSuffix(path[2], ".html")
+	tag = translateKeyword("en-US", tag)
+
+	if !dblog.DoesTagExist(tag) {
+		log.Println("not in db", tag)
+		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
 
-	// de.example.org/tags/photos -> de.example.org/stichwoerter/fotos
-	// example.org/tags/tag1/nonsense -> example.org/tags/tag1
-	if r.URL.Path != translatePath(lang, r.URL.Path) || len(path) > 3 {
-		http.Redirect(w, r, translatePath(lang, "/tags/"+tag), 302)
+	// then redirect to correct lang
+	// de.example.org/tags/photos.html -> de.example.org/stichwoerter/fotos.html
+	// example.org/tags/photos -> example.org/tags/photos.html
+	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, ".html") {
+		http.Redirect(w, r, translatePath(lang, "/tags/"+tag+".html"), 302)
 		return
 	}
 
+	// then build page
 	tagData, err := dblog.FetchTag(tag)
 	if err != nil {
 		log.Println(err.Error())
