@@ -321,7 +321,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func postHandler(w http.ResponseWriter, r *http.Request) {
+func postDateRedirect(w http.ResponseWriter, r *http.Request) {
 	// first step is to clean the url
 	path := strings.SplitN(r.URL.Path, "/", 4) // TODO turn this into middleware
 	if len(path) != 3 {
@@ -330,9 +330,54 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// then see if the post exists
-	post := path[2]
+	post := path[len(path)-1]
 	post = strings.TrimSuffix(post, ".html")
 	if !dblog.DoesPostExist(post) {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// then redirect to the correct date
+	postData, err := dblog.FetchPost(post)
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+	date := postData.PubDate
+	year := date[:4]
+	month := date[5:7]
+	day := date[8:]
+	http.Redirect(w, r, translatePath(fetchLang(r.URL.Host), "/posts/")+year+"/"+month+"/"+day+"/"+post+".html", 302)
+}
+
+func postHandler(w http.ResponseWriter, r *http.Request) {
+	// first step is to clean the url
+	path := strings.SplitN(r.URL.Path, "/", 7) // TODO turn this into middleware
+	if len(path) != 6 {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// then see if the post exists
+	post := path[len(path)-1]
+	post = strings.TrimSuffix(post, ".html")
+	if !dblog.DoesPostExist(post) {
+		fancyErrorHandler(w, r, http.StatusNotFound)
+		return
+	}
+
+	// and it has the correct date
+	year := r.PathValue("year")
+	month := r.PathValue("month")
+	day := r.PathValue("day")
+	postData, err := dblog.FetchPost(post)
+	if err != nil {
+		log.Println(err.Error())
+		fancyErrorHandler(w, r, http.StatusInternalServerError)
+		return
+	}
+	if year+"-"+month+"-"+day != postData.PubDate {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
 	}
@@ -342,17 +387,11 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	// de.example.org/entradas/cool-post.html -> de.example.org/posten/cool-post.html
 	// example.org/posts/cool-post -> example.org/posts/cool-posts.html
 	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, ".html") {
-		http.Redirect(w, r, translatePath(lang, "/posts/")+post+".html", 302)
+		http.Redirect(w, r, translatePath(lang, "/posts/")+year+"/"+month+"/"+day+"/"+post+".html", 302)
 		return
 	}
 
 	// then build page
-	postData, err := dblog.FetchPost(post)
-	if err != nil {
-		log.Println(err.Error())
-		fancyErrorHandler(w, r, http.StatusInternalServerError)
-		return
-	}
 	tmpl, err := sqlBindTMPL(postData.Content,
 		filepath.Join(htmlDir, "base"+tmplFileExt),
 		filepath.Join(htmlDir, "partials", "post_header"+tmplFileExt),

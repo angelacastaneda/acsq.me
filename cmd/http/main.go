@@ -35,7 +35,8 @@ func main() {
 	for _, lang := range langs {
 		mux.HandleFunc(translatePath(lang, "/posts"), pageHandler)
 		mux.HandleFunc(translatePath(lang, "/posts.html"), pageHandler)
-		mux.HandleFunc(translatePath(lang, "/posts/"), postHandler)
+		mux.HandleFunc(translatePath(lang, "/posts/{year}/{month}/{day}/"), postHandler)
+		mux.HandleFunc(translatePath(lang, "/posts/"), postDateRedirect)
 		mux.HandleFunc(translatePath(lang, "/tags/"), tagHandler)
 		mux.HandleFunc(translatePath(lang, "/recommend"), recommendHandler)
 		mux.HandleFunc(translatePath(lang, "/recommend.html"), recommendHandler)
