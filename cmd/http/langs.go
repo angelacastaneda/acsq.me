@@ -369,6 +369,7 @@ func translateHost(lang, domain string) string {
 		"de-DE": "de.",
 	}
 
+	domain = strings.TrimPrefix(domain, "www.")
 	for _, sub := range subDomains {
 		domain = strings.TrimPrefix(domain, sub)
 	}
