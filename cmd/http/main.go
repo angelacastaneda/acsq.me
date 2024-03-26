@@ -9,7 +9,7 @@ import (
 )
 
 var (
-	langs  = []string{"en-US", "es-US", "de-DE"}
+	langs  = []string{enUS, esUS, deDE}
 	scheme string
 )
 

@@ -66,7 +66,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	// then see if the page exists
 	page := path[1]
 	page = strings.TrimSuffix(page, ".html")
-	page = translateKeyword("en-US", page)
+	page = translateKeyword(enUS, page)
 	if r.URL.Path == "/" {
 		page = "index"
 	}
@@ -137,7 +137,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 	// then see if tag exists
 	lang := fetchLang(r.Host)
 	tag := strings.TrimSuffix(path[2], ".html")
-	tag = translateKeyword("en-US", tag)
+	tag = translateKeyword(enUS, tag)
 
 	if !dblog.DoesTagExist(tag) {
 		log.Println("not in db", tag)

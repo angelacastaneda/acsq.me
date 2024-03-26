@@ -10,16 +10,20 @@ import (
 	"golang.org/x/text/language"
 )
 
+const (
+	enUS = "en-US"
+	esUS = "es-US"
+	deDE = "de-DE"
+)
+
 func fetchLang(url string) string {
 	if strings.HasPrefix(url, "es.") {
-		return "es-US"
+		return esUS
+	} else if strings.HasPrefix(url, "de.") {
+		return deDE
 	}
 
-	if strings.HasPrefix(url, "de.") {
-		return "de-DE"
-	}
-
-	return "en-US"
+	return enUS
 }
 
 func lastOne(index int, size int) bool {
@@ -28,9 +32,9 @@ func lastOne(index int, size int) bool {
 
 func translate(lang, en, es, de string) string {
 	switch lang {
-	case "es-US":
+	case esUS:
 		return es
-	case "de-DE":
+	case deDE:
 		return de
 	default:
 		return en
@@ -39,9 +43,9 @@ func translate(lang, en, es, de string) string {
 
 func translateHTML(lang, en, es, de string) template.HTML {
 	switch lang {
-	case "es-US":
+	case esUS:
 		return template.HTML(es)
-	case "de-DE":
+	case deDE:
 		return template.HTML(de)
 	default:
 		return template.HTML(en)
@@ -51,172 +55,172 @@ func translateHTML(lang, en, es, de string) template.HTML {
 var dictionary = buildDictionary([]map[string]string{
 	//////////////// PAGES ///////////////////////
 	{
-		"en-US": "home",
-		"es-US": "inicio",
-		"de-DE": "start",
+		enUS: "home",
+		esUS: "inicio",
+		deDE: "start",
 	}, {
-		"en-US": "about",
-		"es-US": "conóceme", // non ASCII
-		"de-DE": "über",     // non ASCII
+		enUS: "about",
+		esUS: "conóceme", // non ASCII
+		deDE: "über",     // non ASCII
 	}, {
-		"en-US": "posts",
-		"es-US": "entradas",
-		"de-DE": "posten",
+		enUS: "posts",
+		esUS: "entradas",
+		deDE: "posten",
 	}, {
-		"en-US": "friends",
-		"es-US": "amigos",
-		"de-DE": "freunde",
+		enUS: "friends",
+		esUS: "amigos",
+		deDE: "freunde",
 	}, {
-		"en-US": "library",
-		"es-US": "biblioteca",
-		"de-DE": "bibliothek",
+		enUS: "library",
+		esUS: "biblioteca",
+		deDE: "bibliothek",
 	}, {
-		"en-US": "recommend",
-		"es-US": "recomendar",
-		"de-DE": "empfehlen",
+		enUS: "recommend",
+		esUS: "recomendar",
+		deDE: "empfehlen",
 	}, {
-		"en-US": "tags",
-		"es-US": "etiquetas",
-		"de-DE": "stichwörter", // non ASCII
+		enUS: "tags",
+		esUS: "etiquetas",
+		deDE: "stichwörter", // non ASCII
 	}, {
-		"en-US": "contact",
-		"es-US": "contacto",
-		"de-DE": "kontakt",
+		enUS: "contact",
+		esUS: "contacto",
+		deDE: "kontakt",
 	}, {
-		"en-US": "todo",
-		"es-US": "pendiente",
-		"de-DE": "aufgaben",
+		enUS: "todo",
+		esUS: "pendiente",
+		deDE: "aufgaben",
 		//////////////// MISC ///////////////////////
 	}, {
-		"en-US": "hi",
-		"es-US": "hola",
-		"de-DE": "hallo",
+		enUS: "hi",
+		esUS: "hola",
+		deDE: "hallo",
 		//////////////// TAGS ///////////////////////
 	}, { // medium
-		"en-US": "articles",
-		"es-US": "artículos", // non ASCII
-		"de-DE": "artikel",
+		enUS: "articles",
+		esUS: "artículos", // non ASCII
+		deDE: "artikel",
 	}, {
-		"en-US": "photos",
-		"es-US": "fotos",
-		"de-DE": "fotos",
+		enUS: "photos",
+		esUS: "fotos",
+		deDE: "fotos",
 	}, { // lang
-		"en-US": "english",
-		"es-US": "inglés", // non ASCII
-		"de-DE": "englisch",
+		enUS: "english",
+		esUS: "inglés", // non ASCII
+		deDE: "englisch",
 	}, {
-		"en-US": "spanish",
-		"es-US": "español", // non ASCII
-		"de-DE": "spanisch",
+		enUS: "spanish",
+		esUS: "español", // non ASCII
+		deDE: "spanisch",
 	}, {
-		"en-US": "german",
-		"es-US": "alemán", // non ASCII
-		"de-DE": "deutsch",
+		enUS: "german",
+		esUS: "alemán", // non ASCII
+		deDE: "deutsch",
 	}, { // tags
-		"en-US": "math",
-		"es-US": "matemáticas", // non ASCII
-		"de-DE": "mathe",
+		enUS: "math",
+		esUS: "matemáticas", // non ASCII
+		deDE: "mathe",
 	}, {
-		"en-US": "milwaukee",
-		"es-US": "milwaukee",
-		"de-DE": "milwaukee",
+		enUS: "milwaukee",
+		esUS: "milwaukee",
+		deDE: "milwaukee",
 	}, {
-		"en-US": "history",
-		"es-US": "historia",
-		"de-DE": "geschichte",
+		enUS: "history",
+		esUS: "historia",
+		deDE: "geschichte",
 	}, {
-		"en-US": "technology",
-		"es-US": "tecnologia",
-		"de-DE": "technologie",
+		enUS: "technology",
+		esUS: "tecnologia",
+		deDE: "technologie",
 	}, {
-		"en-US": "code",
-		"es-US": "código", // non ASCII
-		"de-DE": "code",
+		enUS: "code",
+		esUS: "código", // non ASCII
+		deDE: "code",
 	}, {
-		"en-US": "updates",
-		"es-US": "actualizaciones",
-		"de-DE": "aktualisierungen",
+		enUS: "updates",
+		esUS: "actualizaciones",
+		deDE: "aktualisierungen",
 	}, {
-		"en-US": "personal",
-		"es-US": "personal",
-		"de-DE": "persönliches", // non ASCII
+		enUS: "personal",
+		esUS: "personal",
+		deDE: "persönliches", // non ASCII
 		///////////////// TIME ////////////////////
 	}, { // days of week
-		"en-US": "monday",
-		"es-US": "lunes",
-		"de-DE": "montag",
+		enUS: "monday",
+		esUS: "lunes",
+		deDE: "montag",
 	}, {
-		"en-US": "tuesday",
-		"es-US": "martes",
-		"de-DE": "dienstag",
+		enUS: "tuesday",
+		esUS: "martes",
+		deDE: "dienstag",
 	}, {
-		"en-US": "wednesday",
-		"es-US": "miércoles", // non ASCII
-		"de-DE": "mittwoch",
+		enUS: "wednesday",
+		esUS: "miércoles", // non ASCII
+		deDE: "mittwoch",
 	}, {
-		"en-US": "thursday",
-		"es-US": "jueves",
-		"de-DE": "donnerstag",
+		enUS: "thursday",
+		esUS: "jueves",
+		deDE: "donnerstag",
 	}, {
-		"en-US": "friday",
-		"es-US": "viernes",
-		"de-DE": "freitag",
+		enUS: "friday",
+		esUS: "viernes",
+		deDE: "freitag",
 	}, {
-		"en-US": "saturday",
-		"es-US": "sábado", // non ASCII
-		"de-DE": "samstag",
+		enUS: "saturday",
+		esUS: "sábado", // non ASCII
+		deDE: "samstag",
 	}, {
-		"en-US": "sunday",
-		"es-US": "domingo",
-		"de-DE": "sonntag",
+		enUS: "sunday",
+		esUS: "domingo",
+		deDE: "sonntag",
 	}, { // months
-		"en-US": "january",
-		"es-US": "enero",
-		"de-DE": "januar",
+		enUS: "january",
+		esUS: "enero",
+		deDE: "januar",
 	}, {
-		"en-US": "february",
-		"es-US": "febrero",
-		"de-DE": "februar",
+		enUS: "february",
+		esUS: "febrero",
+		deDE: "februar",
 	}, {
-		"en-US": "march",
-		"es-US": "marzo",
-		"de-DE": "märz", // non ASCII
+		enUS: "march",
+		esUS: "marzo",
+		deDE: "märz", // non ASCII
 	}, {
-		"en-US": "april",
-		"es-US": "abril",
-		"de-DE": "april",
+		enUS: "april",
+		esUS: "abril",
+		deDE: "april",
 	}, {
-		"en-US": "may",
-		"es-US": "mayo",
-		"de-DE": "mai",
+		enUS: "may",
+		esUS: "mayo",
+		deDE: "mai",
 	}, {
-		"en-US": "june",
-		"es-US": "junio",
-		"de-DE": "juni",
+		enUS: "june",
+		esUS: "junio",
+		deDE: "juni",
 	}, {
-		"en-US": "july",
-		"es-US": "julio",
-		"de-DE": "juli",
+		enUS: "july",
+		esUS: "julio",
+		deDE: "juli",
 	}, {
-		"en-US": "august",
-		"es-US": "agosto",
-		"de-DE": "august",
+		enUS: "august",
+		esUS: "agosto",
+		deDE: "august",
 	}, {
-		"en-US": "september",
-		"es-US": "septiembre",
-		"de-DE": "september",
+		enUS: "september",
+		esUS: "septiembre",
+		deDE: "september",
 	}, {
-		"en-US": "october",
-		"es-US": "octubre",
-		"de-DE": "oktober",
+		enUS: "october",
+		esUS: "octubre",
+		deDE: "oktober",
 	}, {
-		"en-US": "november",
-		"es-US": "noviembre",
-		"de-DE": "november",
+		enUS: "november",
+		esUS: "noviembre",
+		deDE: "november",
 	}, {
-		"en-US": "december",
-		"es-US": "diciembre",
-		"de-DE": "dezember",
+		enUS: "december",
+		esUS: "diciembre",
+		deDE: "dezember",
 	},
 })
 
@@ -345,16 +349,16 @@ func translateDate(lang, iso string) (string, error) {
 	dayOfWeek := date.Format("Monday")
 	month := date.Format("January")
 	switch lang {
-	case "es-US":
+	case esUS:
 		formattedDate = date.Format("Monday, 2 de January del 2006")
-		diaDeLaSemana := translateKeyword("es-US", dayOfWeek)
+		diaDeLaSemana := translateKeyword(esUS, dayOfWeek)
 		formattedDate = strings.ReplaceAll(formattedDate, dayOfWeek, diaDeLaSemana)
-		mes := translateKeyword("es-US", strings.ToLower(month))
+		mes := translateKeyword(esUS, strings.ToLower(month))
 		formattedDate = strings.ReplaceAll(formattedDate, month, mes)
 		return formattedDate, nil
-	case "de-DE":
+	case deDE:
 		formattedDate = date.Format("Monday, 02.01.2006")
-		tagDerWoche := translateKeyword("de-DE", dayOfWeek)
+		tagDerWoche := translateKeyword(deDE, dayOfWeek)
 		formattedDate = strings.ReplaceAll(formattedDate, dayOfWeek, tagDerWoche)
 		return formattedDate, nil
 	default:
@@ -364,9 +368,9 @@ func translateDate(lang, iso string) (string, error) {
 
 func translateHost(lang, domain string) string {
 	subDomains := map[string]string{
-		"en-US": "en.",
-		"es-US": "es.",
-		"de-DE": "de.",
+		enUS: "en.",
+		esUS: "es.",
+		deDE: "de.",
 	}
 
 	domain = strings.TrimPrefix(domain, "www.")
