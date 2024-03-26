@@ -322,9 +322,9 @@ func translatePath(lang, originalURL string) string {
 
 	last := urlPath[len(urlPath)-1]
 	addHTML := false
-	if strings.HasSuffix(last, ".html") {
+	if strings.HasSuffix(last, htmlExt) {
 		addHTML = true
-		urlPath[len(urlPath)-1] = strings.TrimSuffix(last, ".html")
+		urlPath[len(urlPath)-1] = strings.TrimSuffix(last, htmlExt)
 	}
 
 	for _, urlSlice := range urlPath[1:] {
@@ -333,7 +333,7 @@ func translatePath(lang, originalURL string) string {
 	}
 
 	if addHTML {
-		return translatedURL + ".html"
+		return translatedURL + htmlExt
 	}
 
 	return translatedURL

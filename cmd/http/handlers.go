@@ -21,6 +21,7 @@ var (
 
 const (
 	tmplFileExt = ".tmpl.html"
+	htmlExt     = ".html"
 )
 
 func fancyErrorHandler(w http.ResponseWriter, r *http.Request, httpCode int) {
@@ -65,7 +66,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 
 	// then see if the page exists
 	page := path[1]
-	page = strings.TrimSuffix(page, ".html")
+	page = strings.TrimSuffix(page, htmlExt)
 	page = translateKeyword(enUS, page)
 	if r.URL.Path == "/" {
 		page = "index"
@@ -84,8 +85,8 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// then redirect to correct ending
-	if !strings.HasSuffix(r.URL.Path, ".html") && r.URL.Path != "/" {
-		http.Redirect(w, r, r.URL.Path+".html", 302)
+	if !strings.HasSuffix(r.URL.Path, htmlExt) && r.URL.Path != "/" {
+		http.Redirect(w, r, r.URL.Path+htmlExt, 302)
 		return
 	}
 
@@ -136,7 +137,7 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 
 	// then see if tag exists
 	lang := fetchLang(r.Host)
-	tag := strings.TrimSuffix(path[2], ".html")
+	tag := strings.TrimSuffix(path[2], htmlExt)
 	tag = translateKeyword(enUS, tag)
 
 	if !dblog.DoesTagExist(tag) {
@@ -148,8 +149,8 @@ func tagHandler(w http.ResponseWriter, r *http.Request) {
 	// then redirect to correct lang
 	// de.example.org/tags/photos.html -> de.example.org/stichwoerter/fotos.html
 	// example.org/tags/photos -> example.org/tags/photos.html
-	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, ".html") {
-		http.Redirect(w, r, translatePath(lang, "/tags/"+tag+".html"), 302)
+	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, htmlExt) {
+		http.Redirect(w, r, translatePath(lang, "/tags/"+tag+htmlExt), 302)
 		return
 	}
 
@@ -199,7 +200,7 @@ func postDateRedirect(w http.ResponseWriter, r *http.Request) {
 
 	// then see if the post exists
 	post := path[len(path)-1]
-	post = strings.TrimSuffix(post, ".html")
+	post = strings.TrimSuffix(post, htmlExt)
 	if !dblog.DoesPostExist(post) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
@@ -216,7 +217,7 @@ func postDateRedirect(w http.ResponseWriter, r *http.Request) {
 	year := date[:4]
 	month := date[5:7]
 	day := date[8:]
-	http.Redirect(w, r, translatePath(fetchLang(r.URL.Host), "/posts/")+year+"/"+month+"/"+day+"/"+post+".html", 302)
+	http.Redirect(w, r, translatePath(fetchLang(r.URL.Host), "/posts/")+year+"/"+month+"/"+day+"/"+post+htmlExt, 302)
 }
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
@@ -229,7 +230,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 
 	// then see if the post exists
 	post := path[len(path)-1]
-	post = strings.TrimSuffix(post, ".html")
+	post = strings.TrimSuffix(post, htmlExt)
 	if !dblog.DoesPostExist(post) {
 		fancyErrorHandler(w, r, http.StatusNotFound)
 		return
@@ -254,8 +255,8 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	lang := fetchLang(r.Host)
 	// de.example.org/entradas/cool-post.html -> de.example.org/posten/cool-post.html
 	// example.org/posts/cool-post -> example.org/posts/cool-posts.html
-	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, ".html") {
-		http.Redirect(w, r, translatePath(lang, "/posts/")+year+"/"+month+"/"+day+"/"+post+".html", 302)
+	if r.URL.Path != translatePath(lang, r.URL.Path) || !strings.HasSuffix(r.URL.Path, htmlExt) {
+		http.Redirect(w, r, translatePath(lang, "/posts/")+year+"/"+month+"/"+day+"/"+post+htmlExt, 302)
 		return
 	}
 
@@ -361,8 +362,8 @@ func recommendHandler(w http.ResponseWriter, r *http.Request) {
 	// then finally you can translate url itself
 	lang := fetchLang(r.Host)
 	translatedURL := translatePath(lang, r.URL.Path)
-	if !strings.HasSuffix(translatedURL, ".html") {
-		translatedURL += ".html"
+	if !strings.HasSuffix(translatedURL, htmlExt) {
+		translatedURL += htmlExt
 	}
 	if r.URL.Path != translatedURL {
 		redirectWithParams(r.URL.Query(), w, r, translatedURL, 302)
