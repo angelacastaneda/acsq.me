@@ -45,7 +45,7 @@ func main() {
 	mux.HandleFunc("/cv.pdf", cvHandler)
 	mux.HandleFunc("/angelcastaneda.asc", pgpHandler)
 	mux.HandleFunc("/atom.xml", feedHandler)
-	mux.HandleFunc("/submit", apiHandler)
+	mux.HandleFunc("POST /submit", apiHandler)
 	fileServer := http.FileServer(http.Dir("./static"))
 	mux.Handle("/static/", http.StripPrefix("/static", fileServer))
 
