@@ -5,13 +5,11 @@ sql_pkg := ./dblog
 bins := ./http
 
 fmt:
-	go fmt $(http_path)
-	go fmt $(sql_pkg)
+	find . -type f -name '*.go' | xargs -I{} go fmt {}
 .PHONY:fmt
 
 lint: fmt
-	golangci-lint run $(http_path) || true
-	golangci-lint run $(sql_pkg) || true
+	golangci-lint run || true
 .PHONY:lint
 
 vet: lint
