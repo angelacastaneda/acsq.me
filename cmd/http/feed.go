@@ -25,7 +25,7 @@ func generateFeed(domain string, posts []dblog.Post) []byte {
 		entry := `
   <entry>
     <title>` + post.Title + `</title>
-    <link href="https://` + domain + `/posts/` + post.FileName + `"/>
+    <link href="https://` + domain + `/posts/` + post.FileName + `.html"/>
     <id>https://` + domain + `/posts/` + post.FileName + `</id>
     <published>` + post.PubDate + `T00:00:00.000Z</published>
     <updated>` + post.UpdateDate + `T00:00:00.000Z</updated>
@@ -37,7 +37,7 @@ func generateFeed(domain string, posts []dblog.Post) []byte {
 		}
 		for _, t := range p.Tags {
 			category := `
-    <category term="` + t.Name + `" scheme="https://` + domain + `/tags/` + t.Name + `"/>`
+    <category term="` + t.Name + `" scheme="https://` + domain + `/tags/` + t.Name + `.html"/>`
 			entry = entry + category
 		}
 		entry = entry + `
