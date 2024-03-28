@@ -1,0 +1,42 @@
+output:
+  formats:
+    - format: colored-line-number
+      path: stdout
+linters:
+  enable:
+      # Default linters
+    - "errcheck" # Detect unchecked errors
+    - "gosimple" # Suggest code simplifications
+    - "govet" # Reports suspicious constructs
+    - "ineffassign" # Detects unused variable assignments
+    - "staticcheck" # go vet on steroids
+    - "typecheck" # Standard Go type checks
+    - "unused" # Detect unused constants, variables, functions and types
+
+      # Suggested additional linters
+    - "gocyclo" # or "cyclop", # Detect cyclomatic complexity
+    - "goconst" # Detect repeated values that can be made constants
+    - "gofumpt" # Or "gofmt", # Enforce standard formatting
+    - "goimports" # Ensure standard import formatting/ordering
+    # - "misspell" # Fix spelling errors
+    - "revive"  # General purpose linter
+    - "unconvert" # Detect unnecessary type conversions
+    - "unparam" # Detect unused function parameters
+
+      # Optional
+    - "bodyclose" # Check whether HTTP response bodies are closed
+    - "goerr113" # Enforce standard error handling practices
+    #-  "depguard" # Forbid certain package imports
+    - "dupl" # Detect duplicate code
+    #-  "errchkjson" # some JSON-specific checks
+    #-  "gomnd" # Magic number detection
+    - "nakedret" # Detect naked returns
+    #-  "rowserrcheck" # Check whether Err of rows is checked
+    - "sqlclosecheck" # Ensure sql.Rows and sql.Stmt are closed
+    - "tparallel" # Detects inappropriate use of t.Parallel()
+
+linters-settings:
+  gosimple:
+    checks:
+      - all
+      - '-S1023' # don't give err for pointless returns cause I prefer them for now
